@@ -1,7 +1,26 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+const nextConfig = {
+    images: {
+        domains: [
+            'lh3.googleusercontent.com',
+            'ui-avatars.com',
+            'avatars.githubusercontent.com',
+            'graph.facebook.com'
+        ],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'ui-avatars.com',
+                pathname: '**',
+            },
+        ],
+    },
+}
 
-export default nextConfig;
+module.exports = nextConfig

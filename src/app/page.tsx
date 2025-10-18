@@ -1,103 +1,166 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import {
+  VscAccount,
+  VscAdd,
+  VscOrganization,
+  VscProject,
+} from 'react-icons/vsc';
+import CurvedLoop from '@/components/CurvedLoop';
+import StickerPeel from '@/components/StickerPeel';
+import Image1 from '@/assets/1.png';
+import Image2 from '@/assets/2.png';
+import Image3 from '@/assets/3.png';
+import Image4 from '@/assets/4.png';
+import Image5 from '@/assets/5.png';
+import Image6 from '@/assets/6.png';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { user, loading } = useAuth();
+  const router = useRouter();
+  const [userCount, setUserCount] = useState<number | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('/api/count');
+        const data = await res.json();
+        setUserCount(data.count);
+      } catch (err) {
+        console.error('Error fetching user count:', err);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center bg-black text-white px-4 sm:px-6 relative overflow-hidden py-3 z-10">
+        <StickerPeel
+          imageSrc="https://developer.android.com/studio/images/android-studio-stable.svg"
+          width={150}
+          rotate={20}
+          peelBackHoverPct={10}
+          peelBackActivePct={20}
+          shadowIntensity={0.2}
+          lightingIntensity={0.1}
+          initialPosition={{ x: -100, y: 100 }}
+          className='z-50'
+        />
+
+        <div className="absolute inset-0 z-5">
+          <CurvedLoop
+            marqueeText="Dari ✦ Mumet ✦ Jadi ✦ Beres ✦ Mumet.in ✦"
+            speed={1.5}
+            curveAmount={500}
+            direction="right"
+            interactive={true}
+            className="text-[#E02435] font-daydream"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+        </div>
+
+        <div className="relative z-10 w-full max-w-lg mx-auto">
+
+          <div className="flex justify-center items-center flex-col w-full mx-auto px-2">
+            <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 text-center font-daydream text-white">
+              MUMET.IN
+            </h1>
+            <p className="text-base sm:text-lg mb-5 text-gray-100 text-center px-2">
+              Jasa layanan pembuatan Website, Aplikasi Mobile, Sistem IoT, dan Desain UI/UX yang profesional di era digital.
+            </p>
+
+            <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-4 mb-2 w-full max-w-xs sm:max-w-none">
+              <Link
+                href="/login"
+                className="bg-white text-[#E02435] px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-gray-100 transition flex justify-center items-center w-full sm:w-auto"
+              >
+                <VscAccount size={20} className="me-2" />
+                Masuk
+              </Link>
+              <Link
+                href="/register"
+                className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-[#E02435] transition flex justify-center items-center w-full sm:w-auto"
+              >
+                <VscAdd size={20} className="me-2" />
+                Daftar Sekarang
+              </Link>
+            </div>
+          </div>
+
+          {userCount !== null && (
+            <div className="relative mt-8 sm:mt-10 bg-white rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center">
+              <div className="absolute -top-6 left-10 sm:left-18 w-10 h-10 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                <img src={Image1.src} alt="User" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -top-6 right-12 sm:right-20 w-14 h-14 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                <img src={Image2.src} alt="User" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute bottom-46 -left-2 w-14 h-14 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                <img src={Image3.src} alt="User" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute bottom-25 -left-8 w-18 h-18 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                <img src={Image4.src} alt="User" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute bottom-40 -right-6 w-20 h-20 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                <img src={Image5.src} alt="User" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute bottom-26 -right-7 w-10 h-10 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                <img src={Image6.src} alt="User" className="w-full h-full object-cover" />
+              </div>
+
+              <h4 className="text-sm font-semibold text-gray-500 mb-2">Statistik Kepercayaan</h4>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#E02435] flex justify-center items-center">
+                <VscOrganization size={40} className="me-2" />
+                {userCount.toLocaleString()}+
+              </h2>
+              <p className="text-gray-500 text-sm mb-3 mt-2 px-2">
+                Orang telah mempercayakan membuat proyek digital mereka bersama kami!
+              </p>
+
+              <div className="bg-gray-50 text-gray-700 font-medium text-sm px-4 py-2 rounded-xl inline-flex items-center justify-center gap-2 shadow-inner">
+                🔥 Telah dipercaya oleh <span className="font-semibold text-[#E02435]">banyak klien</span>
+              </div>
+
+              {/* Tombol Lihat Projek */}
+              <div className="mt-6">
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center px-6 py-3 bg-[#E02435] text-white rounded-xl font-semibold hover:bg-[#c41e2e] transition-colors shadow-md"
+                >
+                  <VscProject size={20} className="mr-2" />
+                  Lihat Portfolio Projek Kami
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 }
