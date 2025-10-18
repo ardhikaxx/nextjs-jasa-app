@@ -211,7 +211,6 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-            {/* CircularText untuk desktop - pojok kanan atas */}
             <div className="hidden lg:block absolute top-6 right-6 z-10">
                 <CircularText
                     text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
@@ -222,7 +221,6 @@ export default function Login() {
             </div>
 
             <div className="w-full max-w-md z-10">
-                {/* CircularText untuk mobile */}
                 <div className="block lg:hidden justify-center mb-6">
                     <CircularText
                         text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
