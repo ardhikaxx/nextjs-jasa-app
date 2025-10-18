@@ -13,8 +13,6 @@ import {
     VscDeviceMobile,
     VscGlobe,
     VscLayout,
-    VscAccount,
-    VscAdd,
     VscOrganization,
     VscHome,
 } from 'react-icons/vsc';
@@ -23,6 +21,15 @@ export default function HomePage() {
     const { user, loading } = useAuth();
     const router = useRouter();
     const [userCount, setUserCount] = useState<number | null>(null);
+    const [isRedirecting, setIsRedirecting] = useState(false);
+
+    // Handle redirect jika user tidak login
+    useEffect(() => {
+        if (!loading && !user && !isRedirecting) {
+            setIsRedirecting(true);
+            router.push('/');
+        }
+    }, [user, loading, isRedirecting, router]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -40,13 +47,14 @@ export default function HomePage() {
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            router.push('/');
+            // Tidak perlu router.push di sini karena AuthContext akan trigger re-render
         } catch (error) {
             console.error('Error signing out:', error);
         }
     };
 
-    if (loading) {
+    // Tampilkan loading selama auth loading atau redirecting
+    if (loading || isRedirecting) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
@@ -57,9 +65,16 @@ export default function HomePage() {
         );
     }
 
+    // Jika tidak ada user setelah loading selesai, tampilkan loading sampai redirect
     if (!user) {
-        router.push('/');
-        return null;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Redirecting...</p>
+                </div>
+            </div>
+        );
     }
 
     const getProfilePicture = () => {
@@ -167,7 +182,7 @@ export default function HomePage() {
 
                     {/* Services Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
-                        
+                        {/* Services content can be added here */}
                     </div>
                 </div>
             </main>

@@ -7,6 +7,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import CircularText from '@/components/CircularText';
+import {
+    VscEye,
+    VscEyeClosed,
+} from 'react-icons/vsc';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -15,6 +19,7 @@ export default function Login() {
     const [googleLoading, setGoogleLoading] = useState(false);
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isFocused, setIsFocused] = useState({ email: false, password: false });
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
 
@@ -29,9 +34,9 @@ export default function Login() {
     // Tampilkan loading spinner selama auth loading
     if (authLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
                 <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
                     <p className="text-white">Checking authentication...</p>
                 </div>
             </div>
@@ -41,9 +46,9 @@ export default function Login() {
     // Jika sudah login, tampilkan loading sampai redirect
     if (user) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
                 <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
                     <p className="text-white">Redirecting to home...</p>
                 </div>
             </div>
@@ -141,7 +146,7 @@ export default function Login() {
         try {
             const provider = new GoogleAuthProvider();
             
-            // Konfigurasi provider Google - PERBAIKAN DI SINI
+            // Konfigurasi provider Google
             const customParameters: { prompt: string; login_hint?: string } = {
                 prompt: 'select_account'
             };
@@ -163,22 +168,12 @@ export default function Login() {
             const result = await signInWithPopup(auth, provider);
             console.log('Google login successful:', result.user);
             
-            // Check if user is newly created or existing
-            const isNewUser = result.user.metadata.creationTime === result.user.metadata.lastSignInTime;
-            console.log('Is new user:', isNewUser);
-            
             // Redirect ke home
             router.push('/home');
             
         } catch (error: any) {
             console.error('Google login error:', error);
-            console.error('Error details:', {
-                code: error.code,
-                message: error.message,
-                email: error.email,
-                credential: error.credential
-            });
-
+            
             let errorMessage = 'Failed to sign in with Google. Please try again.';
 
             switch (error.code) {
@@ -200,15 +195,6 @@ export default function Login() {
                 case 'auth/network-request-failed':
                     errorMessage = 'Network error. Please check your internet connection and try again.';
                     break;
-                case 'auth/invalid-credential':
-                    errorMessage = 'The authentication credential is invalid or has expired. Please try again.';
-                    break;
-                case 'auth/user-disabled':
-                    errorMessage = 'This Google account has been disabled. Please contact support.';
-                    break;
-                case 'auth/user-not-found':
-                    errorMessage = 'No account found with this Google account. Please try signing up first.';
-                    break;
                 default:
                     if (error.message.includes('popup')) {
                         errorMessage = 'Unable to open Google sign-in popup. Please check your browser settings.';
@@ -223,15 +209,15 @@ export default function Login() {
         }
     };
 
-    const handleForgotPassword = () => {
-        // Arahkan ke halaman reset password atau tampilkan modal
-        setError('Forgot password feature coming soon. Please contact support for now.');
-    };
-
     const isAnyLoading = loading || googleLoading;
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute -top-40 -right-32 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+                <div className="absolute -bottom-40 -left-32 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+            </div>
+
             {/* CircularText untuk desktop - pojok kanan atas */}
             <div className="hidden lg:block absolute top-6 right-6 z-10">
                 <CircularText
@@ -242,8 +228,8 @@ export default function Login() {
                 />
             </div>
 
-            <div className="w-full max-w-md">
-                {/* CircularText untuk mobile - di atas tulisan Sign in */}
+            <div className="w-full max-w-md z-10">
+                {/* CircularText untuk mobile */}
                 <div className="block lg:hidden justify-center mb-6">
                     <CircularText
                         text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
@@ -253,32 +239,29 @@ export default function Login() {
                     />
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300">
                     <div className="text-center mb-8">
-                        <h2 className="text-2xl font-bold text-gray-900">
-                            Sign in to your account
+                        <h2 className="text-3xl font-bold text-white mb-2">
+                            Welcome Back
                         </h2>
-                        <p className="mt-2 text-sm text-gray-600">
-                            Welcome back! Please enter your details.
+                        <p className="text-purple-200 text-sm">
+                            Sign in to continue your journey
                         </p>
                     </div>
 
                     <form className="space-y-6" onSubmit={handleLogin}>
                         {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                                <div className="font-medium">{error}</div>
+                            <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm">
+                                <div className="font-medium flex items-center">
+                                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                    </svg>
+                                    {error}
+                                </div>
                                 <div className="mt-2 text-xs flex flex-wrap gap-2">
-                                    <button 
-                                        type="button" 
-                                        onClick={handleForgotPassword}
-                                        className="underline hover:text-red-800 transition-colors"
-                                    >
-                                        Forgot password?
-                                    </button>
-                                    <span>•</span>
                                     <Link 
                                         href="/register" 
-                                        className="underline hover:text-red-800 transition-colors"
+                                        className="underline hover:text-white transition-colors"
                                     >
                                         Create new account
                                     </Link>
@@ -287,8 +270,15 @@ export default function Login() {
                         )}
 
                         <div className="space-y-4">
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="relative">
+                                <label 
+                                    htmlFor="email" 
+                                    className={`absolute left-4 transition-all duration-200 ${
+                                        isFocused.email || email 
+                                            ? 'top-2 text-xs text-white' 
+                                            : 'top-4 text-sm text-white'
+                                    }`}
+                                >
                                     Email address
                                 </label>
                                 <input
@@ -297,49 +287,62 @@ export default function Login() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                                     placeholder="Enter your email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onFocus={() => setIsFocused(prev => ({ ...prev, email: true }))}
+                                    onBlur={() => setIsFocused(prev => ({ ...prev, email: !!email }))}
                                     disabled={isAnyLoading}
                                     autoFocus
                                 />
                             </div>
 
-                            <div>
-                                <div className="flex items-center justify-between mb-2">
-                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                        Password
-                                    </label>
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="text-sm text-indigo-600 hover:text-indigo-500 transition-colors"
-                                        disabled={isAnyLoading}
-                                    >
-                                        {showPassword ? 'Hide' : 'Show'}
-                                    </button>
-                                </div>
+                            <div className="relative">
+                                <label 
+                                    htmlFor="password" 
+                                    className={`absolute left-4 transition-all duration-200 ${
+                                        isFocused.password || password 
+                                            ? 'top-2 text-xs text-white' 
+                                            : 'top-4 text-sm text-white'
+                                    }`}
+                                >
+                                    Password
+                                </label>
                                 <input
                                     id="password"
                                     name="password"
                                     type={showPassword ? 'text' : 'password'}
                                     autoComplete="current-password"
                                     required
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Enter your password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    onFocus={() => setIsFocused(prev => ({ ...prev, password: true }))}
+                                    onBlur={() => setIsFocused(prev => ({ ...prev, password: !!password }))}
                                     disabled={isAnyLoading}
                                     minLength={6}
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors p-1 disabled:opacity-50"
+                                    disabled={isAnyLoading}
+                                >
+                                    {showPassword ? (
+                                        <VscEyeClosed size={24} className='text-white' />
+                                    ) : (
+                                        <VscEye size={24} className='text-white' />
+                                    )}
+                                </button>
                             </div>
                         </div>
 
                         <button
                             type="submit"
                             disabled={isAnyLoading}
-                            className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="w-full bg-[#E02435] text-white py-4 px-4 rounded-xl font-semibold hover:[#E02435]focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E02435] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center">
@@ -350,17 +353,17 @@ export default function Login() {
                                     Signing in...
                                 </span>
                             ) : (
-                                'Sign in'
+                                'Sign in to your account'
                             )}
                         </button>
 
                         <div className="mt-6">
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-gray-300" />
+                                    <div className="w-full border-t border-white/20" />
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                                    <span className="px-2 bg-transparent text-purple-200">Or continue with</span>
                                 </div>
                             </div>
 
@@ -369,11 +372,11 @@ export default function Login() {
                                     type="button"
                                     onClick={handleGoogleLogin}
                                     disabled={isAnyLoading}
-                                    className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="w-full flex justify-center items-center py-3 px-4 border border-white/20 rounded-xl shadow-sm bg-white/5 text-white font-medium hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02]"
                                 >
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
-                                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                             </svg>
@@ -407,13 +410,13 @@ export default function Login() {
                         </div>
 
                         <div className="text-center pt-4">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-purple-200">
                                 Don't have an account?{' '}
                                 <Link 
                                     href="/register" 
-                                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                                    className="font-semibold text-white hover:text-purple-300 transition-colors"
                                 >
-                                    Sign up
+                                    Create account
                                 </Link>
                             </p>
                         </div>
