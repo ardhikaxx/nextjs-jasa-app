@@ -24,7 +24,6 @@ export default function Login() {
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
 
-    // Redirect jika sudah login
     useEffect(() => {
         if (user && !authLoading) {
             console.log('User already logged in, redirecting to home...');
@@ -32,24 +31,22 @@ export default function Login() {
         }
     }, [user, authLoading, router]);
 
-    // Tampilkan loading spinner selama auth loading
     if (authLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+            <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
                     <p className="text-white">Checking authentication...</p>
                 </div>
             </div>
         );
     }
 
-    // Jika sudah login, tampilkan loading sampai redirect
     if (user) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+            <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
                     <p className="text-white">Redirecting to home...</p>
                 </div>
             </div>

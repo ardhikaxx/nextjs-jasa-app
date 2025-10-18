@@ -30,7 +30,6 @@ export default function Register() {
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
 
-    // Redirect jika sudah login
     useEffect(() => {
         if (user && !authLoading) {
             router.push('/home');
@@ -39,9 +38,9 @@ export default function Register() {
 
     if (authLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+            <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
                     <p className="text-white">Loading...</p>
                 </div>
             </div>

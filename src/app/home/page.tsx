@@ -23,7 +23,6 @@ export default function HomePage() {
     const [userCount, setUserCount] = useState<number | null>(null);
     const [isRedirecting, setIsRedirecting] = useState(false);
 
-    // Handle redirect jika user tidak login
     useEffect(() => {
         if (!loading && !user && !isRedirecting) {
             setIsRedirecting(true);
@@ -47,31 +46,28 @@ export default function HomePage() {
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            // Tidak perlu router.push di sini karena AuthContext akan trigger re-render
         } catch (error) {
             console.error('Error signing out:', error);
         }
     };
 
-    // Tampilkan loading selama auth loading atau redirecting
     if (loading || isRedirecting) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading...</p>
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <div className="flex flex-col items-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
+                    <p className="text-white">Loading...</p>
                 </div>
             </div>
         );
     }
 
-    // Jika tidak ada user setelah loading selesai, tampilkan loading sampai redirect
     if (!user) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Redirecting...</p>
+            <div className="min-h-screen flex items-center justify-center bg-black">
+                <div className="flex flex-col items-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
+                    <p className="text-white">Loading...</p>
                 </div>
             </div>
         );
@@ -116,7 +112,6 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col relative">
-            {/* Navbar */}
             <nav className="bg-white shadow-sm sticky top-0 z-10 border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between h-16 items-center">
                     <div className="flex items-center space-x-3">
@@ -143,23 +138,19 @@ export default function HomePage() {
                                 className="rounded-full border-2 border-[#B51D2A]/30 object-cover transition-all hover:border-[#B51D2A]/60 hover:scale-105 cursor-pointer"
                                 onClick={() => router.push('/profile')}
                                 onError={(e) => {
-                                    // Fallback jika gambar error
                                     const target = e.target as HTMLImageElement;
                                     target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                                         user.displayName || user.email || 'User'
                                     )}&background=E02435&color=fff&size=128`;
                                 }}
                             />
-                            {/* Online indicator */}
                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                         </div>
                     </div>
                 </div>
             </nav>
 
-            {/* Hero Section */}
             <main className="flex-grow flex flex-col items-center justify-start text-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
-                {/* Welcome Section */}
                 <div className="w-full max-w-4xl mb-8 sm:mb-12">
                     <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8">
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
@@ -182,7 +173,7 @@ export default function HomePage() {
 
                     {/* Services Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
-                        {/* Services content can be added here */}
+                        {/* Isi layanan */}
                     </div>
                 </div>
             </main>
