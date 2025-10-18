@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
@@ -14,11 +14,27 @@ export default function Register() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
 
     // Redirect jika sudah login
+    useEffect(() => {
+        if (user && !authLoading) {
+            router.push('/');
+        }
+    }, [user, authLoading, router]);
+
+    if (authLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
     if (user) {
-        router.push('/');
         return null;
     }
 
@@ -84,21 +100,50 @@ export default function Register() {
 
         try {
             const provider = new GoogleAuthProvider();
+            // Tambahkan scope untuk mendapatkan akses ke profile
             provider.addScope('email');
             provider.addScope('profile');
+            
+            // Set custom parameters untuk memastikan prompt account selection
+            provider.setCustomParameters({
+                prompt: 'select_account'
+            });
 
             const result = await signInWithPopup(auth, provider);
             console.log('Google registration successful:', result.user);
+            
+            // Redirect setelah berhasil register dengan Google
             router.push('/home');
         } catch (error: any) {
             console.error('Google registration error:', error);
+            console.error('Error details:', {
+                code: error.code,
+                message: error.message,
+                email: error.email,
+                credential: error.credential
+            });
 
-            if (error.code === 'auth/popup-closed-by-user') {
-                setError('Google sign-in was cancelled');
-            } else if (error.code === 'auth/account-exists-with-different-credential') {
-                setError('An account already exists with the same email but different sign-in method');
-            } else {
-                setError('Failed to sign up with Google');
+            switch (error.code) {
+                case 'auth/popup-closed-by-user':
+                    setError('Google sign-in was cancelled');
+                    break;
+                case 'auth/popup-blocked':
+                    setError('Popup was blocked by browser. Please allow popups for this site');
+                    break;
+                case 'auth/network-request-failed':
+                    setError('Network error. Please check your internet connection');
+                    break;
+                case 'auth/account-exists-with-different-credential':
+                    setError('An account already exists with the same email but different sign-in method. Please try signing in with email and password');
+                    break;
+                case 'auth/operation-not-allowed':
+                    setError('Google sign-in is not enabled. Please contact support');
+                    break;
+                case 'auth/unauthorized-domain':
+                    setError('This domain is not authorized for Google sign-in. Please contact support');
+                    break;
+                default:
+                    setError(`Failed to sign up with Google: ${error.message}`);
             }
         } finally {
             setLoading(false);

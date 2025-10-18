@@ -29,34 +29,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        let unsubscribe: () => void;
-
-        const initializeAuth = async () => {
-            try {
-                unsubscribe = onAuthStateChanged(auth, 
-                    (user) => {
-                        console.log('Auth state changed:', user ? user.email : 'No user');
-                        setUser(user);
-                        setLoading(false);
-                    },
-                    (error) => {
-                        console.error('Auth state error:', error);
-                        setLoading(false);
-                    }
-                );
-            } catch (error) {
-                console.error('Auth initialization error:', error);
+        const unsubscribe = onAuthStateChanged(auth, 
+            (user) => {
+                console.log('Auth state changed:', user ? user.email : 'No user');
+                setUser(user);
+                setLoading(false);
+            },
+            (error) => {
+                console.error('Auth state error:', error);
                 setLoading(false);
             }
-        };
+        );
 
-        initializeAuth();
-
-        return () => {
-            if (unsubscribe) {
-                unsubscribe();
-            }
-        };
+        return () => unsubscribe();
     }, []);
 
     const logout = async () => {

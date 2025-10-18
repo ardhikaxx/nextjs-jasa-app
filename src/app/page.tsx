@@ -77,7 +77,7 @@ export default function Home() {
         <div className="absolute inset-0 z-5">
           <CurvedLoop
             marqueeText="Dari ✦ Mumet ✦ Jadi ✦ Beres ✦ Mumet.in ✦"
-            speed={1.5}
+            speed={3}
             curveAmount={500}
             direction="right"
             interactive={true}
