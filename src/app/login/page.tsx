@@ -105,33 +105,33 @@ export default function Login() {
             console.error('Login error:', error);
 
             // Handle Firebase auth errors
-            let errorMessage = 'Login failed. Please try again.';
+            let errorMessage = 'Login gagal. Silakan coba lagi.';
 
             switch (error.code) {
                 case 'auth/invalid-credential':
                 case 'auth/wrong-password':
-                    errorMessage = 'Invalid email or password. Please check your credentials.';
+                    errorMessage = 'Email atau kata sandi salah. Silakan periksa kredensial Anda.';
                     break;
                 case 'auth/user-not-found':
-                    errorMessage = 'No account found with this email. Please sign up first.';
+                    errorMessage = 'Tidak ada akun yang ditemukan dengan email ini. Silakan daftar terlebih dahulu.';
                     break;
                 case 'auth/invalid-email':
-                    errorMessage = 'Invalid email address format.';
+                    errorMessage = 'Format alamat email tidak valid.';
                     break;
                 case 'auth/user-disabled':
-                    errorMessage = 'This account has been disabled. Please contact support.';
+                    errorMessage = 'Akun ini telah dinonaktifkan. Silakan hubungi support.';
                     break;
                 case 'auth/too-many-requests':
-                    errorMessage = 'Too many failed attempts. Please try again later or reset your password.';
+                    errorMessage = 'Terlalu banyak percobaan gagal. Silakan coba lagi nanti atau reset kata sandi Anda.';
                     break;
                 case 'auth/network-request-failed':
-                    errorMessage = 'Network error. Please check your internet connection.';
+                    errorMessage = 'Error jaringan. Silakan periksa koneksi internet Anda.';
                     break;
                 case 'auth/operation-not-allowed':
-                    errorMessage = 'Email/password login is not enabled. Please contact support.';
+                    errorMessage = 'Login email/kata sandi tidak diaktifkan. Silakan hubungi support.';
                     break;
                 default:
-                    errorMessage = `Login failed: ${error.message || 'Please try again'}`;
+                    errorMessage = `Login gagal: ${error.message || 'Silakan coba lagi'}`;
             }
 
             setError(errorMessage);
@@ -175,32 +175,32 @@ export default function Login() {
         } catch (error: any) {
             console.error('Google login error:', error);
 
-            let errorMessage = 'Failed to sign in with Google. Please try again.';
+            let errorMessage = 'Gagal login dengan Google. Silakan coba lagi.';
 
             switch (error.code) {
                 case 'auth/popup-closed-by-user':
-                    errorMessage = 'Google sign-in was cancelled.';
+                    errorMessage = 'Login Google dibatalkan.';
                     break;
                 case 'auth/popup-blocked':
-                    errorMessage = 'Popup was blocked by your browser. Please allow popups for this site and try again.';
+                    errorMessage = 'Popup diblokir oleh browser Anda. Silakan izinkan popup untuk situs ini dan coba lagi.';
                     break;
                 case 'auth/unauthorized-domain':
-                    errorMessage = 'This domain is not authorized for Google sign-in. Please contact support.';
+                    errorMessage = 'Domain ini tidak diizinkan untuk login Google. Silakan hubungi support.';
                     break;
                 case 'auth/account-exists-with-different-credential':
-                    errorMessage = 'An account already exists with the same email but different sign-in method. Please try signing in with email and password.';
+                    errorMessage = 'Akun sudah ada dengan email yang sama tetapi metode login berbeda. Silakan coba login dengan email dan kata sandi.';
                     break;
                 case 'auth/operation-not-allowed':
-                    errorMessage = 'Google sign-in is not enabled. Please contact support.';
+                    errorMessage = 'Login Google tidak diaktifkan. Silakan hubungi support.';
                     break;
                 case 'auth/network-request-failed':
-                    errorMessage = 'Network error. Please check your internet connection and try again.';
+                    errorMessage = 'Error jaringan. Silakan periksa koneksi internet Anda dan coba lagi.';
                     break;
                 default:
                     if (error.message.includes('popup')) {
-                        errorMessage = 'Unable to open Google sign-in popup. Please check your browser settings.';
+                        errorMessage = 'Tidak dapat membuka popup login Google. Silakan periksa pengaturan browser Anda.';
                     } else {
-                        errorMessage = `Google sign-in failed: ${error.message}`;
+                        errorMessage = `Login Google gagal: ${error.message}`;
                     }
             }
 
@@ -270,8 +270,8 @@ export default function Login() {
                                 <label
                                     htmlFor="email"
                                     className={`absolute left-4 transition-all duration-200 ${isFocused.email || email
-                                            ? 'top-2 text-xs text-white'
-                                            : 'top-4 text-sm text-white'
+                                        ? 'top-2 text-xs text-white'
+                                        : 'top-4 text-sm text-white'
                                         }`}
                                 >
                                     Alamat email
@@ -297,8 +297,8 @@ export default function Login() {
                                 <label
                                     htmlFor="password"
                                     className={`absolute left-4 transition-all duration-200 ${isFocused.password || password
-                                            ? 'top-2 text-xs text-white'
-                                            : 'top-4 text-sm text-white'
+                                        ? 'top-2 text-xs text-white'
+                                        : 'top-4 text-sm text-white'
                                         }`}
                                 >
                                     Kata sandi

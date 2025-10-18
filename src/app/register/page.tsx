@@ -103,19 +103,19 @@ export default function Register() {
 
             switch (error.code) {
                 case 'auth/email-already-in-use':
-                    setError('This email is already registered');
+                    setError('Email ini sudah terdaftar');
                     break;
                 case 'auth/invalid-email':
-                    setError('Invalid email address');
+                    setError('Alamat email tidak valid');
                     break;
                 case 'auth/operation-not-allowed':
-                    setError('Email/password accounts are not enabled');
+                    setError('Akun email/kata sandi tidak diaktifkan');
                     break;
                 case 'auth/weak-password':
-                    setError('Password is too weak');
+                    setError('Kata sandi terlalu lemah');
                     break;
                 default:
-                    setError('Failed to create account. Please try again');
+                    setError('Gagal membuat akun. Silakan coba lagi');
             }
         } finally {
             setLoading(false);
@@ -144,25 +144,25 @@ export default function Register() {
 
             switch (error.code) {
                 case 'auth/popup-closed-by-user':
-                    setError('Google sign-in was cancelled');
+                    setError('Login Google dibatalkan');
                     break;
                 case 'auth/popup-blocked':
-                    setError('Popup was blocked by browser. Please allow popups for this site');
+                    setError('Popup diblokir oleh browser. Silakan izinkan popup untuk situs ini');
                     break;
                 case 'auth/network-request-failed':
-                    setError('Network error. Please check your internet connection');
+                    setError('Error jaringan. Silakan periksa koneksi internet Anda');
                     break;
                 case 'auth/account-exists-with-different-credential':
-                    setError('An account already exists with the same email but different sign-in method. Please try signing in with email and password');
+                    setError('Akun sudah ada dengan email yang sama tetapi metode login berbeda. Silakan coba login dengan email dan kata sandi');
                     break;
                 case 'auth/operation-not-allowed':
-                    setError('Google sign-in is not enabled. Please contact support');
+                    setError('Login Google tidak diaktifkan. Silakan hubungi support');
                     break;
                 case 'auth/unauthorized-domain':
-                    setError('This domain is not authorized for Google sign-in. Please contact support');
+                    setError('Domain ini tidak diizinkan untuk login Google. Silakan hubungi support');
                     break;
                 default:
-                    setError(`Failed to sign up with Google: ${error.message}`);
+                    setError(`Gagal mendaftar dengan Google: ${error.message}`);
             }
         } finally {
             setGoogleLoading(false);
@@ -219,8 +219,8 @@ export default function Register() {
                                 <label
                                     htmlFor="email"
                                     className={`absolute left-4 transition-all duration-200 ${isFocused.email || email
-                                            ? 'top-2 text-xs text-white'
-                                            : 'top-4 text-sm text-white'
+                                        ? 'top-2 text-xs text-white'
+                                        : 'top-4 text-sm text-white'
                                         }`}
                                 >
                                     Alamat email
@@ -246,8 +246,8 @@ export default function Register() {
                                 <label
                                     htmlFor="password"
                                     className={`absolute left-4 transition-all duration-200 ${isFocused.password || password
-                                            ? 'top-2 text-xs text-white'
-                                            : 'top-4 text-sm text-white'
+                                        ? 'top-2 text-xs text-white'
+                                        : 'top-4 text-sm text-white'
                                         }`}
                                 >
                                     Kata sandi
@@ -285,8 +285,8 @@ export default function Register() {
                                 <label
                                     htmlFor="confirmPassword"
                                     className={`absolute left-4 transition-all duration-200 ${isFocused.confirmPassword || confirmPassword
-                                            ? 'top-2 text-xs text-white'
-                                            : 'top-4 text-sm text-white'
+                                        ? 'top-2 text-xs text-white'
+                                        : 'top-4 text-sm text-white'
                                         }`}
                                 >
                                     Konfirmasi Kata Sandi
