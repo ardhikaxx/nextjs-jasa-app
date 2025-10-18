@@ -84,7 +84,7 @@ export default function Login() {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
@@ -94,19 +94,19 @@ export default function Login() {
 
         try {
             console.log('Attempting login with:', { email: email.trim() });
-            
+
             const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
             console.log('Login successful:', userCredential.user.email);
-            
+
             // Redirect langsung tanpa timeout
             router.push('/home');
-            
+
         } catch (error: any) {
             console.error('Login error:', error);
-            
+
             // Handle Firebase auth errors
             let errorMessage = 'Login failed. Please try again.';
-            
+
             switch (error.code) {
                 case 'auth/invalid-credential':
                 case 'auth/wrong-password':
@@ -133,7 +133,7 @@ export default function Login() {
                 default:
                     errorMessage = `Login failed: ${error.message || 'Please try again'}`;
             }
-            
+
             setError(errorMessage);
         } finally {
             setLoading(false);
@@ -146,35 +146,35 @@ export default function Login() {
 
         try {
             const provider = new GoogleAuthProvider();
-            
+
             // Konfigurasi provider Google
             const customParameters: { prompt: string; login_hint?: string } = {
                 prompt: 'select_account'
             };
-            
+
             // Hanya tambahkan login_hint jika email tidak kosong
             if (email.trim()) {
                 customParameters.login_hint = email.trim();
             }
-            
+
             provider.setCustomParameters(customParameters);
-            
+
             // Tambahkan scope
             provider.addScope('email');
             provider.addScope('profile');
 
             console.log('Starting Google sign-in...');
-            
+
             // Gunakan signInWithPopup untuk authentication
             const result = await signInWithPopup(auth, provider);
             console.log('Google login successful:', result.user);
-            
+
             // Redirect ke home
             router.push('/home');
-            
+
         } catch (error: any) {
             console.error('Google login error:', error);
-            
+
             let errorMessage = 'Failed to sign in with Google. Please try again.';
 
             switch (error.code) {
@@ -203,7 +203,7 @@ export default function Login() {
                         errorMessage = `Google sign-in failed: ${error.message}`;
                     }
             }
-            
+
             setError(errorMessage);
         } finally {
             setGoogleLoading(false);
@@ -238,10 +238,10 @@ export default function Login() {
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300">
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2">
-                            Welcome Back
+                            Selamat Datang Kembali
                         </h2>
                         <p className="text-purple-200 text-sm">
-                            Sign in to continue your journey
+                            Masuk untuk melanjutkan perjalanan Anda
                         </p>
                     </div>
 
@@ -255,11 +255,11 @@ export default function Login() {
                                     {error}
                                 </div>
                                 <div className="mt-2 text-xs flex flex-wrap gap-2">
-                                    <Link 
-                                        href="/register" 
+                                    <Link
+                                        href="/register"
                                         className="underline hover:text-white transition-colors"
                                     >
-                                        Create new account
+                                        Buat akun baru
                                     </Link>
                                 </div>
                             </div>
@@ -267,15 +267,14 @@ export default function Login() {
 
                         <div className="space-y-4">
                             <div className="relative">
-                                <label 
-                                    htmlFor="email" 
-                                    className={`absolute left-4 transition-all duration-200 ${
-                                        isFocused.email || email 
-                                            ? 'top-2 text-xs text-white' 
+                                <label
+                                    htmlFor="email"
+                                    className={`absolute left-4 transition-all duration-200 ${isFocused.email || email
+                                            ? 'top-2 text-xs text-white'
                                             : 'top-4 text-sm text-white'
-                                    }`}
+                                        }`}
                                 >
-                                    Email address
+                                    Alamat email
                                 </label>
                                 <input
                                     id="email"
@@ -284,7 +283,7 @@ export default function Login() {
                                     autoComplete="email"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Enter your email"
+                                    placeholder="Masukkan email Anda"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, email: true }))}
@@ -295,15 +294,14 @@ export default function Login() {
                             </div>
 
                             <div className="relative">
-                                <label 
-                                    htmlFor="password" 
-                                    className={`absolute left-4 transition-all duration-200 ${
-                                        isFocused.password || password 
-                                            ? 'top-2 text-xs text-white' 
+                                <label
+                                    htmlFor="password"
+                                    className={`absolute left-4 transition-all duration-200 ${isFocused.password || password
+                                            ? 'top-2 text-xs text-white'
                                             : 'top-4 text-sm text-white'
-                                    }`}
+                                        }`}
                                 >
-                                    Password
+                                    Kata sandi
                                 </label>
                                 <input
                                     id="password"
@@ -312,7 +310,7 @@ export default function Login() {
                                     autoComplete="current-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
-                                    placeholder="Enter your password"
+                                    placeholder="Masukkan kata sandi Anda"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, password: true }))}
@@ -346,10 +344,10 @@ export default function Login() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Signing in...
+                                    Sedang masuk...
                                 </span>
                             ) : (
-                                'Sign in to your account'
+                                'Masuk ke akun Anda'
                             )}
                         </button>
 
@@ -359,7 +357,7 @@ export default function Login() {
                                     <div className="w-full border-t border-white/20" />
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-3 bg-white/10 backdrop-blur-lg text-purple-200 font-medium">Or continue with</span>
+                                    <span className="px-3 bg-white/10 backdrop-blur-lg text-purple-200 font-medium">Atau lanjutkan dengan</span>
                                 </div>
                             </div>
 
@@ -373,11 +371,11 @@ export default function Login() {
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
                                             <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
-                                            Connecting...
+                                            Menghubungkan...
                                         </span>
                                     ) : (
                                         <>
-                                            <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />Continue with Google
+                                            <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />Lanjutkan dengan Google
                                         </>
                                     )}
                                 </button>
@@ -386,12 +384,12 @@ export default function Login() {
 
                         <div className="text-center pt-4">
                             <p className="text-sm text-purple-200">
-                                Don't have an account?{' '}
-                                <Link 
-                                    href="/register" 
+                                Tidak punya akun?{' '}
+                                <Link
+                                    href="/register"
                                     className="font-semibold text-white hover:text-purple-300 transition-colors"
                                 >
-                                    Create account
+                                    Buat akun
                                 </Link>
                             </p>
                         </div>

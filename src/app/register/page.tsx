@@ -22,10 +22,10 @@ export default function Register() {
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [isFocused, setIsFocused] = useState({ 
-        email: false, 
-        password: false, 
-        confirmPassword: false 
+    const [isFocused, setIsFocused] = useState({
+        email: false,
+        password: false,
+        confirmPassword: false
     });
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
@@ -81,7 +81,7 @@ export default function Register() {
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
@@ -130,14 +130,14 @@ export default function Register() {
             const provider = new GoogleAuthProvider();
             provider.addScope('email');
             provider.addScope('profile');
-            
+
             provider.setCustomParameters({
                 prompt: 'select_account'
             });
 
             const result = await signInWithPopup(auth, provider);
             console.log('Google registration successful:', result.user);
-            
+
             router.push('/home');
         } catch (error: any) {
             console.error('Google registration error:', error);
@@ -195,10 +195,10 @@ export default function Register() {
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300">
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2">
-                            Join Us Today
+                            Bergabunglah Hari Ini
                         </h2>
                         <p className="text-purple-200 text-sm">
-                            Create your account to get started
+                            Buat akun Anda untuk memulai
                         </p>
                     </div>
 
@@ -216,15 +216,14 @@ export default function Register() {
 
                         <div className="space-y-4">
                             <div className="relative">
-                                <label 
-                                    htmlFor="email" 
-                                    className={`absolute left-4 transition-all duration-200 ${
-                                        isFocused.email || email 
-                                            ? 'top-2 text-xs text-white' 
+                                <label
+                                    htmlFor="email"
+                                    className={`absolute left-4 transition-all duration-200 ${isFocused.email || email
+                                            ? 'top-2 text-xs text-white'
                                             : 'top-4 text-sm text-white'
-                                    }`}
+                                        }`}
                                 >
-                                    Email address
+                                    Alamat email
                                 </label>
                                 <input
                                     id="email"
@@ -233,7 +232,7 @@ export default function Register() {
                                     autoComplete="email"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Enter your email"
+                                    placeholder="Masukkan email Anda"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, email: true }))}
@@ -244,15 +243,14 @@ export default function Register() {
                             </div>
 
                             <div className="relative">
-                                <label 
-                                    htmlFor="password" 
-                                    className={`absolute left-4 transition-all duration-200 ${
-                                        isFocused.password || password 
-                                            ? 'top-2 text-xs text-white' 
+                                <label
+                                    htmlFor="password"
+                                    className={`absolute left-4 transition-all duration-200 ${isFocused.password || password
+                                            ? 'top-2 text-xs text-white'
                                             : 'top-4 text-sm text-white'
-                                    }`}
+                                        }`}
                                 >
-                                    Password
+                                    Kata sandi
                                 </label>
                                 <input
                                     id="password"
@@ -261,7 +259,7 @@ export default function Register() {
                                     autoComplete="new-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
-                                    placeholder="Enter your password (min. 6 characters)"
+                                    placeholder="Masukkan kata sandi (min. 6 karakter)"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, password: true }))}
@@ -284,15 +282,14 @@ export default function Register() {
                             </div>
 
                             <div className="relative">
-                                <label 
-                                    htmlFor="confirmPassword" 
-                                    className={`absolute left-4 transition-all duration-200 ${
-                                        isFocused.confirmPassword || confirmPassword 
-                                            ? 'top-2 text-xs text-white' 
+                                <label
+                                    htmlFor="confirmPassword"
+                                    className={`absolute left-4 transition-all duration-200 ${isFocused.confirmPassword || confirmPassword
+                                            ? 'top-2 text-xs text-white'
                                             : 'top-4 text-sm text-white'
-                                    }`}
+                                        }`}
                                 >
-                                    Confirm Password
+                                    Konfirmasi Kata Sandi
                                 </label>
                                 <input
                                     id="confirmPassword"
@@ -301,7 +298,7 @@ export default function Register() {
                                     autoComplete="new-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
-                                    placeholder="Confirm your password"
+                                    placeholder="Konfirmasi kata sandi Anda"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, confirmPassword: true }))}
@@ -327,7 +324,7 @@ export default function Register() {
                         <button
                             type="submit"
                             disabled={isAnyLoading}
-                            className="w-full bg-[#E02435] text-white py-4 px-4 rounded-xl font-semibold hover:[#E02435] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E02435] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                            className="w-full bg-[#E02435] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E02435] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center">
@@ -335,10 +332,10 @@ export default function Register() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Creating account...
+                                    Membuat akun...
                                 </span>
                             ) : (
-                                'Create your account'
+                                'Buat akun Anda'
                             )}
                         </button>
 
@@ -348,7 +345,7 @@ export default function Register() {
                                     <div className="w-full border-t border-white/20" />
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-transparent text-purple-200">Or continue with</span>
+                                    <span className="px-2 bg-transparent text-purple-200">Atau lanjutkan dengan</span>
                                 </div>
                             </div>
 
@@ -362,11 +359,11 @@ export default function Register() {
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
                                             <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
-                                            Connecting...
+                                            Menghubungkan...
                                         </span>
                                     ) : (
                                         <>
-                                            <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />Continue with Google
+                                            <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />Lanjutkan dengan Google
                                         </>
                                     )}
                                 </button>
@@ -375,12 +372,12 @@ export default function Register() {
 
                         <div className="text-center pt-4">
                             <p className="text-sm text-purple-200">
-                                Already have an account?{' '}
-                                <Link 
-                                    href="/login" 
+                                Sudah punya akun?{' '}
+                                <Link
+                                    href="/login"
                                     className="font-semibold text-white hover:text-purple-300 transition-colors"
                                 >
-                                    Sign in
+                                    Masuk
                                 </Link>
                             </p>
                         </div>
