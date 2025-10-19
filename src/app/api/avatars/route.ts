@@ -4,7 +4,6 @@ import admin from '@/utils/firebaseAdmin';
 export async function GET() {
     try {
         const auth = admin.auth();
-        const storage = admin.storage();
 
         const listUsersResult = await auth.listUsers(5000);
         const recentUsers = listUsersResult.users
@@ -21,7 +20,7 @@ export async function GET() {
                             displayName: user.displayName || user.email || 'User'
                         };
                     }
-                    
+
                     return {
                         uid: user.uid,
                         photoURL: null,
