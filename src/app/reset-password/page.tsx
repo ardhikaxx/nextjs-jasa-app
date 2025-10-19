@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiAlertCircle, FiCheckCircle, FiEye, FiEyeOff, FiChevronLeft } from 'react-icons/fi';
 
-export default function ResetPassword() {
+function ResetPasswordContent() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -176,7 +176,7 @@ export default function ResetPassword() {
                             <h2 className="text-3xl font-bold text-white mb-2">
                                 Link Tidak Valid
                             </h2>
-                            <p className="text-white text-sm">
+                            <p className="text-purple-200 text-sm">
                                 {error || 'Link reset password tidak valid atau telah kedaluwarsa.'}
                             </p>
                         </div>
@@ -326,7 +326,7 @@ export default function ResetPassword() {
                                 <button
                                     type="button"
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors p-1 disabled:opacity-50"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white transition-colors p-1 disabled:opacity-50"
                                     disabled={loading || success}
                                 >
                                     {showConfirmPassword ? (
@@ -383,11 +383,11 @@ export default function ResetPassword() {
 
                         {!success && (
                             <div className="text-center pt-4">
-                                <p className="text-sm text-purple-200">
+                                <p className="text-sm text-white">
                                     Ingat kata sandi Anda?{' '}
                                     <Link
                                         href="/login"
-                                        className="font-semibold text-white hover:text-red-700 transition-colors"
+                                        className="font-semibold text-white"
                                     >
                                         Masuk ke akun
                                     </Link>
@@ -398,5 +398,24 @@ export default function ResetPassword() {
                 </div>
             </div>
         </div>
+    );
+}
+
+function ResetPasswordLoading() {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-black">
+            <div className="flex flex-col items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
+                <p className="text-white">Memuat halaman reset password...</p>
+            </div>
+        </div>
+    );
+}
+
+export default function ResetPassword() {
+    return (
+        <Suspense fallback={<ResetPasswordLoading />}>
+            <ResetPasswordContent />
+        </Suspense>
     );
 }
