@@ -111,7 +111,7 @@ export default function Home() {
           {userCount !== null && (
             <div className="relative mt-8 sm:mt-10 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center">
 
-              <h4 className="text-sm font-semibold text-white mb-2">Statistik Kepercayaan</h4>
+              <h4 className="text-sm font-semibold text-white mb-2 font-daydream">Statistik Kepercayaan</h4>
               <h2 className="text-4xl sm:text-6xl font-extrabold text-[#E02435] flex justify-center items-center">
                 <FiUsers size={40} className="me-2" />
                 {userCount.toLocaleString()}+
@@ -122,7 +122,7 @@ export default function Home() {
 
               <div className="bg-gray-50 text-gray-700 font-medium text-sm px-4 py-2 rounded-xl inline-flex items-center justify-center gap-2 shadow-inner">
                 <FiTrendingUp className="text-[#E02435]" />
-                Telah dipercaya oleh <span className="font-semibold text-[#E02435]">banyak klien</span>
+                Telah dipercaya oleh <span className="font-semibold text-[#E02435] font-daydream">banyak klien</span>
               </div>
 
               {/* Tombol Lihat Projek */}
