@@ -7,13 +7,14 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
-import { FiLogOut } from 'react-icons/fi';
+import { FiLogOut, FiX, FiAlertTriangle } from 'react-icons/fi';
 
 export default function HomePage() {
     const { user, loading } = useAuth();
     const router = useRouter();
-    const [userCount, setUserCount] = useState<number | null>(null);
     const [isRedirecting, setIsRedirecting] = useState(false);
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     useEffect(() => {
         if (!loading && !user && !isRedirecting) {
@@ -22,24 +23,24 @@ export default function HomePage() {
         }
     }, [user, loading, isRedirecting, router]);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const res = await fetch('/api/count');
-                const data = await res.json();
-                setUserCount(data.count);
-            } catch (err) {
-                console.error('Error fetching user count:', err);
-            }
-        };
-        fetchUsers();
-    }, []);
-
     const handleLogout = async () => {
+        setIsLoggingOut(true);
         try {
             await signOut(auth);
+            setShowLogoutConfirm(false);
         } catch (error) {
             console.error('Error signing out:', error);
+            setIsLoggingOut(false);
+        }
+    };
+
+    const openLogoutConfirm = () => {
+        setShowLogoutConfirm(true);
+    };
+
+    const closeLogoutConfirm = () => {
+        if (!isLoggingOut) {
+            setShowLogoutConfirm(false);
         }
     };
 
@@ -80,6 +81,66 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-black flex flex-col relative">
+            {showLogoutConfirm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                    <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-100"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={closeLogoutConfirm}
+                            disabled={isLoggingOut}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200 disabled:opacity-50"
+                        >
+                            <FiX size={20} />
+                        </button>
+
+                        <div className="p-6 sm:p-8">
+                            <div className="flex justify-center mb-4">
+                                <div className="relative">
+                                    <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
+                                        <FiAlertTriangle className="text-red-500" size={28} />
+                                    </div>
+                                    <div className="absolute inset-0 rounded-full bg-red-500/30 animate-ping"></div>
+                                </div>
+                            </div>
+                            <h3 className="text-xl font-bold text-white text-center mb-2 font-daydream">
+                                Konfirmasi Logout
+                            </h3>
+                            <p className="text-gray-300 text-center mb-6 text-sm leading-relaxed">
+                                Apakah Anda yakin ingin keluar dari akun Anda? 
+                                Anda perlu login kembali untuk mengakses layanan kami.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <button
+                                    onClick={closeLogoutConfirm}
+                                    disabled={isLoggingOut}
+                                    className="flex-1 px-4 py-3 border border-gray-600 text-white rounded-xl hover:bg-white hover:text-red-700 font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center justify-center"
+                                ><FiX className="mr-2" size={16} />
+                                    Batal
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    disabled={isLoggingOut}
+                                    className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm flex items-center justify-center"
+                                >
+                                    {isLoggingOut ? (
+                                        <>
+                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                            Logging out...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <FiLogOut className="mr-2" size={16} />
+                                            Ya, Logout
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <nav className="bg-white/10 backdrop-blur-lg shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between h-16 items-center">
                     <div className="flex items-center space-x-3">
@@ -113,7 +174,7 @@ export default function HomePage() {
                         </div>
                         <div className=''>
                             <button
-                                onClick={handleLogout}
+                                onClick={openLogoutConfirm}
                                 className="w-full flex items-center px-4 py-3 border-red-700 border-2 text-sm text-white hover:bg-red-700 transition-colors rounded-2xl duration-200 font-medium"
                             >
                                 <FiLogOut className="mr-3" size={16} />
