@@ -18,6 +18,7 @@ export default function HomePage() {
     const [activeView, setActiveView] = useState<'main' | 'project-type' | 'ask-first'>('main');
     const [question, setQuestion] = useState('');
     const [charCount, setCharCount] = useState(0);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const maxChars = 500;
 
     useEffect(() => {
@@ -62,15 +63,36 @@ export default function HomePage() {
         // atau redirect ke halaman yang sesuai
     };
 
+    const sendQuestionToWhatsApp = (questionText: string) => {
+        const phoneNumber = '6285933648537';
+        
+        const message = `Halo Mumet.in! Saya ingin bertanya:\n\n${questionText}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappUrl, '_blank');
+    };
+
     const handleSubmitQuestion = () => {
-        console.log('Question submitted:', question);
-        // Di sini Anda bisa menambahkan logika untuk mengirim pertanyaan
-        // Reset form setelah submit
-        setQuestion('');
-        setCharCount(0);
-        // Tampilkan pesan sukses atau redirect
-        alert('Pertanyaan Anda telah dikirim! Kami akan segera merespons.');
-        setActiveView('main');
+        if (!question.trim()) return;
+        
+        setIsSubmitting(true);
+        
+        try {
+            sendQuestionToWhatsApp(question);
+            
+            setQuestion('');
+            setCharCount(0);
+            
+            alert('Pertanyaan Anda sedang dibuka di WhatsApp! Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.');
+            setActiveView('main');
+        } catch (error) {
+            console.error('Error sending question:', error);
+            alert('Terjadi kesalahan saat mengirim pertanyaan. Silakan coba lagi.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (loading || isRedirecting) {
@@ -331,7 +353,6 @@ export default function HomePage() {
                             </div>
                         )}
 
-                        {/* Tampilan form tanya-tanya dulu */}
                         {activeView === 'ask-first' && (
                             <div className="animate-fade-in">
                                 <div className="flex items-center justify-between mb-6">
@@ -345,7 +366,7 @@ export default function HomePage() {
                                     <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
                                         Mau tanya-tanya dulu?
                                     </h4>
-                                    <div className="w-8"></div> {/* Spacer untuk balance */}
+                                    <div className="w-8"></div>
                                 </div>
                                 
                                 <div className="space-y-4">
@@ -353,7 +374,7 @@ export default function HomePage() {
                                         <textarea
                                             value={question}
                                             onChange={handleQuestionChange}
-                                            placeholder="Masukkan pertanyaan kamu disini..."
+                                            placeholder="Masukkan pertanyaan kamu disini... Contoh: Saya ingin konsultasi tentang pembuatan website untuk bisnis kuliner, berapa kisaran biayanya dan berapa lama pengerjaannya?"
                                             className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-[120px]"
                                             rows={5}
                                         />
@@ -366,11 +387,22 @@ export default function HomePage() {
                                     
                                     <button
                                         onClick={handleSubmitQuestion}
-                                        disabled={!question.trim() || charCount === 0}
-                                        className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg"
+                                        disabled={!question.trim() || charCount === 0 || isSubmitting}
+                                        className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
                                     >
-                                        Kirim Pertanyaan
+                                        {isSubmitting ? (
+                                            <>
+                                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                                Membuka WhatsApp...
+                                            </>
+                                        ) : (
+                                            'Kirim Pertanyaan'
+                                        )}
                                     </button>
+                                    
+                                    <p className="text-gray-400 text-xs text-center">
+                                        Pertanyaan Anda akan dikirim melalui WhatsApp. Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
+                                    </p>
                                 </div>
                             </div>
                         )}
