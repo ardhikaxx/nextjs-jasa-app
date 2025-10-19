@@ -197,7 +197,7 @@ export default function Register() {
                         <h2 className="text-3xl font-bold text-white mb-2">
                             Bergabunglah Hari Ini
                         </h2>
-                        <p className="text-purple-200 text-sm">
+                        <p className="text-gray-300 text-sm">
                             Buat akun Anda untuk memulai
                         </p>
                     </div>

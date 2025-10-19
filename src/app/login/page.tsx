@@ -226,7 +226,7 @@ export default function Login() {
                         <h2 className="text-3xl font-bold text-white mb-2">
                             Selamat Datang Kembali
                         </h2>
-                        <p className="text-purple-200 text-sm">
+                        <p className="text-gray-300 text-sm">
                             Masuk untuk melanjutkan perjalanan Anda
                         </p>
                     </div>
@@ -315,6 +315,15 @@ export default function Login() {
                                     )}
                                 </button>
                             </div>
+                        </div>
+
+                        <div className="flex justify-end mt-5">
+                            <Link
+                                href="/forgot-password"
+                                className="text-md text-white"
+                            >
+                                Lupa kata sandi?
+                            </Link>
                         </div>
 
                         <button
