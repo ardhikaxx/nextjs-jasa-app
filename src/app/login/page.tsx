@@ -27,7 +27,7 @@ export default function Login() {
 
     useEffect(() => {
         if (user && !authLoading) {
-            console.log('User already logged in, redirecting to home...');
+            console.log('Pengguna sudah login, mengarahkan ke halaman utama...');
             router.push('/home');
         }
     }, [user, authLoading, router]);
@@ -37,7 +37,7 @@ export default function Login() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Checking authentication...</p>
+                    <p className="text-white">Memeriksa autentikasi...</p>
                 </div>
             </div>
         );
@@ -48,32 +48,28 @@ export default function Login() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Redirecting to home...</p>
+                    <p className="text-white">Mengalihkan ke halaman utama...</p>
                 </div>
             </div>
         );
     }
 
     const validateForm = (): boolean => {
-        // Reset error
         setError('');
 
-        // Validasi input kosong
         if (!email.trim() || !password) {
-            setError('Please fill in all fields');
+            setError('Harap isi semua kolom');
             return false;
         }
 
-        // Validasi format email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
-            setError('Please enter a valid email address');
+            setError('Harap masukkan alamat email yang valid');
             return false;
         }
 
-        // Validasi panjang password
         if (password.length < 6) {
-            setError('Password must be at least 6 characters long');
+            setError('Kata sandi harus terdiri dari minimal 6 karakter');
             return false;
         }
 
@@ -96,13 +92,11 @@ export default function Login() {
             const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
             console.log('Login successful:', userCredential.user.email);
 
-            // Redirect langsung tanpa timeout
             router.push('/home');
 
         } catch (error: any) {
             console.error('Login error:', error);
 
-            // Handle Firebase auth errors
             let errorMessage = 'Login gagal. Silakan coba lagi.';
 
             switch (error.code) {
@@ -145,12 +139,10 @@ export default function Login() {
         try {
             const provider = new GoogleAuthProvider();
 
-            // Konfigurasi provider Google
             const customParameters: { prompt: string; login_hint?: string } = {
                 prompt: 'select_account'
             };
 
-            // Hanya tambahkan login_hint jika email tidak kosong
             if (email.trim()) {
                 customParameters.login_hint = email.trim();
             }
@@ -163,11 +155,9 @@ export default function Login() {
 
             console.log('Starting Google sign-in...');
 
-            // Gunakan signInWithPopup untuk authentication
             const result = await signInWithPopup(auth, provider);
             console.log('Google login successful:', result.user);
 
-            // Redirect ke home
             router.push('/home');
 
         } catch (error: any) {
