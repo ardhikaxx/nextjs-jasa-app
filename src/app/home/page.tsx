@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
-import { FiLogOut, FiX, FiAlertTriangle } from 'react-icons/fi';
+import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft } from 'react-icons/fi';
 
 export default function HomePage() {
     const { user, loading } = useAuth();
@@ -15,6 +15,10 @@ export default function HomePage() {
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [activeView, setActiveView] = useState<'main' | 'project-type' | 'ask-first'>('main');
+    const [question, setQuestion] = useState('');
+    const [charCount, setCharCount] = useState(0);
+    const maxChars = 500;
 
     useEffect(() => {
         if (!loading && !user && !isRedirecting) {
@@ -42,6 +46,31 @@ export default function HomePage() {
         if (!isLoggingOut) {
             setShowLogoutConfirm(false);
         }
+    };
+
+    const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        if (value.length <= maxChars) {
+            setQuestion(value);
+            setCharCount(value.length);
+        }
+    };
+
+    const handleProjectTypeSelect = (projectType: string) => {
+        console.log('Project type selected:', projectType);
+        // Di sini Anda bisa menambahkan logika untuk melanjutkan ke step berikutnya
+        // atau redirect ke halaman yang sesuai
+    };
+
+    const handleSubmitQuestion = () => {
+        console.log('Question submitted:', question);
+        // Di sini Anda bisa menambahkan logika untuk mengirim pertanyaan
+        // Reset form setelah submit
+        setQuestion('');
+        setCharCount(0);
+        // Tampilkan pesan sukses atau redirect
+        alert('Pertanyaan Anda telah dikirim! Kami akan segera merespons.');
+        setActiveView('main');
     };
 
     if (loading || isRedirecting) {
@@ -78,6 +107,39 @@ export default function HomePage() {
     const handleAnimationComplete = () => {
         console.log('All letters have animated!');
     };
+
+    const projectTypes = [
+        {
+            id: 'website',
+            name: 'Jasa Website',
+            icon: FiGlobe,
+            description: 'Pembuatan website company profile, landing page, blog, atau web aplikasi custom'
+        },
+        {
+            id: 'mobile',
+            name: 'Jasa Aplikasi Mobile',
+            icon: FiSmartphone,
+            description: 'Pengembangan aplikasi iOS dan Android dengan teknologi terbaru'
+        },
+        {
+            id: 'iot',
+            name: 'Jasa Sistem IoT',
+            icon: FiCpu,
+            description: 'Sistem Internet of Things untuk smart home, industri, dan monitoring'
+        },
+        {
+            id: 'uiux',
+            name: 'Jasa Design UI/UX',
+            icon: FiLayout,
+            description: 'Desain interface dan experience yang user-friendly dan modern'
+        },
+        {
+            id: 'other',
+            name: 'Jasa Lainnya (Custom)',
+            icon: FiSettings,
+            description: 'Jika kamu bingung atau proyekmu tidak tersedia pada pilihan diatas'
+        }
+    ];
 
     return (
         <div className="min-h-screen bg-black flex flex-col relative">
@@ -206,12 +268,113 @@ export default function HomePage() {
                             Jasa layanan pembuatan Website, Aplikasi Mobile, Sistem IoT, dan Desain UI/UX. Dari yang mumet jadi beres!
                         </p>
 
-                        {/* kasih garis pembatas */}
+                        <div className="border-t border-gray-600 my-6"></div>
+                        {activeView === 'main' && (
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <button
+                                    onClick={() => setActiveView('project-type')}
+                                    className="flex-1 px-6 py-4 bg-red-700 text-white rounded-2xl hover:bg-white hover:text-red-700 transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
+                                >
+                                    Mau Jasa Sekarang
+                                </button>
+                                <button
+                                    onClick={() => setActiveView('ask-first')}
+                                    className="flex-1 px-6 py-4 border-2 border-gray-600 text-white rounded-2xl hover:bg-white hover:text-red-700 transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
+                                >
+                                    Mau Tanya-tanya Dulu
+                                </button>
+                            </div>
+                        )}
 
-                        <div className="">
-                            <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white mb-4">Jenis proyekmu termasuk yang mana?</h4>
-                            {/* ada beberapa tombol */}
-                        </div>
+                        {activeView === 'project-type' && (
+                            <div className="animate-fade-in">
+                                <div className="flex items-center justify-between mb-6">
+                                    <button
+                                        onClick={() => setActiveView('main')}
+                                        className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        <FiChevronLeft className="mr-2" size={20} />
+                                        Kembali
+                                    </button>
+                                    <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
+                                        Jenis proyekmu termasuk yang mana?
+                                    </h4>
+                                    <div className="w-8"></div>
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    {projectTypes.map((project) => {
+                                        const IconComponent = project.icon;
+                                        return (
+                                            <button
+                                                key={project.id}
+                                                onClick={() => handleProjectTypeSelect(project.id)}
+                                                className="w-full p-4 bg-white/5 border border-gray-600 rounded-2xl text-left hover:bg-white/10 hover:border-gray-400 transition-all duration-200 group"
+                                            >
+                                                <div className="flex items-center justify-center space-x-4">
+                                                    <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
+                                                        <IconComponent className="text-red-500" size={24} />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h5 className="text-white font-bold text-lg mb-1">
+                                                            {project.name}
+                                                        </h5>
+                                                        <p className="text-gray-300 text-sm">
+                                                            {project.description}
+                                                        </p>
+                                                    </div>
+                                                    <FiChevronRight className="mr-2" size={20} />
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Tampilan form tanya-tanya dulu */}
+                        {activeView === 'ask-first' && (
+                            <div className="animate-fade-in">
+                                <div className="flex items-center justify-between mb-6">
+                                    <button
+                                        onClick={() => setActiveView('main')}
+                                        className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        <FiChevronLeft className="mr-2" size={20} />
+                                        Kembali
+                                    </button>
+                                    <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
+                                        Mau tanya-tanya dulu?
+                                    </h4>
+                                    <div className="w-8"></div> {/* Spacer untuk balance */}
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
+                                        <textarea
+                                            value={question}
+                                            onChange={handleQuestionChange}
+                                            placeholder="Masukkan pertanyaan kamu disini..."
+                                            className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-[120px]"
+                                            rows={5}
+                                        />
+                                        <div className="flex justify-between items-center mt-2">
+                                            <span className={`text-xs ${charCount === maxChars ? 'text-red-400' : 'text-gray-400'}`}>
+                                                Sisa karakter {maxChars - charCount}/{maxChars}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <button
+                                        onClick={handleSubmitQuestion}
+                                        disabled={!question.trim() || charCount === 0}
+                                        className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg"
+                                    >
+                                        Kirim Pertanyaan
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </main>
