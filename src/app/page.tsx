@@ -154,7 +154,7 @@ export default function Home() {
                   className="inline-flex items-center px-6 py-3 bg-[#E02435] text-white rounded-xl font-semibold hover:bg-[#c41e2e] transition-colors shadow-md"
                 >
                   <VscProject size={20} className="mr-2" />
-                  Lihat Portfolio Projek Kami
+                  Lihat Portofolio Projek
                 </Link>
               </div>
             </div>
