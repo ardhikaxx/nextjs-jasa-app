@@ -353,7 +353,7 @@ export default function Register() {
                                     type="button"
                                     onClick={handleGoogleRegister}
                                     disabled={isAnyLoading}
-                                    className="w-full flex justify-center items-center py-3 px-4 border border-white/20 rounded-xl shadow-sm bg-white/5 text-white font-medium hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02]"
+                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#E02435] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02]"
                                 >
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">

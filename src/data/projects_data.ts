@@ -81,7 +81,7 @@ export const projectsData: Project[] = [
         description: "Website showcase untuk aplikasi GlucoWise yang memungkinkan pengguna mendownload aplikasi mobile langsung dari situs. GlucoWise adalah solusi web dan mobile untuk edukasi dan manajemen data diabetes.",
         technologies: ["Html", "Css", "Javascript", "Bootstrap"],
         year: 2025,
-        link: "https://kopisumberkembangjember.vercel.app/",
+        link: "https://glucowise-app.vercel.app/",
         image: Projek6.src,
         category: "Web Development"
     },
