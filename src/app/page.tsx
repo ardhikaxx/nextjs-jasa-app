@@ -12,16 +12,9 @@ import {
   FiUsers,
   FiFolder,
   FiTrendingUp,
-  FiStar
 } from 'react-icons/fi';
 import CurvedLoop from '@/components/CurvedLoop';
 import StickerPeel from '@/components/StickerPeel';
-import Image1 from '@/assets/1.png';
-import Image2 from '@/assets/2.png';
-import Image3 from '@/assets/3.png';
-import Image4 from '@/assets/4.png';
-import Image5 from '@/assets/5.png';
-import Image6 from '@/assets/6.png';
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -117,24 +110,6 @@ export default function Home() {
 
           {userCount !== null && (
             <div className="relative mt-8 sm:mt-10 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center">
-              {/* <div className="absolute -top-6 left-10 sm:left-18 w-10 h-10 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
-                <img src={Image1.src} alt="User" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute -top-6 right-12 sm:right-20 w-14 h-14 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
-                <img src={Image2.src} alt="User" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-50 -left-2 w-14 h-14 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
-                <img src={Image3.src} alt="User" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-25 -left-8 w-18 h-18 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
-                <img src={Image4.src} alt="User" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-40 -right-6 w-20 h-20 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
-                <img src={Image5.src} alt="User" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute bottom-26 -right-7 w-10 h-10 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
-                <img src={Image6.src} alt="User" className="w-full h-full object-cover" />
-              </div> */}
 
               <h4 className="text-sm font-semibold text-white mb-2">Statistik Kepercayaan</h4>
               <h2 className="text-4xl sm:text-6xl font-extrabold text-[#E02435] flex justify-center items-center">
