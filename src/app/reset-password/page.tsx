@@ -231,7 +231,7 @@ function ResetPasswordContent() {
                         <h2 className="text-3xl font-bold text-white mb-2">
                             Reset Kata Sandi
                         </h2>
-                        <p className="text-purple-200 text-sm">
+                        <p className="text-gray-300 text-sm">
                             Buat kata sandi baru untuk akun Anda
                         </p>
                     </div>
