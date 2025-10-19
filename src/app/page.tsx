@@ -65,7 +65,7 @@ export default function Home() {
             curveAmount={500}
             direction="right"
             interactive={true}
-            className="text-[#E02435] font-daydream custom-text-style"
+            className="font-daydream custom-text-style"
           />
         </div>
 
