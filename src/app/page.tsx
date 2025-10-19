@@ -13,6 +13,8 @@ import {
 } from 'react-icons/fi';
 import CurvedLoop from '@/components/CurvedLoop';
 import StickerPeel from '@/components/StickerPeel';
+import CatLogo from '@/assets/images/cat.png';
+
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -47,14 +49,14 @@ export default function Home() {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center bg-black text-white px-4 sm:px-6 relative overflow-hidden py-3 z-10">
         <StickerPeel
-          imageSrc="https://developer.android.com/studio/images/android-studio-stable.svg"
+          imageSrc={CatLogo.src}
           width={150}
-          rotate={20}
+          rotate={0}
           peelBackHoverPct={10}
           peelBackActivePct={20}
           shadowIntensity={0.2}
           lightingIntensity={0.1}
-          initialPosition={{ x: -100, y: 100 }}
+          initialPosition={{ x: 100, y: -55 }}
           className='z-50'
         />
 
@@ -111,7 +113,7 @@ export default function Home() {
 
               <div className="bg-gray-50 text-gray-700 font-medium text-sm px-4 py-2 rounded-xl inline-flex items-center justify-center gap-2 shadow-inner">
                 <FiTrendingUp className="text-[#E02435]" />
-                Telah dipercaya oleh <span className="font-semibold text-[#E02435] font-daydream">banyak klien</span>
+                Telah dipercaya oleh <span className="font-semibold text-[#E02435]">banyak klien</span>
               </div>
 
               {/* Tombol Lihat Projek */}

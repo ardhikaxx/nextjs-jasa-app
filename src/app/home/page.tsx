@@ -8,6 +8,11 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
 import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft } from 'react-icons/fi';
+import StickerPeel from '@/components/StickerPeel';
+import Flutter from '@/assets/images/flutter.png';
+import React from '@/assets/images/react.png';
+import Laravel from '@/assets/images/Laravel.png';
+import Android from '@/assets/images/android.png';
 
 export default function HomePage() {
     const { user, loading } = useAuth();
@@ -202,6 +207,51 @@ export default function HomePage() {
                     </div>
                 </div>
             )}
+
+            <StickerPeel
+          imageSrc={Flutter.src}
+          width={85}
+          rotate={0}
+          peelBackHoverPct={10}
+          peelBackActivePct={20}
+          shadowIntensity={0.2}
+          lightingIntensity={0.1}
+          initialPosition={{ x: -150, y: 80 }}
+          className='z-50'
+        />
+        <StickerPeel
+          imageSrc={React.src}
+          width={80}
+          rotate={0}
+          peelBackHoverPct={10}
+          peelBackActivePct={20}
+          shadowIntensity={0.2}
+          lightingIntensity={0.1}
+          initialPosition={{ x: -140, y: -190 }}
+          className='z-50'
+        />
+        <StickerPeel
+          imageSrc={Laravel.src}
+          width={70}
+          rotate={0}
+          peelBackHoverPct={10}
+          peelBackActivePct={20}
+          shadowIntensity={0.2}
+          lightingIntensity={0.1}
+          initialPosition={{ x: 140, y: -160 }}
+          className='z-50'
+        />
+        <StickerPeel
+          imageSrc={Android.src}
+          width={90}
+          rotate={0}
+          peelBackHoverPct={10}
+          peelBackActivePct={20}
+          shadowIntensity={0.2}
+          lightingIntensity={0.1}
+          initialPosition={{ x: 150, y: 150 }}
+          className='z-50'
+        />
 
             <nav className="bg-white/10 backdrop-blur-lg shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between h-16 items-center">
