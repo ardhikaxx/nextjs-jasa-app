@@ -10,7 +10,8 @@ import CircularText from '@/components/CircularText';
 import {
     FiEye,
     FiEyeOff,
-    FiAlertCircle
+    FiAlertCircle,
+    FiChevronLeft
 } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -202,6 +203,20 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div className="absolute top-6 left-6 z-20">
+                <button
+                    onClick={() => router.push('/')}
+                    className="flex items-center text-white hover:text-gray-300 transition-all duration-200 group"
+                >
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:bg-white/20 group-hover:scale-105 transition-all duration-200">
+                        <FiChevronLeft className="w-6 h-6" />
+                    </div>
+                    <span className="ml-3 font-semibold text-lg hidden sm:block">
+                        Kembali
+                    </span>
+                </button>
+            </div>
+
             <div className="hidden lg:block absolute top-6 right-6 z-10">
                 <CircularText
                     text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
@@ -211,8 +226,8 @@ export default function Login() {
                 />
             </div>
 
-            <div className="w-full max-w-md z-10">
-                <div className="block lg:hidden justify-center mb-6">
+            <div className="w-full max-w-md z-10 mt-8">
+                <div className="flex justify-center mb-8 lg:hidden">
                     <CircularText
                         text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
                         onHover="speedUp"
@@ -317,15 +332,14 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <div className="flex justify-end mt-5">
+                        <div className="flex justify-end">
                             <Link
                                 href="/forgot-password"
-                                className="text-md text-white"
+                                className="text-sm text-white hover:text-gray-300 transition-colors"
                             >
                                 Lupa kata sandi?
                             </Link>
                         </div>
-
                         <button
                             type="submit"
                             disabled={isAnyLoading}
@@ -350,7 +364,9 @@ export default function Login() {
                                     <div className="w-full border-t border-white/20" />
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-3 bg-white/10 backdrop-blur-lg text-purple-200 font-medium">Atau lanjutkan dengan</span>
+                                    <span className="px-3 bg-white/10 backdrop-blur-lg text-purple-200 font-medium">
+                                        Atau lanjutkan dengan
+                                    </span>
                                 </div>
                             </div>
 
@@ -359,7 +375,7 @@ export default function Login() {
                                     type="button"
                                     onClick={handleGoogleLogin}
                                     disabled={isAnyLoading}
-                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#E02435] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02]"
+                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#E02435] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02] hover:shadow-md"
                                 >
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
@@ -368,13 +384,13 @@ export default function Login() {
                                         </span>
                                     ) : (
                                         <>
-                                            <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />Lanjutkan dengan Google
+                                            <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
+                                            Lanjutkan dengan Google
                                         </>
                                     )}
                                 </button>
                             </div>
                         </div>
-
                         <div className="text-center pt-4">
                             <p className="text-sm text-purple-200">
                                 Tidak punya akun?{' '}
