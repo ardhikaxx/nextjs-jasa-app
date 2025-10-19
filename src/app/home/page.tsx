@@ -5,17 +5,9 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import Dock from '@/components/Dock';
 import Image from 'next/image';
-import {
-    VscSignOut,
-    VscCircuitBoard,
-    VscDeviceMobile,
-    VscGlobe,
-    VscLayout,
-    VscOrganization,
-    VscHome,
-} from 'react-icons/vsc';
+import SplitText from '@/components/SplitText';
+import { FiLogOut } from 'react-icons/fi';
 
 export default function HomePage() {
     const { user, loading } = useAuth();
@@ -82,52 +74,25 @@ export default function HomePage() {
         )}&background=E02435&color=fff&size=128`;
     };
 
-    const dockItems = [
-        {
-            icon: <VscGlobe size={20} />,
-            label: 'Jasa Website',
-            onClick: () => router.push('/website')
-        },
-        {
-            icon: <VscDeviceMobile size={20} />,
-            label: 'Jasa Aplikasi Mobile',
-            onClick: () => router.push('/mobile')
-        },
-        {
-            icon: <VscCircuitBoard size={20} />,
-            label: 'Jasa Sistem IoT',
-            onClick: () => router.push('/iot')
-        },
-        {
-            icon: <VscLayout size={20} />,
-            label: 'Jasa Design UI UX',
-            onClick: () => router.push('/design')
-        },
-        {
-            icon: <VscSignOut size={20} />,
-            label: 'Keluar',
-            onClick: handleLogout
-        },
-    ];
+    const handleAnimationComplete = () => {
+        console.log('All letters have animated!');
+    };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col relative">
-            <nav className="bg-white shadow-sm sticky top-0 z-10 border-b border-gray-200">
+        <div className="min-h-screen bg-black flex flex-col relative">
+            <nav className="bg-white/10 backdrop-blur-lg shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between h-16 items-center">
                     <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-[#E02435] rounded-lg flex items-center justify-center">
-                            <VscHome className="text-white text-sm" />
-                        </div>
-                        <h1 className="text-xl sm:text-2xl font-bold text-[#E02435] font-daydream">
+                        <h1 className="text-xl sm:text-2xl font-bold text-white font-daydream">
                             MUMET.IN
                         </h1>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">
                         <div className="hidden sm:flex flex-col items-end">
-                            <span className="text-gray-700 text-sm">
+                            <span className="text-white text-sm">
                                 Selamat datang, <b>{user.displayName || user.email?.split('@')[0]}</b>
                             </span>
-                            <span className="text-gray-500 text-xs">{user.email}</span>
+                            <span className="text-gray-300 text-xs">{user.email}</span>
                         </div>
                         <div className="relative">
                             <Image
@@ -146,46 +111,49 @@ export default function HomePage() {
                             />
                             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                         </div>
+                        <div className=''>
+                            <button
+                                onClick={handleLogout}
+                                className="w-full flex items-center px-4 py-3 border-red-700 border-2 text-sm text-white hover:bg-red-700 transition-colors rounded-2xl duration-200 font-medium"
+                            >
+                                <FiLogOut className="mr-3" size={16} />
+                                Keluar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
 
             <main className="flex-grow flex flex-col items-center justify-start text-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
-                <div className="w-full max-w-4xl mb-8 sm:mb-12">
-                    <div className="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8">
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
-                            Selamat Datang di <span className="text-[#E02435] font-daydream">MUMET.IN</span>
-                        </h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto mb-6 text-sm sm:text-base">
-                            Platform terpercaya untuk mewujudkan ide digital Anda. Dari yang mumet jadi beres!
+                <div className="w-full max-w-2xl mb-8 sm:mb-12">
+                    <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8">
+                        <SplitText
+                            text="Hi Chief, mau jasa apa nih?"
+                            className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream"
+                            delay={100}
+                            duration={0.6}
+                            ease="power3.out"
+                            splitType="chars"
+                            from={{ opacity: 0, y: 40 }}
+                            to={{ opacity: 1, y: 0 }}
+                            threshold={0.1}
+                            rootMargin="-100px"
+                            textAlign="center"
+                            onLetterAnimationComplete={handleAnimationComplete}
+                        />
+                        <p className="text-gray-300 max-w-md mx-auto mb-6 text-sm sm:text-base">
+                            Jasa layanan pembuatan Website, Aplikasi Mobile, Sistem IoT, dan Desain UI/UX. Dari yang mumet jadi beres!
                         </p>
 
-                        {userCount !== null && (
-                            <div className="inline-flex items-center bg-gradient-to-r from-[#E02435] to-pink-600 text-white px-6 py-3 rounded-2xl shadow-lg">
-                                <VscOrganization size={24} className="mr-2" />
-                                <div className="text-left">
-                                    <div className="text-2xl font-bold">{userCount.toLocaleString()}+</div>
-                                    <div className="text-xs opacity-90">Klien Percaya</div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                        {/* kasih garis pembatas */}
 
-                    {/* Services Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
-                        {/* Isi layanan */}
+                        <div className="">
+                            <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white mb-4">Jenis proyekmu termasuk yang mana?</h4>
+                            {/* ada beberapa tombol */}
+                        </div>
                     </div>
                 </div>
             </main>
-
-            <div className="fixed bottom-0 left-0 right-0 flex justify-center pb-4 z-50">
-                <Dock
-                    items={dockItems}
-                    panelHeight={68}
-                    baseItemSize={60}
-                    magnification={70}
-                />
-            </div>
         </div>
     );
 }
