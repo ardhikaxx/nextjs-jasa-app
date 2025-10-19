@@ -198,7 +198,7 @@ export default function HomePage() {
                                 <button
                                     onClick={closeLogoutConfirm}
                                     disabled={isLoggingOut}
-                                    className="flex-1 px-4 py-3 border border-gray-600 text-white rounded-xl hover:bg-white hover:text-red-700 font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center justify-center"
+                                    className="flex-1 px-4 py-3 border border-gray-600 text-white rounded-xl hover:bg-white hover:text-[#c41e2e] font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center justify-center"
                                 ><FiX className="mr-2" size={16} />
                                     Batal
                                 </button>
@@ -244,7 +244,7 @@ export default function HomePage() {
                                 alt="Profile"
                                 width={42}
                                 height={42}
-                                className="rounded-full border-2 border-[#B51D2A]/30 object-cover transition-all hover:border-[#B51D2A]/60 hover:scale-105 cursor-pointer"
+                                className="rounded-full border-2 border-[#c41e2e]/30 object-cover transition-all hover:border-[#c41e2e]/60 hover:scale-105 cursor-pointer"
                                 onClick={() => router.push('/profile')}
                                 onError={(e) => {
                                     const target = e.target as HTMLImageElement;
@@ -294,13 +294,13 @@ export default function HomePage() {
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button
                                     onClick={() => setActiveView('project-type')}
-                                    className="flex-1 px-6 py-4 bg-red-700 text-white rounded-2xl hover:bg-white hover:text-red-700 transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
+                                    className="flex-1 px-6 py-4 bg-red-700 text-white rounded-2xl hover:bg-white hover:text-[#c41e2e] transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
                                 >
                                     Mau Jasa Sekarang
                                 </button>
                                 <button
                                     onClick={() => setActiveView('ask-first')}
-                                    className="flex-1 px-6 py-4 border-2 border-gray-600 text-white rounded-2xl hover:bg-white hover:text-red-700 transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
+                                    className="flex-1 px-6 py-4 border-2 border-gray-600 text-white rounded-2xl hover:bg-white hover:text-[#c41e2e] transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
                                 >
                                     Mau Tanya-tanya Dulu
                                 </button>

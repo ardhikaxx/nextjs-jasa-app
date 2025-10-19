@@ -84,14 +84,14 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-4 mb-2 w-full max-w-xs sm:max-w-none">
               <Link
                 href="/login"
-                className="bg-white text-[#E02435] px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-gray-100 transition flex justify-center items-center w-full sm:w-auto"
+                className="bg-white text-[#c41e2e] px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-gray-100 transition flex justify-center items-center w-full sm:w-auto"
               >
                 <FiUser size={20} className="me-2" />
                 Masuk
               </Link>
               <Link
                 href="/register"
-                className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-[#E02435] transition flex justify-center items-center w-full sm:w-auto"
+                className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-[#c41e2e] transition flex justify-center items-center w-full sm:w-auto"
               >
                 <FiPlus size={20} className="me-2" />
                 Daftar Sekarang
@@ -103,7 +103,7 @@ export default function Home() {
             <div className="relative mt-8 sm:mt-10 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center">
 
               <h4 className="text-sm font-semibold text-white mb-2 font-daydream">Statistik Kepercayaan</h4>
-              <h2 className="text-4xl sm:text-6xl font-extrabold text-[#E02435] flex justify-center items-center">
+              <h2 className="text-4xl sm:text-6xl font-extrabold text-[#c41e2e] flex justify-center items-center">
                 <FiUsers size={40} className="me-2" />
                 {userCount.toLocaleString()}+
               </h2>
@@ -112,15 +112,15 @@ export default function Home() {
               </p>
 
               <div className="bg-gray-50 text-gray-700 font-medium text-sm px-4 py-2 rounded-xl inline-flex items-center justify-center gap-2 shadow-inner">
-                <FiTrendingUp className="text-[#E02435]" />
-                Telah dipercaya oleh <span className="font-semibold text-[#E02435]">banyak klien</span>
+                <FiTrendingUp className="text-[#c41e2e]" />
+                Telah dipercaya oleh <span className="font-semibold text-[#c41e2e]">banyak klien</span>
               </div>
 
               {/* Tombol Lihat Projek */}
               <div className="mt-6">
                 <Link
                   href="/projects"
-                  className="inline-flex items-center px-6 py-3 bg-[#E02435] text-white rounded-xl font-semibold hover:bg-[#c41e2e] transition-colors shadow-md"
+                  className="inline-flex items-center px-6 py-3 bg-[#c41e2e] text-white rounded-xl font-semibold hover:bg-[#c41e2e] transition-colors shadow-md"
                 >
                   <FiFolder size={20} className="mr-2" />
                   Lihat Portofolio Projek

@@ -192,7 +192,7 @@ function ResetPasswordContent() {
                             <div className="text-center pt-4">
                                 <Link
                                     href="/forgot-password"
-                                    className="w-full bg-[#E02435] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] transition-all duration-200 inline-block"
+                                    className="w-full bg-[#c41e2e] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] transition-all duration-200 inline-block"
                                 >
                                     Minta Link Reset Baru
                                 </Link>
@@ -275,7 +275,7 @@ function ResetPasswordContent() {
                                     type={showPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Masukkan kata sandi baru"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -314,7 +314,7 @@ function ResetPasswordContent() {
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Konfirmasi kata sandi baru"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -364,7 +364,7 @@ function ResetPasswordContent() {
                         <button
                             type="submit"
                             disabled={loading || success}
-                            className="w-full bg-[#E02435] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E02435] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                            className="w-full bg-[#c41e2e] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c41e2e] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center">

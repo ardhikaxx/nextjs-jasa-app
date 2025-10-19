@@ -39,7 +39,7 @@ export default function ProjectsPage() {
                 <div className="mb-12">
                     <Link
                         href="/"
-                        className="inline-flex items-center text-gray-400 hover:text-[#E02435] transition-all duration-300 mb-6 group"
+                        className="inline-flex items-center text-gray-400 hover:text-[#c41e2e] transition-all duration-300 mb-6 group"
                     >
                         <FiArrowLeft className="mr-3 transform group-hover:-translate-x-1 transition-transform" size={20} />
                         <span className="font-medium">Kembali ke Beranda</span>
@@ -52,7 +52,7 @@ export default function ProjectsPage() {
                                 Portofolio Projek
                             </div>
                             <h1 className="text-4xl lg:text-6xl font-extrabold text-white mb-4">
-                                Portofolio <span className="text-[#E02435]">Projek</span>
+                                Portofolio <span className="text-[#c41e2e]">Projek</span>
                             </h1>
                             <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
                                 Kumpulan projek yang telah selesai dengan penuh dedikasi dan inovasi
@@ -62,7 +62,7 @@ export default function ProjectsPage() {
                         <div className="flex flex-col sm:flex-row gap-4">
                             <div className="relative">
                                 <div className="relative flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl px-4 py-3 hover:border-white/20 transition-all duration-300">
-                                    <FiFilter className="text-[#E02435] mr-3" size={20} />
+                                    <FiFilter className="text-[#c41e2e] mr-3" size={20} />
                                     <select
                                         value={selectedCategory}
                                         onChange={(e) => setSelectedCategory(e.target.value)}
@@ -74,7 +74,7 @@ export default function ProjectsPage() {
                                             </option>
                                         ))}
                                     </select>
-                                    <div className="pointer-events-none absolute right-4 text-[#E02435]">
+                                    <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
                                         <FiChevronDown size={20} />
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@ export default function ProjectsPage() {
 
                             <div className="relative">
                                 <div className="relative flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl px-4 py-3 hover:border-white/20 transition-all duration-300">
-                                    <FiBarChart2 className="text-[#E02435] mr-3" size={20} />
+                                    <FiBarChart2 className="text-[#c41e2e] mr-3" size={20} />
                                     <select
                                         value={sortBy}
                                         onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest')}
@@ -91,7 +91,7 @@ export default function ProjectsPage() {
                                         <option value="newest" className="bg-gray-900">Terbaru</option>
                                         <option value="oldest" className="bg-gray-900">Terlama</option>
                                     </select>
-                                    <div className="pointer-events-none absolute right-4 text-[#E02435]">
+                                    <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
                                         <FiChevronDown size={20} />
                                     </div>
                                 </div>
@@ -107,8 +107,8 @@ export default function ProjectsPage() {
                             onClick={() => setSelectedCategory(category)}
                             className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-300 border ${
                                 selectedCategory === category
-                                    ? 'bg-[#E02435] text-white border-[#E02435] shadow-lg shadow-[#E02435]/30 transform scale-105'
-                                    : 'bg-white/5 backdrop-blur-lg text-gray-300 border-white/10 hover:border-[#E02435]/50 hover:text-white'
+                                    ? 'bg-[#c41e2e] text-white border-[#c41e2e] shadow-lg shadow-[#c41e2e]/30 transform scale-105'
+                                    : 'bg-white/5 backdrop-blur-lg text-gray-300 border-white/10 hover:border-[#c41e2e]/50 hover:text-white'
                             }`}
                         >
                             {category}
@@ -118,8 +118,8 @@ export default function ProjectsPage() {
 
                 <div className="mb-8 flex items-center justify-between">
                     <div className="text-white font-semibold">
-                        Menampilkan <span className="text-[#E02435]">{filteredProjects.length}</span> dari{' '}
-                        <span className="text-[#E02435]">{projectsData.length}</span> projek
+                        Menampilkan <span className="text-[#c41e2e]">{filteredProjects.length}</span> dari{' '}
+                        <span className="text-[#c41e2e]">{projectsData.length}</span> projek
                     </div>
                     <div className="text-gray-400 text-sm">
                         {selectedCategory !== 'All' && `Kategori: ${selectedCategory}`}
@@ -140,32 +140,32 @@ export default function ProjectsPage() {
                         <h3 className="text-2xl font-bold text-white mb-3">Tidak ada projek</h3>
                         <p className="text-gray-400 text-lg">
                             Tidak ada projek yang ditemukan untuk kategori{" "}
-                            <span className="text-[#E02435] font-semibold">{selectedCategory}</span>
+                            <span className="text-[#c41e2e] font-semibold">{selectedCategory}</span>
                         </p>
                     </div>
                 )}
 
                 <div className="mt-20 pt-12 border-t border-white/10">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#E02435]/30 transition-all duration-300">
-                            <div className="text-4xl font-bold text-[#E02435] mb-3">
+                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
+                            <div className="text-4xl font-bold text-[#c41e2e] mb-3">
                                 {projectsData.length}
                             </div>
                             <div className="text-gray-300 font-medium">Total Projek</div>
                         </div>
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#E02435]/30 transition-all duration-300">
+                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
                             <div className="text-4xl font-bold text-white mb-3">
                                 {new Set(projectsData.map(p => p.category)).size}
                             </div>
                             <div className="text-gray-300 font-medium">Kategori</div>
                         </div>
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#E02435]/30 transition-all duration-300">
+                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
                             <div className="text-4xl font-bold text-white mb-3">
                                 {Math.min(...projectsData.map(p => p.year))}
                             </div>
                             <div className="text-gray-300 font-medium">Tahun Mulai</div>
                         </div>
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#E02435]/30 transition-all duration-300">
+                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
                             <div className="text-4xl font-bold text-white mb-3">
                                 {Math.max(...projectsData.map(p => p.year))}
                             </div>
@@ -183,7 +183,7 @@ function ProjectCard({ project }: { project: Project }) {
     const [imageError, setImageError] = useState(false);
 
     return (
-        <div className="group relative bg-white/10 backdrop-blur-lg rounded-3xl border border-white/10 overflow-hidden hover:border-[#E02435]/50 transition-all duration-500 hover:transform hover:-translate-y-3">
+        <div className="group relative bg-white/10 backdrop-blur-lg rounded-3xl border border-white/10 overflow-hidden hover:border-[#c41e2e]/50 transition-all duration-500 hover:transform hover:-translate-y-3">
             <div className="relative h-60 bg-gray-800 overflow-hidden">
                 {project.image && !imageError ? (
                     <>
@@ -191,9 +191,9 @@ function ProjectCard({ project }: { project: Project }) {
                             imageLoaded ? 'opacity-0' : 'opacity-100'
                         }`}>
                             <div className="flex space-x-2">
-                                <div className="w-3 h-3 bg-[#E02435] rounded-full animate-bounce"></div>
-                                <div className="w-3 h-3 bg-[#E02435] rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                                <div className="w-3 h-3 bg-[#E02435] rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                <div className="w-3 h-3 bg-[#c41e2e] rounded-full animate-bounce"></div>
+                                <div className="w-3 h-3 bg-[#c41e2e] rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                                <div className="w-3 h-3 bg-[#c41e2e] rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                             </div>
                         </div>
                         <img
@@ -228,7 +228,7 @@ function ProjectCard({ project }: { project: Project }) {
             </div>
 
             <div className="relative p-7">
-                <h3 className="text-2xl font-bold text-white mb-4 line-clamp-2 group-hover:text-[#E02435] transition-colors duration-300 leading-tight">
+                <h3 className="text-2xl font-bold text-white mb-4 line-clamp-2 group-hover:text-[#c41e2e] transition-colors duration-300 leading-tight">
                     {project.name}
                 </h3>
 
@@ -241,7 +241,7 @@ function ProjectCard({ project }: { project: Project }) {
                         {project.technologies.slice(0, 4).map((tech, index) => (
                             <span
                                 key={index}
-                                className="inline-block px-3 py-2 text-xs bg-white/10 backdrop-blur-lg text-gray-300 rounded-xl border border-white/10 font-semibold hover:border-[#E02435]/30 hover:text-white transition-all duration-300"
+                                className="inline-block px-3 py-2 text-xs bg-white/10 backdrop-blur-lg text-gray-300 rounded-xl border border-white/10 font-semibold hover:border-[#c41e2e]/30 hover:text-white transition-all duration-300"
                             >
                                 {tech}
                             </span>
@@ -260,7 +260,7 @@ function ProjectCard({ project }: { project: Project }) {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center px-6 py-3 bg-[#E02435] text-white rounded-2xl hover:bg-[#c41e2e] transition-all duration-300 font-semibold text-sm shadow-lg shadow-[#E02435]/30 hover:shadow-[#E02435]/50 hover:transform hover:-translate-y-1 group/btn"
+                            className="inline-flex items-center px-6 py-3 bg-[#c41e2e] text-white rounded-2xl hover:bg-[#c41e2e] transition-all duration-300 font-semibold text-sm shadow-lg shadow-[#c41e2e]/30 hover:shadow-[#c41e2e]/50 hover:transform hover:-translate-y-1 group/btn"
                         >
                             <FiGlobe className="mr-2" size={16} />
                             Lihat Projek
@@ -279,7 +279,7 @@ function ProjectCard({ project }: { project: Project }) {
                 </div>
             </div>
 
-            <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#E02435]/30 rounded-3xl transition-all duration-500 pointer-events-none"></div>
+            <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#c41e2e]/30 rounded-3xl transition-all duration-500 pointer-events-none"></div>
         </div>
     );
 }

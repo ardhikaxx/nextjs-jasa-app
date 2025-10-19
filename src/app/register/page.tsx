@@ -244,7 +244,7 @@ export default function Register() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                                     placeholder="Masukkan email Anda"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -271,7 +271,7 @@ export default function Register() {
                                     type={showPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Masukkan kata sandi (min. 6 karakter)"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -310,7 +310,7 @@ export default function Register() {
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E02435] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Konfirmasi kata sandi Anda"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -337,7 +337,7 @@ export default function Register() {
                         <button
                             type="submit"
                             disabled={isAnyLoading}
-                            className="w-full bg-[#E02435] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E02435] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                            className="w-full bg-[#c41e2e] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c41e2e] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center">
@@ -369,7 +369,7 @@ export default function Register() {
                                     type="button"
                                     onClick={handleGoogleRegister}
                                     disabled={isAnyLoading}
-                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#E02435] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02] hover:shadow-md"
+                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#c41e2e] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02] hover:shadow-md"
                                 >
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
