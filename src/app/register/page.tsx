@@ -42,7 +42,7 @@ export default function Register() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Loading...</p>
+                    <p className="text-white">Memuat...</p>
                 </div>
             </div>
         );
@@ -56,23 +56,23 @@ export default function Register() {
         setError('');
 
         if (!email.trim() || !password || !confirmPassword) {
-            setError('Please fill in all fields');
+            setError('Harap isi semua kolom');
             return false;
         }
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match');
+            setError('Kata sandi dan konfirmasi kata sandi tidak cocok');
             return false;
         }
 
         if (password.length < 6) {
-            setError('Password must be at least 6 characters long');
+            setError('Kata sandi harus terdiri dari minimal 6 karakter');
             return false;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
-            setError('Please enter a valid email address');
+            setError('Harap masukkan alamat email yang valid');
             return false;
         }
 
