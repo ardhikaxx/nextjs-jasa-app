@@ -482,8 +482,8 @@ export default function HomePage() {
                                 direction="left"
                                 logoHeight={40}
                                 gap={24}
-                                pauseOnHover={true}
-                                scaleOnHover={true}
+                                pauseOnHover={false}
+                                scaleOnHover={false}
                                 ariaLabel="Avatar pengguna Mumet.in"
                                 className='grayscale-100'
                             />
