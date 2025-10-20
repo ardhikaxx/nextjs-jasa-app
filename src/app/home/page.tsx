@@ -567,8 +567,8 @@ export default function HomePage() {
                                         )}
                                     </button>
 
-                                    <p className="text-gray-400 text-xs text-center">
-                                        Detail proyek Anda akan dikirim melalui WhatsApp. Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
+                                    <p className="text-gray-400 text-sm text-center px-10">
+                                        Detail proyek Anda akan dikirim melalui WhatsApp. <br /> Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
                                     </p>
                                 </div>
                             </div>
@@ -624,8 +624,8 @@ export default function HomePage() {
                                         )}
                                     </button>
 
-                                    <p className="text-gray-400 text-xs text-center">
-                                        Pertanyaan Anda akan dikirim melalui WhatsApp. Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
+                                    <p className="text-gray-400 text-sm text-center px-10">
+                                        Pertanyaan Anda akan dikirim melalui WhatsApp. <br /> Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
                                     </p>
                                 </div>
                             </div>
