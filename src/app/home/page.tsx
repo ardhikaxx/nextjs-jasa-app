@@ -8,6 +8,8 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
 import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend } from 'react-icons/fi';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ProjectType {
     id: string;
@@ -44,8 +46,16 @@ export default function HomePage() {
         try {
             await signOut(auth);
             setShowLogoutConfirm(false);
+            toast.success('Logout berhasil! Sampai jumpa!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
         } catch (error) {
             console.error('Error signing out:', error);
+            toast.error('Gagal logout. Silakan coba lagi.', {
+                theme: 'dark',
+                position: 'top-center',
+            });
             setIsLoggingOut(false);
         }
     };
@@ -93,7 +103,13 @@ export default function HomePage() {
     };
 
     const handleSubmitProject = () => {
-        if (!selectedService || !projectDetail.trim()) return;
+        if (!selectedService || !projectDetail.trim()) {
+            toast.warning('Harap isi detail proyek terlebih dahulu!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        }
 
         setIsSubmitting(true);
 
@@ -104,18 +120,48 @@ export default function HomePage() {
             setProjectDetailCharCount(0);
             setSelectedService(null);
 
-            alert('Detail proyek Anda sedang dibuka di WhatsApp! Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.');
+            toast.success(
+                <div>
+                    <div className="font-bold text-white mb-1">Detail proyek berhasil dikirim!</div>
+                    <div className="text-sm text-gray-300">Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.</div>
+                </div>,
+                {
+                    theme: 'dark',
+                    position: 'top-center',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                }
+            );
             setActiveView('main');
         } catch (error) {
             console.error('Error sending project:', error);
-            alert('Terjadi kesalahan saat mengirim detail proyek. Silakan coba lagi.');
+            toast.error(
+                <div>
+                    <div className="font-bold text-white mb-1">Terjadi kesalahan!</div>
+                    <div className="text-sm text-gray-300">Gagal mengirim detail proyek. Silakan coba lagi.</div>
+                </div>,
+                {
+                    theme: 'dark',
+                    position: 'top-center',
+                    autoClose: 4000,
+                }
+            );
         } finally {
             setIsSubmitting(false);
         }
     };
 
     const handleSubmitQuestion = () => {
-        if (!question.trim()) return;
+        if (!question.trim()) {
+            toast.warning('Harap isi pertanyaan terlebih dahulu!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        }
 
         setIsSubmitting(true);
 
@@ -125,11 +171,35 @@ export default function HomePage() {
             setQuestion('');
             setCharCount(0);
 
-            alert('Pertanyaan Anda sedang dibuka di WhatsApp! Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.');
+            toast.success(
+                <div>
+                    <div className="font-bold text-white mb-1">Pertanyaan berhasil dikirim!</div>
+                    <div className="text-sm text-gray-300">Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.</div>
+                </div>,
+                {
+                    theme: 'dark',
+                    position: 'top-center',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                }
+            );
             setActiveView('main');
         } catch (error) {
             console.error('Error sending question:', error);
-            alert('Terjadi kesalahan saat mengirim pertanyaan. Silakan coba lagi.');
+            toast.error(
+                <div>
+                    <div className="font-bold text-white mb-1">Terjadi kesalahan!</div>
+                    <div className="text-sm text-gray-300">Gagal mengirim pertanyaan. Silakan coba lagi.</div>
+                </div>,
+                {
+                    theme: 'dark',
+                    position: 'top-center',
+                    autoClose: 4000,
+                }
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -216,6 +286,23 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen bg-black flex flex-col relative">
+            {/* Toast Container */}
+            <ToastContainer
+                theme="dark"
+                position="top-center"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                toastClassName="bg-gray-800/90 backdrop-blur-lg border border-gray-700"
+                className="text-white font-sans"
+                progressClassName="bg-gradient-to-r from-red-500 to-red-600"
+            />
+
             {showLogoutConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
                     <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-100"
