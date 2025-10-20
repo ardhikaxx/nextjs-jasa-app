@@ -5,7 +5,7 @@ export async function GET() {
     try {
         const auth = admin.auth();
 
-        const listUsersResult = await auth.listUsers(5000);
+        const listUsersResult = await auth.listUsers(1000);
         const recentUsers = listUsersResult.users
             .sort((a, b) => new Date(b.metadata.creationTime!).getTime() - new Date(a.metadata.creationTime!).getTime())
             .slice(0, 5);
