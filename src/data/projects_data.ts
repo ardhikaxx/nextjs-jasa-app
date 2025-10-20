@@ -180,21 +180,19 @@ export const projectsData: Project[] = [
     },
     {
         id: "16",
-        name: "Design UI UX - Aplikasi SIMPATI (Sistem Informasi Pasien TBC)",
+        name: "Design UI UX - Aplikasi Mobile SIMPATI (Sistem Informasi Pasien TBC)",
         description: "Desain ulang (redesign) dan pembuatan prototype aplikasi mobile dilakukan untuk memperbaiki struktur alur pengguna sehingga pengalaman penggunaan menjadi lebih intuitif dan terarah",
         technologies: ["Figma"],
         year: 2025,
-        link: "https://github.com/ardhikaxx/jasamarga-web",
         image: Projek16.src,
         category: "Design UI UX"
     },
     {
         id: "17",
-        name: "Design UI UX - Sistem Informasi STIE BIMA",
+        name: "Design UI UX - Aplikasi Website Sistem Informasi STIE BIMA",
         description: "Desain UI/UX Sistem Informasi Sekolah Tinggi Ilmu Ekonomi (STIE) Bima. Sistem ini terdiri dari lima website operasional, yaitu: Sistem Informasi Akademik, Elektronik Office (E-Office), Sistem Registrasi Mahasiswa, Elektronik Sign (E-Sign), dan Elektronik Pay (E-Pay).",
         technologies: ["Figma"],
         year: 2025,
-        link: "https://github.com/ardhikaxx/jasamarga-web",
         image: Projek17.src,
         category: "Design UI UX"
     },

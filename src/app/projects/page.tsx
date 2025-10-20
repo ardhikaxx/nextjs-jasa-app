@@ -7,14 +7,14 @@ import {
     FiArrowLeft, 
     FiExternalLink, 
     FiCalendar, 
-    FiCode,
     FiFilter,
     FiGlobe,
     FiPocket,
     FiChevronDown,
     FiFolder,
     FiLayers,
-    FiBarChart2
+    FiBarChart2,
+    FiX,
 } from 'react-icons/fi';
 
 export default function ProjectsPage() {
@@ -268,8 +268,8 @@ function ProjectCard({ project }: { project: Project }) {
                         </a>
                     ) : (
                         <span className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-lg text-gray-500 rounded-2xl text-sm font-semibold cursor-not-allowed border border-white/10">
-                            <FiCode className="mr-2" size={16} />
-                            Segera Hadir
+                            <FiX className="mr-2" size={16} />
+                            Tidak Tersedia
                         </span>
                     )}
                     
