@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
-import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft } from 'react-icons/fi';
+import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend } from 'react-icons/fi';
 import ImageLoop from '@/components/ImageLoop';
 
 interface AvatarUser {
@@ -16,19 +16,30 @@ interface AvatarUser {
     displayName: string;
 }
 
+interface ProjectType {
+    id: string;
+    name: string;
+    icon: any;
+    description: string;
+}
+
 export default function HomePage() {
     const { user, loading } = useAuth();
     const router = useRouter();
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const [activeView, setActiveView] = useState<'main' | 'project-type' | 'ask-first'>('main');
+    const [activeView, setActiveView] = useState<'main' | 'project-type' | 'ask-first' | 'project-detail'>('main');
     const [question, setQuestion] = useState('');
     const [charCount, setCharCount] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [avatarUsers, setAvatarUsers] = useState<AvatarUser[]>([]);
     const [loadingAvatars, setLoadingAvatars] = useState(true);
+    const [selectedService, setSelectedService] = useState<ProjectType | null>(null);
+    const [projectDetail, setProjectDetail] = useState('');
+    const [projectDetailCharCount, setProjectDetailCharCount] = useState(0);
     const maxChars = 500;
+    const projectDetailMaxChars = 500;
 
     useEffect(() => {
         const fetchAvatarUsers = async () => {
@@ -86,21 +97,50 @@ export default function HomePage() {
         }
     };
 
-    const handleProjectTypeSelect = (projectType: string) => {
-        console.log('Project type selected:', projectType);
-        // Di sini Anda bisa menambahkan logika untuk melanjutkan ke step berikutnya
-        // atau redirect ke halaman yang sesuai
+    const handleProjectDetailChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        if (value.length <= projectDetailMaxChars) {
+            setProjectDetail(value);
+            setProjectDetailCharCount(value.length);
+        }
     };
 
-    const sendQuestionToWhatsApp = (questionText: string) => {
+    const handleProjectTypeSelect = (projectType: ProjectType) => {
+        setSelectedService(projectType);
+        setActiveView('project-detail');
+    };
+
+    const sendProjectToWhatsApp = (serviceName: string, projectDetailText: string) => {
         const phoneNumber = '6285933648537';
 
-        const message = `Halo Mumet.in! Saya ingin bertanya:\n\n${questionText}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
+        const message = `Halo Mumet.in! Saya ingin jasa sekarang ${serviceName}:\n\n ini detail dari projek yang saya inginkan:\n${projectDetailText}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
         window.open(whatsappUrl, '_blank');
+    };
+
+    const handleSubmitProject = () => {
+        if (!selectedService || !projectDetail.trim()) return;
+
+        setIsSubmitting(true);
+
+        try {
+            sendProjectToWhatsApp(selectedService.name, projectDetail);
+
+            setProjectDetail('');
+            setProjectDetailCharCount(0);
+            setSelectedService(null);
+
+            alert('Detail proyek Anda sedang dibuka di WhatsApp! Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.');
+            setActiveView('main');
+        } catch (error) {
+            console.error('Error sending project:', error);
+            alert('Terjadi kesalahan saat mengirim detail proyek. Silakan coba lagi.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleSubmitQuestion = () => {
@@ -122,6 +162,17 @@ export default function HomePage() {
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const sendQuestionToWhatsApp = (questionText: string) => {
+        const phoneNumber = '6285933648537';
+
+        const message = `Halo Mumet.in! Saya ingin bertanya:\n\n${questionText}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
+
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+        window.open(whatsappUrl, '_blank');
     };
 
     const avatarLogos = avatarUsers.map((user, index) => {
@@ -180,7 +231,7 @@ export default function HomePage() {
         console.log('All letters have animated!');
     };
 
-    const projectTypes = [
+    const projectTypes: ProjectType[] = [
         {
             id: 'website',
             name: 'Jasa Website',
@@ -379,26 +430,109 @@ export default function HomePage() {
                                         return (
                                             <button
                                                 key={project.id}
-                                                onClick={() => handleProjectTypeSelect(project.id)}
+                                                onClick={() => handleProjectTypeSelect(project)}
                                                 className="w-full p-4 bg-white/5 border border-gray-600 rounded-2xl text-left hover:bg-white/10 hover:border-gray-400 transition-all duration-200 group"
                                             >
-                                                <div className="flex items-center justify-center space-x-4">
-                                                    <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
-                                                        <IconComponent className="text-red-500" size={24} />
+                                                <div className="flex items-center justify-between space-x-4">
+                                                    <div className="flex items-center space-x-4">
+                                                        <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
+                                                            <IconComponent className="text-red-500" size={24} />
+                                                        </div>
+                                                        <div className="flex-1 text-left">
+                                                            <h5 className="text-white font-bold text-lg mb-1">
+                                                                {project.name}
+                                                            </h5>
+                                                            <p className="text-gray-300 text-sm">
+                                                                {project.description}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex-1">
-                                                        <h5 className="text-white font-bold text-lg mb-1">
-                                                            {project.name}
-                                                        </h5>
-                                                        <p className="text-gray-300 text-sm">
-                                                            {project.description}
-                                                        </p>
-                                                    </div>
-                                                    <FiChevronRight className="mr-2" size={20} />
+                                                    <FiChevronRight className="text-gray-400" size={20} />
                                                 </div>
                                             </button>
                                         );
                                     })}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeView === 'project-detail' && selectedService && (
+                            <div className="animate-fade-in">
+                                <div className="flex items-center justify-between mb-6">
+                                    <button
+                                        onClick={() => setActiveView('project-type')}
+                                        className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
+                                    >
+                                        <FiChevronLeft className="mr-2" size={20} />
+                                        Kembali
+                                    </button>
+                                    <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
+                                        Detail Proyek {selectedService.name}
+                                    </h4>
+                                    <div className="w-8"></div>
+                                </div>
+
+                                <div className="space-y-6">
+                                    {/* Selected Service Info */}
+                                    <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="flex-shrink-0 w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
+                                                {selectedService.icon && (
+                                                    <selectedService.icon className="text-red-500" size={20} />
+                                                )}
+                                            </div>
+                                            <div className="text-left">
+                                                <h5 className="text-white font-bold text-md">
+                                                    {selectedService.name}
+                                                </h5>
+                                                <p className="text-gray-300 text-xs">
+                                                    {selectedService.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Project Detail Textarea */}
+                                    <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
+                                        <h5 className="text-white font-bold text-lg mb-3 text-left">
+                                            Ceritakan proyek yang mau dibuat yaa
+                                        </h5>
+                                        <textarea
+                                            value={projectDetail}
+                                            onChange={handleProjectDetailChange}
+                                            placeholder="Masukkan detail projek seperti fitur proyek, fungsionalitas, dll..."
+                                            className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-[200px] text-sm"
+                                            rows={8}
+                                        />
+                                        <div className="flex justify-between items-center mt-2">
+                                            <span className={`text-xs ${projectDetailCharCount === projectDetailMaxChars ? 'text-red-400' : 'text-gray-400'}`}>
+                                                Sisa karakter {projectDetailMaxChars - projectDetailCharCount}/{projectDetailMaxChars}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Submit Button */}
+                                    <button
+                                        onClick={handleSubmitProject}
+                                        disabled={!projectDetail.trim() || projectDetailCharCount === 0 || isSubmitting}
+                                        className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
+                                    >
+                                        {isSubmitting ? (
+                                            <>
+                                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                                Membuka WhatsApp...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <FiSend className="mr-2" size={18} />
+                                                Kirim Detail Proyek
+                                            </>
+                                        )}
+                                    </button>
+
+                                    <p className="text-gray-400 text-xs text-center">
+                                        Detail proyek Anda akan dikirim melalui WhatsApp. Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
+                                    </p>
                                 </div>
                             </div>
                         )}
@@ -446,7 +580,10 @@ export default function HomePage() {
                                                 Membuka WhatsApp...
                                             </>
                                         ) : (
-                                            'Kirim Pertanyaan'
+                                            <>
+                                                <FiSend className="mr-2" size={18} />
+                                                Kirim Pertanyaan
+                                            </>
                                         )}
                                     </button>
 
