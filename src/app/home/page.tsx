@@ -8,13 +8,6 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
 import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend } from 'react-icons/fi';
-import ImageLoop from '@/components/ImageLoop';
-
-interface AvatarUser {
-    uid: string;
-    photoURL: string | null;
-    displayName: string;
-}
 
 interface ProjectType {
     id: string;
@@ -33,33 +26,11 @@ export default function HomePage() {
     const [question, setQuestion] = useState('');
     const [charCount, setCharCount] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [avatarUsers, setAvatarUsers] = useState<AvatarUser[]>([]);
-    const [loadingAvatars, setLoadingAvatars] = useState(true);
     const [selectedService, setSelectedService] = useState<ProjectType | null>(null);
     const [projectDetail, setProjectDetail] = useState('');
     const [projectDetailCharCount, setProjectDetailCharCount] = useState(0);
     const maxChars = 500;
     const projectDetailMaxChars = 500;
-
-    useEffect(() => {
-        const fetchAvatarUsers = async () => {
-            try {
-                setLoadingAvatars(true);
-                const response = await fetch('/api/avatars');
-                const data = await response.json();
-
-                if (data.users && Array.isArray(data.users)) {
-                    setAvatarUsers(data.users);
-                }
-            } catch (error) {
-                console.error('Error fetching avatar users:', error);
-            } finally {
-                setLoadingAvatars(false);
-            }
-        };
-
-        fetchAvatarUsers();
-    }, []);
 
     useEffect(() => {
         if (!loading && !user && !isRedirecting) {
@@ -174,27 +145,6 @@ export default function HomePage() {
 
         window.open(whatsappUrl, '_blank');
     };
-
-    const avatarLogos = avatarUsers.map((user, index) => {
-        if (user.photoURL) {
-            return {
-                src: user.photoURL,
-                alt: user.displayName,
-                title: user.displayName,
-                width: 40,
-                height: 40
-            };
-        } else {
-            const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}&background=E02435&color=fff&size=80`;
-            return {
-                src: avatarUrl,
-                alt: user.displayName,
-                title: user.displayName,
-                width: 40,
-                height: 40
-            };
-        }
-    });
 
     if (loading || isRedirecting) {
         return (
@@ -594,42 +544,6 @@ export default function HomePage() {
                             </div>
                         )}
                     </div>
-                </div>
-
-                <div className="w-full max-w-4xl mt-16 mb-8">
-                    <div className="text-center mb-3">
-                        <h2 className="text-lg sm:text-2xl font-bold text-white mb-2">
-                            Orang telah mempercayakan membuat proyek digital mereka bersama kami!
-                        </h2>
-                        <p className="text-gray-300 text-sm sm:text-base">
-                            Bergabung dengan {avatarUsers.length}+ pengguna yang sudah merasakan layanan kami
-                        </p>
-                    </div>
-
-                    {loadingAvatars ? (
-                        <div className="flex justify-center items-center py-8">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                            <span className="text-white ml-3">Memuat avatar pengguna...</span>
-                        </div>
-                    ) : avatarLogos.length > 0 ? (
-                        <div className="bg-white/5 backdrop-blur-lg flex justify-center items-center rounded-3xl shadow-lg border border-gray-600 py-3">
-                            <ImageLoop
-                                logos={avatarLogos}
-                                speed={60}
-                                direction="left"
-                                logoHeight={40}
-                                gap={24}
-                                pauseOnHover={false}
-                                scaleOnHover={false}
-                                ariaLabel="Avatar pengguna Mumet.in"
-                                className='grayscale-100'
-                            />
-                        </div>
-                    ) : (
-                        <div className="text-center py-8">
-                            <p className="text-gray-400">Belum ada data pengguna yang tersedia.</p>
-                        </div>
-                    )}
                 </div>
             </main>
         </div>
