@@ -16,6 +16,7 @@ import {
     FiBarChart2,
     FiX,
 } from 'react-icons/fi';
+import Footer from '@/components/Footer';
 
 export default function ProjectsPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -34,146 +35,152 @@ export default function ProjectsPage() {
         });
 
     return (
-        <div className="min-h-screen bg-black py-12">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-12">
-                    <Link
-                        href="/"
-                        className="inline-flex items-center text-gray-400 hover:text-[#c41e2e] transition-all duration-300 mb-6 group"
-                    >
-                        <FiArrowLeft className="mr-3 transform group-hover:-translate-x-1 transition-transform" size={20} />
-                        <span className="font-medium">Kembali ke Beranda</span>
-                    </Link>
+        <div className="min-h-screen bg-black flex flex-col">
+            {/* Main Content */}
+            <div className="flex-1 py-12">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mb-12">
+                        <Link
+                            href="/"
+                            className="inline-flex items-center text-gray-400 hover:text-[#c41e2e] transition-all duration-300 mb-6 group"
+                        >
+                            <FiArrowLeft className="mr-3 transform group-hover:-translate-x-1 transition-transform" size={20} />
+                            <span className="font-medium">Kembali ke Beranda</span>
+                        </Link>
 
-                    <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                        <div className="flex-1">
-                            <div className="inline-flex items-center px-4 py-2 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 text-gray-300 text-sm mb-4">
-                                <FiPocket className="mr-2" size={16} />
-                                Portofolio Projek
+                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                            <div className="flex-1">
+                                <div className="inline-flex items-center px-4 py-2 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 text-gray-300 text-sm mb-4">
+                                    <FiPocket className="mr-2" size={16} />
+                                    Portofolio Projek
+                                </div>
+                                <h1 className="text-4xl lg:text-6xl font-extrabold text-white mb-4">
+                                    Portofolio <span className="text-[#c41e2e]">Projek</span>
+                                </h1>
+                                <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
+                                    Kumpulan projek yang telah selesai dengan penuh dedikasi dan inovasi
+                                </p>
                             </div>
-                            <h1 className="text-4xl lg:text-6xl font-extrabold text-white mb-4">
-                                Portofolio <span className="text-[#c41e2e]">Projek</span>
-                            </h1>
-                            <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
-                                Kumpulan projek yang telah selesai dengan penuh dedikasi dan inovasi
+
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <div className="relative">
+                                    <div className="relative flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl px-4 py-3 hover:border-white/20 transition-all duration-300">
+                                        <FiFilter className="text-[#c41e2e] mr-3" size={20} />
+                                        <select
+                                            value={selectedCategory}
+                                            onChange={(e) => setSelectedCategory(e.target.value)}
+                                            className="bg-transparent text-white border-none focus:ring-0 focus:outline-none cursor-pointer appearance-none pr-8 w-full"
+                                        >
+                                            {categories.map(category => (
+                                                <option key={category} value={category} className="bg-gray-900">
+                                                    {category}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
+                                            <FiChevronDown size={20} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <div className="relative flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl px-4 py-3 hover:border-white/20 transition-all duration-300">
+                                        <FiBarChart2 className="text-[#c41e2e] mr-3" size={20} />
+                                        <select
+                                            value={sortBy}
+                                            onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest')}
+                                            className="bg-transparent text-white border-none focus:ring-0 focus:outline-none cursor-pointer appearance-none pr-8 w-full"
+                                        >
+                                            <option value="newest" className="bg-gray-900">Terbaru</option>
+                                            <option value="oldest" className="bg-gray-900">Terlama</option>
+                                        </select>
+                                        <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
+                                            <FiChevronDown size={20} />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-3 mb-12">
+                        {categories.map((category) => (
+                            <button
+                                key={category}
+                                onClick={() => setSelectedCategory(category)}
+                                className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-300 border ${
+                                    selectedCategory === category
+                                        ? 'bg-[#c41e2e] text-white border-[#c41e2e] shadow-lg shadow-[#c41e2e]/30 transform scale-105'
+                                        : 'bg-white/5 backdrop-blur-lg text-gray-300 border-white/10 hover:border-[#c41e2e]/50 hover:text-white'
+                                }`}
+                            >
+                                {category}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mb-8 flex items-center justify-between">
+                        <div className="text-white font-semibold">
+                            Menampilkan <span className="text-[#c41e2e]">{filteredProjects.length}</span> dari{' '}
+                            <span className="text-[#c41e2e]">{projectsData.length}</span> projek
+                        </div>
+                        <div className="text-gray-400 text-sm">
+                            {selectedCategory !== 'All' && `Kategori: ${selectedCategory}`}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                        {filteredProjects.map((project) => (
+                            <ProjectCard key={project.id} project={project} />
+                        ))}
+                    </div>
+
+                    {filteredProjects.length === 0 && (
+                        <div className="text-center py-20">
+                            <div className="w-32 h-32 mx-auto mb-6 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex items-center justify-center">
+                                <FiFolder className="text-gray-500 text-5xl" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-white mb-3">Tidak ada projek</h3>
+                            <p className="text-gray-400 text-lg">
+                                Tidak ada projek yang ditemukan untuk kategori{" "}
+                                <span className="text-[#c41e2e] font-semibold">{selectedCategory}</span>
                             </p>
                         </div>
+                    )}
 
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <div className="relative">
-                                <div className="relative flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl px-4 py-3 hover:border-white/20 transition-all duration-300">
-                                    <FiFilter className="text-[#c41e2e] mr-3" size={20} />
-                                    <select
-                                        value={selectedCategory}
-                                        onChange={(e) => setSelectedCategory(e.target.value)}
-                                        className="bg-transparent text-white border-none focus:ring-0 focus:outline-none cursor-pointer appearance-none pr-8 w-full"
-                                    >
-                                        {categories.map(category => (
-                                            <option key={category} value={category} className="bg-gray-900">
-                                                {category}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
-                                        <FiChevronDown size={20} />
-                                    </div>
+                    <div className="mt-20 pt-12 border-t border-white/10">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                            <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
+                                <div className="text-4xl font-bold text-[#c41e2e] mb-3">
+                                    {projectsData.length}
                                 </div>
+                                <div className="text-gray-300 font-medium">Total Projek</div>
                             </div>
-
-                            <div className="relative">
-                                <div className="relative flex items-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl px-4 py-3 hover:border-white/20 transition-all duration-300">
-                                    <FiBarChart2 className="text-[#c41e2e] mr-3" size={20} />
-                                    <select
-                                        value={sortBy}
-                                        onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest')}
-                                        className="bg-transparent text-white border-none focus:ring-0 focus:outline-none cursor-pointer appearance-none pr-8 w-full"
-                                    >
-                                        <option value="newest" className="bg-gray-900">Terbaru</option>
-                                        <option value="oldest" className="bg-gray-900">Terlama</option>
-                                    </select>
-                                    <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
-                                        <FiChevronDown size={20} />
-                                    </div>
+                            <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
+                                <div className="text-4xl font-bold text-white mb-3">
+                                    {new Set(projectsData.map(p => p.category)).size}
                                 </div>
+                                <div className="text-gray-300 font-medium">Kategori</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex flex-wrap gap-3 mb-12">
-                    {categories.map((category) => (
-                        <button
-                            key={category}
-                            onClick={() => setSelectedCategory(category)}
-                            className={`px-6 py-3 rounded-2xl font-semibold transition-all duration-300 border ${
-                                selectedCategory === category
-                                    ? 'bg-[#c41e2e] text-white border-[#c41e2e] shadow-lg shadow-[#c41e2e]/30 transform scale-105'
-                                    : 'bg-white/5 backdrop-blur-lg text-gray-300 border-white/10 hover:border-[#c41e2e]/50 hover:text-white'
-                            }`}
-                        >
-                            {category}
-                        </button>
-                    ))}
-                </div>
-
-                <div className="mb-8 flex items-center justify-between">
-                    <div className="text-white font-semibold">
-                        Menampilkan <span className="text-[#c41e2e]">{filteredProjects.length}</span> dari{' '}
-                        <span className="text-[#c41e2e]">{projectsData.length}</span> projek
-                    </div>
-                    <div className="text-gray-400 text-sm">
-                        {selectedCategory !== 'All' && `Kategori: ${selectedCategory}`}
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                    {filteredProjects.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
-                    ))}
-                </div>
-
-                {filteredProjects.length === 0 && (
-                    <div className="text-center py-20">
-                        <div className="w-32 h-32 mx-auto mb-6 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex items-center justify-center">
-                            <FiFolder className="text-gray-500 text-5xl" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-white mb-3">Tidak ada projek</h3>
-                        <p className="text-gray-400 text-lg">
-                            Tidak ada projek yang ditemukan untuk kategori{" "}
-                            <span className="text-[#c41e2e] font-semibold">{selectedCategory}</span>
-                        </p>
-                    </div>
-                )}
-
-                <div className="mt-20 pt-12 border-t border-white/10">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
-                            <div className="text-4xl font-bold text-[#c41e2e] mb-3">
-                                {projectsData.length}
+                            <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
+                                <div className="text-4xl font-bold text-white mb-3">
+                                    {Math.min(...projectsData.map(p => p.year))}
+                                </div>
+                                <div className="text-gray-300 font-medium">Tahun Mulai</div>
                             </div>
-                            <div className="text-gray-300 font-medium">Total Projek</div>
-                        </div>
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
-                            <div className="text-4xl font-bold text-white mb-3">
-                                {new Set(projectsData.map(p => p.category)).size}
+                            <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
+                                <div className="text-4xl font-bold text-white mb-3">
+                                    {Math.max(...projectsData.map(p => p.year))}
+                                </div>
+                                <div className="text-gray-300 font-medium">Tahun Terbaru</div>
                             </div>
-                            <div className="text-gray-300 font-medium">Kategori</div>
-                        </div>
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
-                            <div className="text-4xl font-bold text-white mb-3">
-                                {Math.min(...projectsData.map(p => p.year))}
-                            </div>
-                            <div className="text-gray-300 font-medium">Tahun Mulai</div>
-                        </div>
-                        <div className="text-center p-6 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#c41e2e]/30 transition-all duration-300">
-                            <div className="text-4xl font-bold text-white mb-3">
-                                {Math.max(...projectsData.map(p => p.year))}
-                            </div>
-                            <div className="text-gray-300 font-medium">Tahun Terbaru</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Footer Section */}
+            <Footer />
         </div>
     );
 }
