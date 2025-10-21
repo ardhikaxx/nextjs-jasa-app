@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import SplitText from '@/components/SplitText';
-import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend } from 'react-icons/fi';
+import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend, FiCalendar, FiClock } from 'react-icons/fi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,6 +16,12 @@ interface ProjectType {
     name: string;
     icon: any;
     description: string;
+}
+
+interface DeadlineInfo {
+    type: 'flexible' | 'specific' | null;
+    date: string | null;
+    displayText: string;
 }
 
 export default function HomePage() {
@@ -31,6 +37,13 @@ export default function HomePage() {
     const [selectedService, setSelectedService] = useState<ProjectType | null>(null);
     const [projectDetail, setProjectDetail] = useState('');
     const [projectDetailCharCount, setProjectDetailCharCount] = useState(0);
+    const [showDeadlineDialog, setShowDeadlineDialog] = useState(false);
+    const [deadlineInfo, setDeadlineInfo] = useState<DeadlineInfo>({
+        type: null,
+        date: null,
+        displayText: ''
+    });
+    const [tempDeadlineDate, setTempDeadlineDate] = useState('');
     const maxChars = 500;
     const projectDetailMaxChars = 500;
 
@@ -91,10 +104,104 @@ export default function HomePage() {
         setActiveView('project-detail');
     };
 
-    const sendProjectToWhatsApp = (serviceName: string, projectDetailText: string) => {
+    const handleFlexibleDeadline = () => {
+        setDeadlineInfo({
+            type: 'flexible',
+            date: null,
+            displayText: 'Deadline: Fleksibel'
+        });
+        setShowDeadlineDialog(false);
+        toast.info('Deadline fleksibel dipilih', {
+            theme: 'dark',
+            position: 'top-center',
+        });
+    };
+
+    const handleSpecificDeadline = () => {
+        // Set tanggal default ke 2 minggu dari sekarang
+        const twoWeeksFromNow = new Date();
+        twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
+        const defaultDate = twoWeeksFromNow.toISOString().split('T')[0];
+        setTempDeadlineDate(defaultDate);
+    };
+
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTempDeadlineDate(e.target.value);
+    };
+
+    const confirmSpecificDeadline = () => {
+        if (!tempDeadlineDate) {
+            toast.warning('Harap pilih tanggal deadline terlebih dahulu!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        }
+
+        const selectedDate = new Date(tempDeadlineDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (selectedDate < today) {
+            toast.warning('Tanggal deadline tidak boleh kurang dari hari ini!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        }
+
+        const formattedDate = selectedDate.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        setDeadlineInfo({
+            type: 'specific',
+            date: tempDeadlineDate,
+            displayText: `Deadline: ${formattedDate}`
+        });
+        setShowDeadlineDialog(false);
+        toast.success('Deadline berhasil diatur!', {
+            theme: 'dark',
+            position: 'top-center',
+        });
+    };
+
+    const openDeadlineDialog = () => {
+        if (!projectDetail.trim()) {
+            toast.warning('Harap isi detail proyek terlebih dahulu!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        }
+        setShowDeadlineDialog(true);
+    };
+
+    const closeDeadlineDialog = () => {
+        setShowDeadlineDialog(false);
+        setTempDeadlineDate('');
+    };
+
+    const sendProjectToWhatsApp = (serviceName: string, projectDetailText: string, deadline: DeadlineInfo) => {
         const phoneNumber = '6285933648537';
 
-        const message = `Halo Mumet.in! Saya ingin jasa sekarang ${serviceName}:\n\n ini detail dari projek yang saya inginkan:\n${projectDetailText}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
+        let deadlineMessage = '';
+        if (deadline.type === 'flexible') {
+            deadlineMessage = 'Deadline: Fleksibel';
+        } else if (deadline.type === 'specific' && deadline.date) {
+            const formattedDate = new Date(deadline.date).toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            deadlineMessage = `Deadline: ${formattedDate}`;
+        }
+
+        const message = `Halo Mumet.in! Saya ingin jasa sekarang ${serviceName}:\n\n*Detail Proyek:*\n${projectDetailText}\n\n*Informasi Deadline:*\n${deadlineMessage}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -111,14 +218,27 @@ export default function HomePage() {
             return;
         }
 
+        if (!deadlineInfo.type) {
+            toast.warning('Harap atur deadline terlebih dahulu!', {
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
-            sendProjectToWhatsApp(selectedService.name, projectDetail);
+            sendProjectToWhatsApp(selectedService.name, projectDetail, deadlineInfo);
 
             setProjectDetail('');
             setProjectDetailCharCount(0);
             setSelectedService(null);
+            setDeadlineInfo({
+                type: null,
+                date: null,
+                displayText: ''
+            });
 
             toast.success(
                 <div>
@@ -284,6 +404,8 @@ export default function HomePage() {
         }
     ];
 
+    const isSubmitEnabled = projectDetail.trim() && deadlineInfo.type && !isSubmitting;
+
     return (
         <div className="min-h-screen bg-black flex flex-col relative">
             {/* Toast Container */}
@@ -303,6 +425,7 @@ export default function HomePage() {
                 progressClassName="bg-gradient-to-r from-red-500 to-red-600"
             />
 
+            {/* Logout Confirmation Modal */}
             {showLogoutConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
                     <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-100"
@@ -362,6 +485,113 @@ export default function HomePage() {
                     </div>
                 </div>
             )}
+
+            {showDeadlineDialog && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                    <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300 scale-100"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={closeDeadlineDialog}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200"
+                        >
+                            <FiX size={20} />
+                        </button>
+
+                        <div className="p-6 sm:p-8">
+                            <div className="flex justify-center mb-4">
+                                <div className="relative">
+                                    <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                        <FiCalendar className="text-blue-500" size={28} />
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 className="text-xl font-bold text-white text-center mb-2 font-daydream">
+                                Atur Deadline Proyek
+                            </h3>
+                            <p className="text-gray-300 text-center mb-6 text-sm leading-relaxed">
+                                Pilih jenis deadline untuk proyek Anda. Ini membantu kami memahami timeline pengerjaan.
+                            </p>
+
+                            {!tempDeadlineDate ? (
+                                <div className="space-y-3 mb-6">
+                                    <button
+                                        onClick={handleFlexibleDeadline}
+                                        className="w-full p-4 bg-white/5 border border-gray-600 rounded-xl text-left hover:bg-white/10 hover:border-blue-500/50 transition-all duration-200 group"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className="flex-shrink-0 w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors duration-200">
+                                                <FiClock className="text-green-500" size={20} />
+                                            </div>
+                                            <div>
+                                                <h5 className="text-white font-bold text-sm">
+                                                    Deadline saya fleksibel
+                                                </h5>
+                                                <p className="text-gray-300 text-xs">
+                                                    Tidak ada tekanan waktu, fokus pada kualitas terbaik
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                    <button
+                                        onClick={handleSpecificDeadline}
+                                        className="w-full p-4 bg-white/5 border border-gray-600 rounded-xl text-left hover:bg-white/10 hover:border-red-500/50 transition-all duration-200 group"
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className="flex-shrink-0 w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
+                                                <FiCalendar className="text-red-500" size={20} />
+                                            </div>
+                                            <div>
+                                                <h5 className="text-white font-bold text-sm">
+                                                    Atur tanggal deadline
+                                                </h5>
+                                                <p className="text-gray-300 text-xs">
+                                                    Punya target waktu spesifik untuk penyelesaian
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="space-y-4 mb-6">
+                                    <div className="bg-white/5 border border-gray-600 rounded-xl p-4">
+                                        <label className="block text-white font-bold text-sm mb-2">
+                                            Pilih Tanggal Deadline
+                                        </label>
+                                        <input
+                                            type="date"
+                                            value={tempDeadlineDate}
+                                            onChange={handleDateChange}
+                                            min={new Date().toISOString().split('T')[0]}
+                                            className="w-full bg-black/50 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 transition-colors duration-200"
+                                        />
+                                        <p className="text-gray-400 text-xs mt-2">
+                                            Pilih tanggal yang realistis untuk penyelesaian proyek
+                                        </p>
+                                    </div>
+
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => setTempDeadlineDate('')}
+                                            className="flex-1 px-4 py-2 border border-gray-600 text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-medium text-sm"
+                                        >
+                                            Kembali
+                                        </button>
+                                        <button
+                                            onClick={confirmSpecificDeadline}
+                                            className="flex-1 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 font-medium text-sm"
+                                        >
+                                            Set Deadline
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <nav className="bg-white/10 backdrop-blur-lg shadow-sm sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between h-16 items-center">
                     <div className="flex items-center space-x-3">
@@ -510,7 +740,6 @@ export default function HomePage() {
                                 </div>
 
                                 <div className="space-y-6">
-                                    {/* Selected Service Info */}
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <div className="flex items-center space-x-3">
                                             <div className="flex-shrink-0 w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
@@ -529,7 +758,6 @@ export default function HomePage() {
                                         </div>
                                     </div>
 
-                                    {/* Project Detail Textarea */}
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <h5 className="text-white font-bold text-lg mb-3 text-left">
                                             Ceritakan proyek yang mau dibuat yaa
@@ -548,10 +776,52 @@ export default function HomePage() {
                                         </div>
                                     </div>
 
-                                    {/* Submit Button */}
+                                    <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <h5 className="text-white font-bold text-lg">
+                                                Timeline Proyek
+                                            </h5>
+                                            <button
+                                                onClick={openDeadlineDialog}
+                                                className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-200 font-medium text-sm flex items-center"
+                                            >
+                                                <FiCalendar className="mr-2" size={16} />
+                                                Atur Deadline
+                                            </button>
+                                        </div>
+
+                                        {deadlineInfo.displayText ? (
+                                            <div className={`p-3 rounded-lg border ${
+                                                deadlineInfo.type === 'flexible' 
+                                                    ? 'bg-green-500/10 border-green-500/30' 
+                                                    : 'bg-red-500/10 border-red-500/30'
+                                            }`}>
+                                                <div className="flex items-center">
+                                                    {deadlineInfo.type === 'flexible' ? (
+                                                        <FiClock className="text-green-500 mr-2" size={16} />
+                                                    ) : (
+                                                        <FiCalendar className="text-red-500 mr-2" size={16} />
+                                                    )}
+                                                    <span className="text-white font-medium text-sm">
+                                                        {deadlineInfo.displayText}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                                                <div className="flex items-center text-yellow-400">
+                                                    <FiAlertTriangle className="mr-2" size={16} />
+                                                    <span className="text-sm">
+                                                        Belum ada deadline yang diatur. Klik "Atur Deadline" untuk menambahkan.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
                                     <button
                                         onClick={handleSubmitProject}
-                                        disabled={!projectDetail.trim() || projectDetailCharCount === 0 || isSubmitting}
+                                        disabled={!isSubmitEnabled}
                                         className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
                                     >
                                         {isSubmitting ? (
