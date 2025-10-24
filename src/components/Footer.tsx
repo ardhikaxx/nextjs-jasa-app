@@ -18,8 +18,6 @@ const Footer = () => {
                                 Dari Mumet Jadi Beres!
                             </p>
                         </div>
-
-                        {/* Social Media di bawah untuk mobile */}
                         <div className="flex items-center justify-center space-x-6">
                             <a
                                 href="https://instagram.com"
@@ -34,7 +32,7 @@ const Footer = () => {
                                 />
                             </a>
                             <a
-                                href="https://wa.me"
+                                href="https://wa.me/6285933648537"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-3 bg-[#c41e2e] rounded-full hover:bg-white transition-all duration-300 transform hover:scale-110 group"
@@ -96,7 +94,7 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="https://wa.me/qr/54GUTJTUGKYEP1"
+                                href="https://wa.me/6285933648537"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center space-x-2 px-4 py-2 bg-[#c41e2e] rounded-lg hover:bg-white transition-all duration-300 transform hover:scale-105 group"
