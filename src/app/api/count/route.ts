@@ -8,9 +8,8 @@ export async function GET() {
         let nextPageToken: string | undefined;
         let batchCount = 0;
 
-        console.log('🚀 Starting to fetch all users (5000+ data)...');
+        console.log('🚀 Starting to fetch all users...');
 
-        // Loop sampai semua data terambil
         do {
             batchCount++;
             const listUsersResult = await auth.listUsers(1000, nextPageToken);
@@ -18,25 +17,19 @@ export async function GET() {
             nextPageToken = listUsersResult.pageToken;
             
             console.log(`📦 Batch ${batchCount}: ${listUsersResult.users.length} users`);
-            console.log(`📊 Total collected: ${allUsers.length} users`);
             
-            // Optional: Small delay to avoid overwhelming the API
             if (nextPageToken) {
                 await new Promise(resolve => setTimeout(resolve, 100));
             }
             
         } while (nextPageToken);
 
-        console.log(`✅ Successfully fetched ${allUsers.length} total users in ${batchCount} batches`);
+        console.log(`✅ Successfully fetched ${allUsers.length} total users`);
 
-        // Hitung statistics
-        const activeUsers = allUsers.filter(user => user.metadata.lastSignInTime);
-        const inactiveUsers = allUsers.filter(user => !user.metadata.lastSignInTime);
-        
         const stats = {
             total: allUsers.length,
-            active: activeUsers.length,
-            inactive: inactiveUsers.length,
+            active: allUsers.filter(user => user.metadata.lastSignInTime).length,
+            inactive: allUsers.filter(user => !user.metadata.lastSignInTime).length,
             disabled: allUsers.filter(user => user.disabled).length,
             emailVerified: allUsers.filter(user => user.emailVerified).length,
             batches: batchCount
@@ -46,21 +39,42 @@ export async function GET() {
             success: true,
             stats: stats,
             count: allUsers.length,
-            // Return summary instead of all users to avoid huge response
             summary: {
                 totalUsers: allUsers.length,
-                activeUsers: activeUsers.length,
-                inactiveUsers: inactiveUsers.length,
                 batchesProcessed: batchCount
+            }
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
             }
         });
 
     } catch (error: any) {
         console.error('❌ Error fetching users:', error);
+        
         return NextResponse.json({ 
             success: false,
             error: error.message,
             count: 0
-        }, { status: 500 });
+        }, { 
+            status: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            }
+        });
     }
+}
+
+export async function OPTIONS() {
+    return NextResponse.json({}, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        }
+    });
 }

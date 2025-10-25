@@ -13,7 +13,7 @@ import {
 } from 'react-icons/fi';
 import CurvedLoop from '@/components/CurvedLoop';
 import StickerPeel from '@/components/StickerPeel';
-import Footer from '@/components/Footer'; // Tambahkan ini
+import Footer from '@/components/Footer';
 import CatLogo from '@/assets/images/cat.png';
 
 export default function Home() {
