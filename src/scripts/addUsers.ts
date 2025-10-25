@@ -77,7 +77,7 @@ async function addUsers() {
         console.log('Client Email:', process.env.FIREBASE_CLIENT_EMAIL ? '✅ Set' : '❌ Missing');
         console.log('Private Key:', process.env.FIREBASE_PRIVATE_KEY ? '✅ Set' : '❌ Missing');
         
-        const users = generateUsers(50000);
+        const users = generateUsers(100);
         
         console.log('\n🚀 Membuat user dengan nama Indonesia...');
         console.log('=========================================');
