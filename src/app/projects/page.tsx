@@ -15,6 +15,7 @@ import {
     FiLayers,
     FiBarChart2,
     FiX,
+    FiChevronLeft,
 } from 'react-icons/fi';
 import Footer from '@/components/Footer';
 
@@ -44,17 +45,13 @@ export default function ProjectsPage() {
                             href="/"
                             className="inline-flex items-center text-gray-400 hover:text-[#c41e2e] transition-all duration-300 mb-6 group"
                         >
-                            <FiArrowLeft className="mr-3 transform group-hover:-translate-x-1 transition-transform" size={20} />
+                            <FiChevronLeft className="mr-1 transform group-hover:-translate-x-1 transition-transform" size={24} />
                             <span className="font-medium">Kembali ke Beranda</span>
                         </Link>
 
                         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                             <div className="flex-1">
-                                <div className="inline-flex items-center px-4 py-2 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 text-gray-300 text-sm mb-4">
-                                    <FiPocket className="mr-2" size={16} />
-                                    Portofolio Projek
-                                </div>
-                                <h1 className="text-4xl lg:text-6xl font-extrabold text-white mb-4">
+                                <h1 className="text-2xl lg:text-4xl font-extrabold text-white mb-4 font-daydream">
                                     Portofolio <span className="text-[#c41e2e]">Projek</span>
                                 </h1>
                                 <p className="text-gray-400 text-lg max-w-2xl leading-relaxed">
@@ -72,7 +69,7 @@ export default function ProjectsPage() {
                                             className="bg-transparent text-white border-none focus:ring-0 focus:outline-none cursor-pointer appearance-none pr-8 w-full"
                                         >
                                             {categories.map(category => (
-                                                <option key={category} value={category} className="bg-gray-900">
+                                                <option key={category} value={category} className="bg-[#1A1A1A]">
                                                     {category}
                                                 </option>
                                             ))}
@@ -91,8 +88,8 @@ export default function ProjectsPage() {
                                             onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest')}
                                             className="bg-transparent text-white border-none focus:ring-0 focus:outline-none cursor-pointer appearance-none pr-8 w-full"
                                         >
-                                            <option value="newest" className="bg-gray-900">Terbaru</option>
-                                            <option value="oldest" className="bg-gray-900">Terlama</option>
+                                            <option value="newest" className="bg-[#1A1A1A]">Terbaru</option>
+                                            <option value="oldest" className="bg-[#1A1A1A]">Terlama</option>
                                         </select>
                                         <div className="pointer-events-none absolute right-4 text-[#c41e2e]">
                                             <FiChevronDown size={20} />
@@ -191,10 +188,10 @@ function ProjectCard({ project }: { project: Project }) {
 
     return (
         <div className="group relative bg-white/10 backdrop-blur-lg rounded-3xl border border-white/10 overflow-hidden hover:border-[#c41e2e]/50 transition-all duration-500 hover:transform hover:-translate-y-3">
-            <div className="relative h-60 bg-gray-800 overflow-hidden">
+            <div className="relative h-60 bg-[#1A1A1A] overflow-hidden">
                 {project.image && !imageError ? (
                     <>
-                        <div className={`absolute inset-0 bg-gray-800 flex items-center justify-center transition-opacity duration-500 ${
+                        <div className={`absolute inset-0 bg-[#1A1A1A] flex items-center justify-center transition-opacity duration-500 ${
                             imageLoaded ? 'opacity-0' : 'opacity-100'
                         }`}>
                             <div className="flex space-x-2">
@@ -214,7 +211,7 @@ function ProjectCard({ project }: { project: Project }) {
                         />
                     </>
                 ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                    <div className="w-full h-full bg-gradient-to-br from-[#1A1A1A] to-[#1A1A1A] flex items-center justify-center">
                         <FiLayers className="text-gray-600 text-6xl" />
                     </div>
                 )}
@@ -235,7 +232,7 @@ function ProjectCard({ project }: { project: Project }) {
             </div>
 
             <div className="relative p-7">
-                <h3 className="text-2xl font-bold text-white mb-4 line-clamp-2 group-hover:text-[#c41e2e] transition-colors duration-300 leading-tight">
+                <h3 className="text-2xl font-bold text-white mb-4 line-clamp-2 duration-300 leading-tight">
                     {project.name}
                 </h3>
 
