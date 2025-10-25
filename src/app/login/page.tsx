@@ -203,10 +203,16 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            {/* Background pattern dengan pointer-events-none */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[50px_50px]"></div>
+            </div>
+
+            {/* Tombol Kembali */}
             <div className="absolute top-6 left-6 z-20">
                 <button
                     onClick={() => router.push('/')}
-                    className="flex items-center text-white hover:text-gray-300 transition-all duration-200 group"
+                    className="flex items-center text-white hover:text-gray-300 transition-all duration-200 group relative z-30"
                 >
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:bg-white/20 group-hover:scale-105 transition-all duration-200">
                         <FiChevronLeft className="w-6 h-6" />
@@ -217,7 +223,8 @@ export default function Login() {
                 </button>
             </div>
 
-            <div className="hidden lg:block absolute top-6 right-6 z-10">
+            {/* Circular Text dengan pointer-events-none */}
+            <div className="hidden lg:block absolute top-6 right-6 z-10 pointer-events-none">
                 <CircularText
                     text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
                     onHover="speedUp"
@@ -226,8 +233,9 @@ export default function Login() {
                 />
             </div>
 
-            <div className="w-full max-w-md z-10 mt-8">
-                <div className="flex justify-center mb-8 lg:hidden">
+            <div className="w-full max-w-md z-10 mt-8 relative">
+                {/* Circular Text untuk mobile dengan pointer-events-none */}
+                <div className="flex justify-center mb-8 lg:hidden pointer-events-none">
                     <CircularText
                         text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
                         onHover="speedUp"
@@ -236,9 +244,12 @@ export default function Login() {
                     />
                 </div>
 
-                <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300 relative">
-                <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black_70%,transparent_100%)]"></div>
-                    <div className="text-center mb-8">
+                {/* Form Container */}
+                <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300 relative z-20">
+                    {/* Background pattern dalam form dengan pointer-events-none */}
+                    <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black_70%,transparent_100%)] pointer-events-none"></div>
+                    
+                    <div className="text-center mb-8 relative z-10">
                         <h2 className="text-3xl font-bold text-white mb-2">
                             Selamat Datang Kembali
                         </h2>
@@ -247,9 +258,9 @@ export default function Login() {
                         </p>
                     </div>
 
-                    <form className="space-y-6" onSubmit={handleLogin}>
+                    <form className="space-y-6 relative z-10" onSubmit={handleLogin}>
                         {error && (
-                            <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm">
+                            <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm relative z-20">
                                 <div className="font-medium flex items-center">
                                     <FiAlertCircle className="w-4 h-4 mr-2" />
                                     {error}
@@ -265,7 +276,7 @@ export default function Login() {
                             </div>
                         )}
 
-                        <div className="space-y-4">
+                        <div className="space-y-4 relative z-20">
                             <div className="relative">
                                 <label
                                     htmlFor="email"
@@ -309,7 +320,7 @@ export default function Login() {
                                     type={showPassword ? 'text' : 'password'}
                                     autoComplete="current-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                                     placeholder="Masukkan kata sandi Anda"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -321,7 +332,7 @@ export default function Login() {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors p-1 disabled:opacity-50"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 hover:text-white transition-colors p-1 disabled:opacity-50 z-30"
                                     disabled={isAnyLoading}
                                 >
                                     {showPassword ? (
@@ -333,18 +344,19 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <div className="flex justify-end">
+                        <div className="flex justify-end relative z-20">
                             <Link
                                 href="/forgot-password"
-                                className="text-sm text-white hover:text-gray-300 transition-colors"
+                                className="text-sm text-white hover:text-gray-300 transition-colors relative z-20"
                             >
                                 Lupa kata sandi?
                             </Link>
                         </div>
+                        
                         <button
                             type="submit"
                             disabled={isAnyLoading}
-                            className="w-full bg-[#c41e2e] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c41e2e] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                            className="w-full bg-[#c41e2e] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#c41e2e] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg relative z-20"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center">
@@ -359,7 +371,7 @@ export default function Login() {
                             )}
                         </button>
 
-                        <div className="mt-1">
+                        <div className="mt-1 relative z-20">
                             <div className="relative">
                                 <div className="flex justify-center text-sm">
                                     <span className="text-white font-medium">
@@ -373,7 +385,7 @@ export default function Login() {
                                     type="button"
                                     onClick={handleGoogleLogin}
                                     disabled={isAnyLoading}
-                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#c41e2e] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02] hover:shadow-md"
+                                    className="w-full flex justify-center items-center py-3 px-4 rounded-xl shadow-sm bg-white text-[#c41e2e] font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 backdrop-blur-sm transform hover:scale-[1.02] hover:shadow-md relative z-20"
                                 >
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
@@ -389,12 +401,13 @@ export default function Login() {
                                 </button>
                             </div>
                         </div>
-                        <div className="text-center pt-4">
-                            <p className="text-sm text-purple-200">
+                        
+                        <div className="text-center pt-4 relative z-20">
+                            <p className="text-sm text-white">
                                 Tidak punya akun?{' '}
                                 <Link
                                     href="/register"
-                                    className="font-semibold text-white hover:text-purple-300 transition-colors"
+                                    className="font-semibold text-white transition-colors"
                                 >
                                     Buat akun
                                 </Link>
