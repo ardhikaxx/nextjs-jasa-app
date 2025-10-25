@@ -207,7 +207,8 @@ export default function Register() {
                     />
                 </div>
 
-                <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300">
+                <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300 relative">
+                <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black_70%,transparent_100%)]"></div>
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2">
                             Bergabunglah Hari Ini
@@ -244,7 +245,7 @@ export default function Register() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                                     placeholder="Masukkan email Anda"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -271,7 +272,7 @@ export default function Register() {
                                     type={showPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Masukkan kata sandi (min. 6 karakter)"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -310,7 +311,7 @@ export default function Register() {
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     required
-                                    className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
+                                    className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
                                     placeholder="Konfirmasi kata sandi Anda"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -352,13 +353,10 @@ export default function Register() {
                             )}
                         </button>
 
-                        <div className="mt-6">
+                        <div className="mt-1">
                             <div className="relative">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-white/20" />
-                                </div>
-                                <div className="relative flex justify-center text-sm">
-                                    <span className="px-3 bg-white/10 backdrop-blur-lg text-purple-200 font-medium">
+                                <div className="flex justify-center text-sm">
+                                    <span className="text-white font-medium">
                                         Atau lanjutkan dengan
                                     </span>
                                 </div>
