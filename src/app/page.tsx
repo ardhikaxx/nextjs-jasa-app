@@ -55,7 +55,7 @@ export default function Home() {
               speed={3}
               curveAmount={500}
               direction="right"
-              interactive={true}
+              interactive={false}
               className="font-daydream custom-text-style"
             />
           </div>
