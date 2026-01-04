@@ -1,6 +1,6 @@
 import { useRef, useEffect, useMemo, CSSProperties } from 'react';
 import { gsap } from 'gsap';
-import { Draggable } from 'gsap/Draggable';
+import Draggable from 'gsap/dist/Draggable';
 
 gsap.registerPlugin(Draggable);
 
