@@ -254,8 +254,8 @@ export default function RootLayout({
         <AuthProvider>
           {children}
         </AuthProvider>
+        <script src='https://www.noupe.com/embed/019b83ff69537774ab888dcf1fed2bee580e.js'></script>
       </body>
-      <script src='https://www.noupe.com/embed/019b83ff69537774ab888dcf1fed2bee580e.js'></script>
     </html>
   );
 }
