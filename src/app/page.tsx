@@ -8,7 +8,6 @@ import {
   FiUser,
   FiPlus,
   FiUsers,
-  FiFolder,
   FiTrendingUp,
 } from 'react-icons/fi';
 import CurvedLoop from '@/components/CurvedLoop';
@@ -118,15 +117,6 @@ export default function Home() {
                   Telah dipercaya oleh <span className="font-semibold text-[#c41e2e]">banyak klien</span>
                 </div>
 
-                <div className="mt-6 relative z-10">
-                  <Link
-                    href="/projects"
-                    className="inline-flex items-center px-6 py-3 bg-[#c41e2e] text-white rounded-xl font-semibold hover:bg-[#a81a27] transition-colors shadow-md relative z-20"
-                  >
-                    <FiFolder size={20} className="mr-2" />
-                    Lihat Portofolio Projek
-                  </Link>
-                </div>
               </div>
             )}
           </div>
