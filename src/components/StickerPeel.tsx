@@ -347,6 +347,8 @@ const StickerPeel: React.FC<StickerPeelProps> = ({
                             src={imageSrc}
                             alt=""
                             className="block"
+                            width={width}
+                            height={width}
                             style={imageStyle}
                             draggable="false"
                             onContextMenu={e => e.preventDefault()}
@@ -360,6 +362,8 @@ const StickerPeel: React.FC<StickerPeelProps> = ({
                             src={imageSrc}
                             alt=""
                             className="block"
+                            width={width}
+                            height={width}
                             style={shadowImageStyle}
                             draggable="false"
                             onContextMenu={e => e.preventDefault()}
@@ -373,6 +377,8 @@ const StickerPeel: React.FC<StickerPeelProps> = ({
                             src={imageSrc}
                             alt=""
                             className="block"
+                            width={width}
+                            height={width}
                             style={shadowImageStyle}
                             draggable="false"
                             onContextMenu={e => e.preventDefault()}

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -171,6 +170,11 @@ const jsonLd = {
   priceRange: 'Harga menyesuaikan kebutuhan'
 };
 
+const enableAnalytics = process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true';
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID || '';
+const gaId = process.env.NEXT_PUBLIC_GA_ID || '';
+const enableNoupeEmbed = process.env.NEXT_PUBLIC_ENABLE_NOUPE_EMBED === 'true';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -197,64 +201,67 @@ export default function RootLayout({
         <meta name="copyright" content="Mumet.in" />
         <meta name="robots" content="index, follow" />
         
-        {/* Preconnect untuk performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
         {/* Favicon */}
         <link rel="icon" href="/images/logo.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png" />
-        
-        {/* Google Tag Manager */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-NSGR33HD');`
-          }}
-        />
-        {/* End Google Tag Manager */}
 
-        {/* Additional SEO Scripts */}
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'GA_MEASUREMENT_ID');
-            `,
-          }}
-        />
+        {enableAnalytics && gtmId && (
+          <Script
+            id="gtm-script"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${gtmId}');`
+            }}
+          />
+        )}
+
+        {enableAnalytics && gaId && (
+          <>
+            <Script
+              strategy="lazyOnload"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}');
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Google Tag Manager (noscript) */}
-        <noscript
-          dangerouslySetInnerHTML={{
-            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSGR33HD"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe>`
-          }}
-        />
-        {/* End Google Tag Manager (noscript) */}
+        {enableAnalytics && gtmId && (
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>`
+            }}
+          />
+        )}
         
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-        <script src='https://www.noupe.com/embed/019b83ff69537774ab888dcf1fed2bee580e.js'></script>
+        {children}
+        {enableNoupeEmbed && (
+          <Script
+            id="noupe-embed"
+            strategy="lazyOnload"
+            src="https://www.noupe.com/embed/019b83ff69537774ab888dcf1fed2bee580e.js"
+          />
+        )}
       </body>
     </html>
   );

@@ -6,10 +6,14 @@ import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
-import SplitText from '@/components/SplitText';
+import dynamic from 'next/dynamic';
 import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend, FiCalendar, FiClock } from 'react-icons/fi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const SplitText = dynamic(() => import('@/components/SplitText'), {
+    ssr: false,
+});
 
 interface ProjectType {
     id: string;
@@ -38,6 +42,7 @@ export default function HomePage() {
     const [projectDetail, setProjectDetail] = useState('');
     const [projectDetailCharCount, setProjectDetailCharCount] = useState(0);
     const [showDeadlineDialog, setShowDeadlineDialog] = useState(false);
+    const [enableMotion, setEnableMotion] = useState(false);
     const [deadlineInfo, setDeadlineInfo] = useState<DeadlineInfo>({
         type: null,
         date: null,
@@ -53,6 +58,28 @@ export default function HomePage() {
             router.push('/');
         }
     }, [user, loading, isRedirecting, router]);
+
+    useEffect(() => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const scheduleMotionUpdate = (matches: boolean) => {
+            const nextValue = !matches;
+            const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
+            if (w.requestIdleCallback) {
+                w.requestIdleCallback(() => setEnableMotion(nextValue));
+            } else {
+                setTimeout(() => setEnableMotion(nextValue), 300);
+            }
+        };
+
+        scheduleMotionUpdate(prefersReducedMotion.matches);
+
+        const onMotionChange = (event: MediaQueryListEvent) => {
+            scheduleMotionUpdate(event.matches);
+        };
+
+        prefersReducedMotion.addEventListener('change', onMotionChange);
+        return () => prefersReducedMotion.removeEventListener('change', onMotionChange);
+    }, []);
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
@@ -367,9 +394,7 @@ export default function HomePage() {
         )}&background=E02435&color=fff&size=128`;
     };
 
-    const handleAnimationComplete = () => {
-        console.log('All letters have animated!');
-    };
+    const handleAnimationComplete = () => {};
 
     const projectTypes: ProjectType[] = [
         {
@@ -389,6 +414,12 @@ export default function HomePage() {
             name: 'Jasa Sistem IoT',
             icon: FiCpu,
             description: 'Sistem Internet of Things untuk smart home, industri, dan monitoring'
+        },
+        {
+            id: 'ml',
+            name: 'Jasa Machine Learning',
+            icon: FiCpu,
+            description: 'Pembuatan model prediksi, klasifikasi, NLP, dan analitik berbasis data'
         },
         {
             id: 'uiux',
@@ -466,7 +497,7 @@ export default function HomePage() {
                                 <button
                                     onClick={handleLogout}
                                     disabled={isLoggingOut}
-                                    className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm flex items-center justify-center"
+                                    className="flex-1 px-4 py-3 bg-linear-to-r from-red-600 to-red-700 text-white rounded-xl hover:from-red-700 hover:to-red-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-bold text-sm flex items-center justify-center"
                                 >
                                     {isLoggingOut ? (
                                         <>
@@ -520,7 +551,7 @@ export default function HomePage() {
                                         className="w-full p-4 bg-white/5 border border-gray-600 rounded-xl text-left hover:bg-white/10 hover:border-blue-500/50 transition-all duration-200 group"
                                     >
                                         <div className="flex items-center space-x-3">
-                                            <div className="flex-shrink-0 w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors duration-200">
+                                            <div className="shrink-0 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors duration-200">
                                                 <FiClock className="text-green-500" size={20} />
                                             </div>
                                             <div>
@@ -539,7 +570,7 @@ export default function HomePage() {
                                         className="w-full p-4 bg-white/5 border border-gray-600 rounded-xl text-left hover:bg-white/10 hover:border-red-500/50 transition-all duration-200 group"
                                     >
                                         <div className="flex items-center space-x-3">
-                                            <div className="flex-shrink-0 w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
+                                            <div className="shrink-0 w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
                                                 <FiCalendar className="text-red-500" size={20} />
                                             </div>
                                             <div>
@@ -580,7 +611,7 @@ export default function HomePage() {
                                         </button>
                                         <button
                                             onClick={confirmSpecificDeadline}
-                                            className="flex-1 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 font-medium text-sm"
+                                            className="flex-1 px-4 py-2 bg-linear-to-rrom-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 font-medium text-sm"
                                         >
                                             Set Deadline
                                         </button>
@@ -636,25 +667,31 @@ export default function HomePage() {
                 </div>
             </nav>
 
-            <main className="flex-grow flex flex-col items-center justify-start text-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
-                <div className="w-full max-w-2xl mb-8 sm:mb-12">
+            <main className="grow flex flex-col items-center justify-center text-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
+                <div className="w-full max-w-2xl mb-8 sm:mb-12 mx-auto">
                     <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8">
-                        <SplitText
-                            text="Hi Chief, mau jasa apa nih?"
-                            className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream"
-                            delay={100}
-                            duration={0.6}
-                            ease="power3.out"
-                            splitType="chars"
-                            from={{ opacity: 0, y: 40 }}
-                            to={{ opacity: 1, y: 0 }}
-                            threshold={0.1}
-                            rootMargin="-100px"
-                            textAlign="center"
-                            onLetterAnimationComplete={handleAnimationComplete}
-                        />
+                        {enableMotion ? (
+                            <SplitText
+                                text="Hi Chief, mau jasa apa nih?"
+                                className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream"
+                                delay={100}
+                                duration={0.6}
+                                ease="power3.out"
+                                splitType="chars"
+                                from={{ opacity: 0, y: 40 }}
+                                to={{ opacity: 1, y: 0 }}
+                                threshold={0.1}
+                                rootMargin="-100px"
+                                textAlign="center"
+                                onLetterAnimationComplete={handleAnimationComplete}
+                            />
+                        ) : (
+                            <h2 className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream">
+                                Hi Chief, mau jasa apa nih?
+                            </h2>
+                        )}
                         <p className="text-gray-300 max-w-md mx-auto mb-6 text-sm sm:text-base">
-                            Jasa layanan pembuatan Website, Aplikasi Mobile, Sistem IoT, dan Desain UI/UX. Dari yang mumet jadi beres!
+                            Jasa pembuatan produk digital meliputi Website, Aplikasi Mobile, IoT, Machine Learning, dan UI/UX.
                         </p>
 
                         <div className="border-t border-gray-600 my-6"></div>
@@ -702,7 +739,7 @@ export default function HomePage() {
                                             >
                                                 <div className="flex items-center justify-between space-x-4">
                                                     <div className="flex items-center space-x-4">
-                                                        <div className="flex-shrink-0 w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
+                                                        <div className="shrink-0 w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center group-hover:bg-red-500/30 transition-colors duration-200">
                                                             <IconComponent className="text-red-500" size={24} />
                                                         </div>
                                                         <div className="flex-1 text-left">
@@ -742,7 +779,7 @@ export default function HomePage() {
                                 <div className="space-y-6">
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <div className="flex items-center space-x-3">
-                                            <div className="flex-shrink-0 w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
+                                            <div className="shrink-0 w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
                                                 {selectedService.icon && (
                                                     <selectedService.icon className="text-red-500" size={20} />
                                                 )}
@@ -766,7 +803,7 @@ export default function HomePage() {
                                             value={projectDetail}
                                             onChange={handleProjectDetailChange}
                                             placeholder="Masukkan detail projek seperti fitur proyek, fungsionalitas, dll..."
-                                            className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-[200px] text-sm"
+                                            className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-50 text-sm"
                                             rows={8}
                                         />
                                         <div className="flex justify-between items-center mt-2">
@@ -822,7 +859,7 @@ export default function HomePage() {
                                     <button
                                         onClick={handleSubmitProject}
                                         disabled={!isSubmitEnabled}
-                                        className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
+                                        className="w-full px-6 py-4 bg-linear-to-rrom-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
                                     >
                                         {isSubmitting ? (
                                             <>
@@ -846,7 +883,7 @@ export default function HomePage() {
 
                         {activeView === 'ask-first' && (
                             <div className="animate-fade-in">
-                                <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center justify-center mb-6">
                                     <button
                                         onClick={() => setActiveView('main')}
                                         className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
@@ -866,7 +903,7 @@ export default function HomePage() {
                                             value={question}
                                             onChange={handleQuestionChange}
                                             placeholder="Masukkan pertanyaan kamu disini... Contoh: Saya ingin konsultasi tentang pembuatan website untuk bisnis kuliner, berapa kisaran biayanya dan berapa lama pengerjaannya?"
-                                            className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-[120px]"
+                                            className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-30"
                                             rows={5}
                                         />
                                         <div className="flex justify-between items-center mt-2">
@@ -879,7 +916,7 @@ export default function HomePage() {
                                     <button
                                         onClick={handleSubmitQuestion}
                                         disabled={!question.trim() || charCount === 0 || isSubmitting}
-                                        className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
+                                        className="w-full px-6 py-4 bg-linear-to-r from-red-600 to-red-700 text-white rounded-2xl hover:from-red-700 hover:to-red-800 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-lg flex items-center justify-center"
                                     >
                                         {isSubmitting ? (
                                             <>

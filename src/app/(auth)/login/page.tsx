@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useState, useEffect, useRef } from 'react';
+import { signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -25,6 +25,16 @@ export default function Login() {
     const [isFocused, setIsFocused] = useState({ email: false, password: false });
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
+    const googleInFlightRef = useRef(false);
+    const googleRedirectAttemptedRef = useRef(false);
+
+    const googleProviderRef = useRef<GoogleAuthProvider | null>(null);
+    if (!googleProviderRef.current) {
+        const provider = new GoogleAuthProvider();
+        provider.addScope('email');
+        provider.addScope('profile');
+        googleProviderRef.current = provider;
+    }
 
     useEffect(() => {
         if (user && !authLoading) {
@@ -134,12 +144,15 @@ export default function Login() {
     };
 
     const handleGoogleLogin = async () => {
+        if (googleInFlightRef.current) {
+            return;
+        }
+        googleInFlightRef.current = true;
         setGoogleLoading(true);
         setError('');
 
         try {
-            const provider = new GoogleAuthProvider();
-
+            const provider = googleProviderRef.current as GoogleAuthProvider;
             const customParameters: { prompt: string; login_hint?: string } = {
                 prompt: 'select_account'
             };
@@ -150,11 +163,14 @@ export default function Login() {
 
             provider.setCustomParameters(customParameters);
 
-            // Tambahkan scope
-            provider.addScope('email');
-            provider.addScope('profile');
-
             console.log('Starting Google sign-in...');
+
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                await signInWithRedirect(auth, provider);
+                return;
+            }
 
             const result = await signInWithPopup(auth, provider);
             console.log('Google login successful:', result.user);
@@ -162,11 +178,30 @@ export default function Login() {
             router.push('/home');
 
         } catch (error: any) {
-            console.error('Google login error:', error);
+            const silentCodes = ['auth/popup-closed-by-user', 'auth/cancelled-popup-request'];
+            if (!silentCodes.includes(error.code)) {
+                console.error('Google login error:', error);
+            }
+
+            const shouldFallbackRedirect = [
+                'auth/popup-blocked',
+                'auth/cancelled-popup-request',
+                'auth/operation-not-supported-in-this-environment'
+            ].includes(error.code);
+
+            if (shouldFallbackRedirect && !googleRedirectAttemptedRef.current) {
+                googleRedirectAttemptedRef.current = true;
+                const provider = googleProviderRef.current as GoogleAuthProvider;
+                await signInWithRedirect(auth, provider);
+                return;
+            }
 
             let errorMessage = 'Gagal login dengan Google. Silakan coba lagi.';
 
             switch (error.code) {
+                case 'auth/cancelled-popup-request':
+                    errorMessage = 'Permintaan popup dibatalkan. Silakan coba lagi.';
+                    break;
                 case 'auth/popup-closed-by-user':
                     errorMessage = 'Login Google dibatalkan.';
                     break;
@@ -193,9 +228,12 @@ export default function Login() {
                     }
             }
 
-            setError(errorMessage);
+            if (!silentCodes.includes(error.code)) {
+                setError(errorMessage);
+            }
         } finally {
             setGoogleLoading(false);
+            googleInFlightRef.current = false;
         }
     };
 
