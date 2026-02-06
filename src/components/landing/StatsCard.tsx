@@ -41,7 +41,7 @@ export default function StatsCard() {
   }, []);
 
   return (
-    <div className="relative mt-3 sm:mt-4 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center z-20 min-h-[210px]">
+    <div className="relative mt-3 sm:mt-4 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center z-20 min-h-52.5">
       <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black_70%,transparent_100%)]"></div>
       <h4 className="text-sm font-semibold text-white mb-2 font-daydream relative z-10">
         Statistik Kepercayaan
