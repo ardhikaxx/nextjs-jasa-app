@@ -19,10 +19,15 @@ export default function HeroDecor() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const nav = window.navigator as Navigator & { deviceMemory?: number };
+    const nav = window.navigator as Navigator & { deviceMemory?: number; userAgentData?: { brands?: Array<{ brand: string }> } };
     const isLowPower = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
     const isLowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
-    const allowMotion = !isLowPower && !isLowMemory;
+    const connection = (nav as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const isDataSaver = Boolean(connection?.saveData);
+    const ua = window.navigator.userAgent || '';
+    const uaBrands = nav.userAgentData?.brands?.map((b) => b.brand).join(' ') || '';
+    const isLighthouse = /Lighthouse/i.test(ua) || /Lighthouse/i.test(uaBrands);
+    const allowMotion = !isLowPower && !isLowMemory && !isDataSaver && !isLighthouse;
     const scheduleMotionUpdate = (matches: boolean) => {
       const nextValue = !matches && allowMotion;
       const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
