@@ -28,7 +28,7 @@ function ResetPasswordContent() {
     useEffect(() => {
         const validateResetCode = async () => {
             if (!oobCode) {
-                setError('Link reset password tidak valid atau telah kedaluwarsa.');
+                setError(t('reset.error.invalidLink'));
                 setValidating(false);
                 return;
             }
@@ -41,23 +41,23 @@ function ResetPasswordContent() {
             } catch (error: any) {
                 console.error('Error validasi reset code:', error);
 
-                let errorMessage = 'Link reset password tidak valid atau telah kedaluwarsa.';
+                let errorMessage = t('reset.error.invalidLink');
 
                 switch (error.code) {
                     case 'auth/expired-action-code':
-                        errorMessage = 'Link reset password telah kedaluwarsa. Silakan minta link reset password baru.';
+                        errorMessage = t('reset.error.expired');
                         break;
                     case 'auth/invalid-action-code':
-                        errorMessage = 'Link reset password tidak valid. Silakan minta link reset password baru.';
+                        errorMessage = t('reset.error.invalid');
                         break;
                     case 'auth/user-disabled':
-                        errorMessage = 'Akun ini telah dinonaktifkan. Silakan hubungi support.';
+                        errorMessage = t('reset.error.userDisabled');
                         break;
                     case 'auth/user-not-found':
-                        errorMessage = 'Akun tidak ditemukan.';
+                        errorMessage = t('reset.error.userNotFound');
                         break;
                     default:
-                        errorMessage = `Link reset password tidak valid: ${error.message || 'Silakan coba lagi'}`;
+                        errorMessage = t('reset.error.invalidLink');
                 }
 
                 setError(errorMessage);
@@ -74,23 +74,23 @@ function ResetPasswordContent() {
         setError('');
 
         if (!password || !confirmPassword) {
-            setError('Harap isi semua kolom');
+            setError(t('login.error.empty'));
             return false;
         }
 
         if (password.length < 6) {
-            setError('Kata sandi harus terdiri dari minimal 6 karakter');
+            setError(t('reset.error.shortPassword'));
             return false;
         }
 
         if (password !== confirmPassword) {
-            setError('Kata sandi tidak cocok');
+            setError(t('reset.error.mismatch'));
             return false;
         }
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
         if (!passwordRegex.test(password)) {
-            setError('Kata sandi harus mengandung huruf besar, huruf kecil, dan angka');
+            setError(t('reset.error.rules'));
             return false;
         }
 
@@ -105,7 +105,7 @@ function ResetPasswordContent() {
         }
 
         if (!oobCode || !validCode) {
-            setError('Link reset password tidak valid. Silakan minta link reset password baru.');
+            setError(t('reset.error.invalid'));
             return;
         }
 
@@ -130,26 +130,26 @@ function ResetPasswordContent() {
         } catch (error: any) {
             console.error('Error reset password:', error);
 
-            let errorMessage = 'Gagal mereset kata sandi. Silakan coba lagi.';
+            let errorMessage = t('reset.error.default');
 
             switch (error.code) {
                 case 'auth/expired-action-code':
-                    errorMessage = 'Link reset password telah kedaluwarsa. Silakan minta link reset password baru.';
+                    errorMessage = t('reset.error.expired');
                     break;
                 case 'auth/invalid-action-code':
-                    errorMessage = 'Link reset password tidak valid. Silakan minta link reset password baru.';
+                    errorMessage = t('reset.error.invalid');
                     break;
                 case 'auth/user-disabled':
-                    errorMessage = 'Akun ini telah dinonaktifkan. Silakan hubungi support.';
+                    errorMessage = t('reset.error.userDisabled');
                     break;
                 case 'auth/user-not-found':
-                    errorMessage = 'Akun tidak ditemukan.';
+                    errorMessage = t('reset.error.userNotFound');
                     break;
                 case 'auth/weak-password':
-                    errorMessage = 'Kata sandi terlalu lemah. Gunakan kata sandi yang lebih kuat.';
+                    errorMessage = t('reset.error.weak');
                     break;
                 default:
-                    errorMessage = `Gagal mereset kata sandi: ${error.message || 'Silakan coba lagi'}`;
+                    errorMessage = t('reset.error.default');
             }
 
             setError(errorMessage);
@@ -179,7 +179,7 @@ function ResetPasswordContent() {
                                 Link Tidak Valid
                             </h2>
                             <p className="text-purple-200 text-sm">
-                                {error || 'Link reset password tidak valid atau telah kedaluwarsa.'}
+                                {error || t('reset.error.invalidLink')}
                             </p>
                         </div>
 
@@ -187,7 +187,7 @@ function ResetPasswordContent() {
                             <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm">
                                 <div className="font-medium flex items-center justify-center">
                                     <FiAlertCircle className="w-4 h-4 mr-2" />
-                                    Link Reset Password Tidak Valid
+                                    {t('reset.invalidTitle')}
                                 </div>
                             </div>
 
@@ -196,7 +196,7 @@ function ResetPasswordContent() {
                                     href="/forgot-password"
                                     className="w-full bg-[#c41e2e] text-white py-4 px-4 rounded-xl font-semibold hover:bg-[#c81e2e] transition-all duration-200 inline-block"
                                 >
-                                    Minta Link Reset Baru
+                                    {t('reset.invalidCta')}
                                 </Link>
                             </div>
 

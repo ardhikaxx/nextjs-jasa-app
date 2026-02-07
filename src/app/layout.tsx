@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
-import LanguageToggle from "@/components/LanguageToggle";
+import LanguageToggleGate from "@/components/LanguageToggleGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -257,7 +257,7 @@ export default function RootLayout({
         )}
         
         <LanguageProvider>
-          <LanguageToggle />
+          <LanguageToggleGate />
           {children}
         </LanguageProvider>
         {enableNoupeEmbed && (

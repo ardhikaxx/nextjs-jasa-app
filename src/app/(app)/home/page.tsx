@@ -52,7 +52,7 @@ export default function HomePage() {
     const [tempDeadlineDate, setTempDeadlineDate] = useState('');
     const maxChars = 500;
     const projectDetailMaxChars = 500;
-    const { t, lang } = useI18n();
+    const { t, lang, toggleLang } = useI18n();
 
     useEffect(() => {
         if (!loading && !user && !isRedirecting) {
@@ -230,7 +230,7 @@ export default function HomePage() {
             deadlineMessage = `${t('home.deadline.prefix')}: ${formattedDate}`;
         }
 
-        const message = `${t('wa.projectGreeting')} ${serviceName}:\n\n*${t('wa.detailLabel')}:*\n${projectDetailText}\n\n*${t('wa.deadlineLabel')}:*\n${deadlineMessage}\n\n---\n*${t('wa.senderLabel')}:*\n${t('wa.nameLabel')}: ${user?.displayName || 'Tidak tersedia'}\n${t('wa.emailLabel')}: ${user?.email || 'Tidak tersedia'}\n\n*${t('wa.sentVia')}*`;
+        const message = `${t('wa.projectGreeting')} ${serviceName}:\n\n*${t('wa.detailLabel')}:*\n${projectDetailText}\n\n*${t('wa.deadlineLabel')}:*\n${deadlineMessage}\n\n---\n*${t('wa.senderLabel')}:*\n${t('wa.nameLabel')}: ${user?.displayName || t('common.notAvailable')}\n${t('wa.emailLabel')}: ${user?.email || t('common.notAvailable')}\n\n*${t('wa.sentVia')}*`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -357,7 +357,7 @@ export default function HomePage() {
     const sendQuestionToWhatsApp = (questionText: string) => {
         const phoneNumber = '6285933648537';
 
-        const message = `${t('wa.questionGreeting')}\n\n${questionText}\n\n---\n*${t('wa.senderLabel')}:*\n${t('wa.nameLabel')}: ${user?.displayName || 'Tidak tersedia'}\n${t('wa.emailLabel')}: ${user?.email || 'Tidak tersedia'}\n\n*${t('wa.sentVia')}*`;
+        const message = `${t('wa.questionGreeting')}\n\n${questionText}\n\n---\n*${t('wa.senderLabel')}:*\n${t('wa.nameLabel')}: ${user?.displayName || t('common.notAvailable')}\n${t('wa.emailLabel')}: ${user?.email || t('common.notAvailable')}\n\n*${t('wa.sentVia')}*`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -482,11 +482,10 @@ export default function HomePage() {
                                 </div>
                             </div>
                             <h3 className="text-xl font-bold text-white text-center mb-2 font-daydream">
-                                Konfirmasi Logout
+                                {t('home.logoutTitle')}
                             </h3>
                             <p className="text-gray-300 text-center mb-6 text-sm leading-relaxed">
-                                Apakah Anda yakin ingin keluar dari akun Anda?
-                                Anda perlu login kembali untuk mengakses layanan kami.
+                                {t('home.logoutDesc')}
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <button
@@ -494,7 +493,7 @@ export default function HomePage() {
                                     disabled={isLoggingOut}
                                     className="flex-1 px-4 py-3 border border-gray-600 text-white rounded-xl hover:bg-white hover:text-[#c41e2e] font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center justify-center"
                                 ><FiX className="mr-2" size={16} />
-                                    Batal
+                                    {t('home.logoutCancel')}
                                 </button>
                                 <button
                                     onClick={handleLogout}
@@ -504,12 +503,12 @@ export default function HomePage() {
                                     {isLoggingOut ? (
                                         <>
                                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                            Logging out...
+                                            {t('home.logoutLoading')}
                                         </>
                                     ) : (
                                         <>
                                             <FiLogOut className="mr-2" size={16} />
-                                            Ya, Logout
+                                            {t('home.logoutConfirm')}
                                         </>
                                     )}
                                 </button>
@@ -633,6 +632,15 @@ export default function HomePage() {
                         </h1>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-4">
+                        <button
+                            type="button"
+                            onClick={toggleLang}
+                            aria-label={t('lang.toggle')}
+                            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-lg backdrop-blur-lg transition hover:bg-white/20"
+                        >
+                            <FiGlobe size={16} />
+                            <span>{lang === 'id' ? t('lang.id') : t('lang.en')}</span>
+                        </button>
                         <div className="hidden sm:flex flex-col items-end">
                             <span className="text-white text-sm">
                                 {t('home.nav.welcome')}, <b>{user.displayName || user.email?.split('@')[0]}</b>
@@ -910,7 +918,7 @@ export default function HomePage() {
                                         />
                                         <div className="flex justify-between items-center mt-2">
                                             <span className={`text-xs ${charCount === maxChars ? 'text-red-400' : 'text-gray-400'}`}>
-                                                Sisa karakter {maxChars - charCount}/{maxChars}
+                                                {t('home.projectDetailRemain')} {maxChars - charCount}/{maxChars}
                                             </span>
                                         </div>
                                     </div>

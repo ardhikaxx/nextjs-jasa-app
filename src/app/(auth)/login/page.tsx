@@ -71,18 +71,18 @@ export default function Login() {
         setError('');
 
         if (!email.trim() || !password) {
-            setError('Harap isi semua kolom');
+            setError(t('login.error.empty'));
             return false;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
-            setError('Harap masukkan alamat email yang valid');
+            setError(t('login.error.invalidEmail'));
             return false;
         }
 
         if (password.length < 6) {
-            setError('Kata sandi harus terdiri dari minimal 6 karakter');
+            setError(t('login.error.shortPassword'));
             return false;
         }
 
@@ -110,33 +110,33 @@ export default function Login() {
         } catch (error: any) {
             console.error('Login error:', error);
 
-            let errorMessage = 'Login gagal. Silakan coba lagi.';
+            let errorMessage = t('login.error.default');
 
             switch (error.code) {
                 case 'auth/invalid-credential':
                 case 'auth/wrong-password':
-                    errorMessage = 'Email atau kata sandi salah. Silakan periksa kredensial Anda.';
+                    errorMessage = t('login.error.invalidCredential');
                     break;
                 case 'auth/user-not-found':
-                    errorMessage = 'Tidak ada akun yang ditemukan dengan email ini. Silakan daftar terlebih dahulu.';
+                    errorMessage = t('login.error.userNotFound');
                     break;
                 case 'auth/invalid-email':
-                    errorMessage = 'Format alamat email tidak valid.';
+                    errorMessage = t('login.error.invalidEmail');
                     break;
                 case 'auth/user-disabled':
-                    errorMessage = 'Akun ini telah dinonaktifkan. Silakan hubungi support.';
+                    errorMessage = t('login.error.userDisabled');
                     break;
                 case 'auth/too-many-requests':
-                    errorMessage = 'Terlalu banyak percobaan gagal. Silakan coba lagi nanti atau reset kata sandi Anda.';
+                    errorMessage = t('login.error.tooMany');
                     break;
                 case 'auth/network-request-failed':
-                    errorMessage = 'Error jaringan. Silakan periksa koneksi internet Anda.';
+                    errorMessage = t('login.error.network');
                     break;
                 case 'auth/operation-not-allowed':
-                    errorMessage = 'Login email/kata sandi tidak diaktifkan. Silakan hubungi support.';
+                    errorMessage = t('login.error.operationNotAllowed');
                     break;
                 default:
-                    errorMessage = `Login gagal: ${error.message || 'Silakan coba lagi'}`;
+                    errorMessage = t('login.error.default');
             }
 
             setError(errorMessage);
@@ -198,36 +198,32 @@ export default function Login() {
                 return;
             }
 
-            let errorMessage = 'Gagal login dengan Google. Silakan coba lagi.';
+            let errorMessage = t('login.google.default');
 
             switch (error.code) {
                 case 'auth/cancelled-popup-request':
-                    errorMessage = 'Permintaan popup dibatalkan. Silakan coba lagi.';
+                    errorMessage = t('login.google.cancelled');
                     break;
                 case 'auth/popup-closed-by-user':
-                    errorMessage = 'Login Google dibatalkan.';
+                    errorMessage = t('login.google.cancelled');
                     break;
                 case 'auth/popup-blocked':
-                    errorMessage = 'Popup diblokir oleh browser Anda. Silakan izinkan popup untuk situs ini dan coba lagi.';
+                    errorMessage = t('login.google.popupBlocked');
                     break;
                 case 'auth/unauthorized-domain':
-                    errorMessage = 'Domain ini tidak diizinkan untuk login Google. Silakan hubungi support.';
+                    errorMessage = t('login.google.unauthorizedDomain');
                     break;
                 case 'auth/account-exists-with-different-credential':
-                    errorMessage = 'Akun sudah ada dengan email yang sama tetapi metode login berbeda. Silakan coba login dengan email dan kata sandi.';
+                    errorMessage = t('login.google.accountExists');
                     break;
                 case 'auth/operation-not-allowed':
-                    errorMessage = 'Login Google tidak diaktifkan. Silakan hubungi support.';
+                    errorMessage = t('login.google.operationNotAllowed');
                     break;
                 case 'auth/network-request-failed':
-                    errorMessage = 'Error jaringan. Silakan periksa koneksi internet Anda dan coba lagi.';
+                    errorMessage = t('login.google.network');
                     break;
                 default:
-                    if (error.message.includes('popup')) {
-                        errorMessage = 'Tidak dapat membuka popup login Google. Silakan periksa pengaturan browser Anda.';
-                    } else {
-                        errorMessage = `Login Google gagal: ${error.message}`;
-                    }
+                    errorMessage = t('login.google.default');
             }
 
             if (!silentCodes.includes(error.code)) {

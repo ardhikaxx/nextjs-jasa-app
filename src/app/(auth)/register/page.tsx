@@ -59,23 +59,23 @@ export default function Register() {
         setError('');
 
         if (!email.trim() || !password || !confirmPassword) {
-            setError('Harap isi semua kolom');
+            setError(t('register.error.empty'));
             return false;
         }
 
         if (password !== confirmPassword) {
-            setError('Kata sandi dan konfirmasi kata sandi tidak cocok');
+            setError(t('register.error.mismatch'));
             return false;
         }
 
         if (password.length < 6) {
-            setError('Kata sandi harus terdiri dari minimal 6 karakter');
+            setError(t('register.error.shortPassword'));
             return false;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
-            setError('Harap masukkan alamat email yang valid');
+            setError(t('register.error.invalidEmail'));
             return false;
         }
 
@@ -106,19 +106,19 @@ export default function Register() {
 
             switch (error.code) {
                 case 'auth/email-already-in-use':
-                    setError('Email ini sudah terdaftar');
+                    setError(t('register.error.emailInUse'));
                     break;
                 case 'auth/invalid-email':
-                    setError('Alamat email tidak valid');
+                    setError(t('register.error.invalidEmail'));
                     break;
                 case 'auth/operation-not-allowed':
-                    setError('Akun email/kata sandi tidak diaktifkan');
+                    setError(t('register.error.operationNotAllowed'));
                     break;
                 case 'auth/weak-password':
-                    setError('Kata sandi terlalu lemah');
+                    setError(t('register.error.weakPassword'));
                     break;
                 default:
-                    setError('Gagal membuat akun. Silakan coba lagi');
+                    setError(t('register.error.default'));
             }
         } finally {
             setLoading(false);
@@ -147,25 +147,25 @@ export default function Register() {
 
             switch (error.code) {
                 case 'auth/popup-closed-by-user':
-                    setError('Login Google dibatalkan');
+                    setError(t('register.google.cancelled'));
                     break;
                 case 'auth/popup-blocked':
-                    setError('Popup diblokir oleh browser. Silakan izinkan popup untuk situs ini');
+                    setError(t('register.google.popupBlocked'));
                     break;
                 case 'auth/network-request-failed':
-                    setError('Error jaringan. Silakan periksa koneksi internet Anda');
+                    setError(t('register.google.network'));
                     break;
                 case 'auth/account-exists-with-different-credential':
-                    setError('Akun sudah ada dengan email yang sama tetapi metode login berbeda. Silakan coba login dengan email dan kata sandi');
+                    setError(t('register.google.accountExists'));
                     break;
                 case 'auth/operation-not-allowed':
-                    setError('Login Google tidak diaktifkan. Silakan hubungi support');
+                    setError(t('register.google.operationNotAllowed'));
                     break;
                 case 'auth/unauthorized-domain':
-                    setError('Domain ini tidak diizinkan untuk login Google. Silakan hubungi support');
+                    setError(t('register.google.unauthorizedDomain'));
                     break;
                 default:
-                    setError(`Gagal mendaftar dengan Google: ${error.message}`);
+                    setError(t('register.google.default'));
             }
         } finally {
             setGoogleLoading(false);

@@ -21,13 +21,13 @@ export default function ForgotPassword() {
         setError('');
 
         if (!email.trim()) {
-            setError('Harap masukkan alamat email Anda');
+            setError(t('forgot.error.empty'));
             return false;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email.trim())) {
-            setError('Harap masukkan alamat email yang valid');
+            setError(t('forgot.error.invalidEmail'));
             return false;
         }
 
@@ -57,26 +57,26 @@ export default function ForgotPassword() {
         } catch (error: any) {
             console.error('Error mengirim email reset password:', error);
 
-            let errorMessage = 'Gagal mengirim email reset password. Silakan coba lagi.';
+            let errorMessage = t('forgot.error.default');
 
             switch (error.code) {
                 case 'auth/user-not-found':
-                    errorMessage = 'Tidak ada akun yang ditemukan dengan email ini.';
+                    errorMessage = t('forgot.error.userNotFound');
                     break;
                 case 'auth/invalid-email':
-                    errorMessage = 'Format alamat email tidak valid.';
+                    errorMessage = t('forgot.error.invalidEmail');
                     break;
                 case 'auth/too-many-requests':
-                    errorMessage = 'Terlalu banyak permintaan. Silakan coba lagi nanti.';
+                    errorMessage = t('forgot.error.tooMany');
                     break;
                 case 'auth/network-request-failed':
-                    errorMessage = 'Error jaringan. Silakan periksa koneksi internet Anda.';
+                    errorMessage = t('forgot.error.network');
                     break;
                 case 'auth/operation-not-allowed':
-                    errorMessage = 'Reset password tidak diaktifkan. Silakan hubungi support.';
+                    errorMessage = t('forgot.error.operationNotAllowed');
                     break;
                 default:
-                    errorMessage = `Gagal mengirim email: ${error.message || 'Silakan coba lagi'}`;
+                    errorMessage = t('forgot.error.default');
             }
 
             setError(errorMessage);
