@@ -6,6 +6,7 @@ import { auth } from '@/lib/firebase';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiAlertCircle, FiCheckCircle, FiEye, FiEyeOff, FiChevronLeft } from 'react-icons/fi';
+import { useI18n } from '@/i18n/LanguageProvider';
 
 function ResetPasswordContent() {
     const [password, setPassword] = useState('');
@@ -18,6 +19,7 @@ function ResetPasswordContent() {
     const [isFocused, setIsFocused] = useState({ password: false, confirmPassword: false });
     const [validating, setValidating] = useState(true);
     const [validCode, setValidCode] = useState(false);
+    const { t } = useI18n();
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -161,7 +163,7 @@ function ResetPasswordContent() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Memvalidasi link reset password...</p>
+                    <p className="text-white">{t('reset.validating')}</p>
                 </div>
             </div>
         );
@@ -203,7 +205,7 @@ function ResetPasswordContent() {
                                     href="/login"
                                     className="text-sm text-purple-300 hover:text-white transition-colors"
                                 >
-                                    Kembali ke halaman login
+                                    {t('forgot.backLogin')}
                                 </Link>
                             </div>
                         </div>
@@ -222,17 +224,17 @@ function ResetPasswordContent() {
                         className="flex items-center text-white text-lg font-bold"
                     >
                         <FiChevronLeft className="w-6 h-6 mr-2" />
-                        Kembali
+                        {t('login.back')}
                     </button>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300">
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2">
-                            Reset Kata Sandi
+                            {t('reset.title')}
                         </h2>
                         <p className="text-gray-300 text-sm">
-                            Buat kata sandi baru untuk akun Anda
+                            {t('reset.subtitle')}
                         </p>
                     </div>
 
@@ -250,10 +252,10 @@ function ResetPasswordContent() {
                             <div className="bg-green-500/20 border border-green-500/50 text-green-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm">
                                 <div className="font-medium flex items-center">
                                     <FiCheckCircle className="w-4 h-4 mr-2" />
-                                    Kata sandi berhasil direset!
+                                    {t('reset.success')}
                                 </div>
                                 <p className="mt-2 text-xs">
-                                    Anda akan diarahkan ke halaman login dalam beberapa detik.
+                                    {t('login.redirecting')}
                                 </p>
                             </div>
                         )}
@@ -267,7 +269,7 @@ function ResetPasswordContent() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Kata Sandi Baru
+                                    {t('reset.newPassword')}
                                 </label>
                                 <input
                                     id="password"
@@ -276,7 +278,7 @@ function ResetPasswordContent() {
                                     autoComplete="new-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
-                                    placeholder="Masukkan kata sandi baru"
+                                    placeholder={t('reset.placeholderNew')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, password: true }))}
@@ -306,7 +308,7 @@ function ResetPasswordContent() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Konfirmasi Kata Sandi Baru
+                                    {t('reset.confirm')}
                                 </label>
                                 <input
                                     id="confirmPassword"
@@ -315,7 +317,7 @@ function ResetPasswordContent() {
                                     autoComplete="new-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed pr-12"
-                                    placeholder="Konfirmasi kata sandi baru"
+                                    placeholder={t('reset.placeholderConfirm')}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, confirmPassword: true }))}
@@ -340,23 +342,23 @@ function ResetPasswordContent() {
 
                         {/* Password Requirements */}
                         <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                            <p className="text-sm text-white font-medium mb-2">Persyaratan Kata Sandi:</p>
+                            <p className="text-sm text-white font-medium mb-2">{t('reset.requirements')}</p>
                             <ul className="text-xs text-white space-y-1">
                                 <li className={`flex items-center ${password.length >= 6 ? 'text-green-400' : ''}`}>
                                     <span className="w-2 h-2 rounded-full bg-current mr-2"></span>
-                                    Minimal 6 karakter
+                                    {t('reset.req.min6')}
                                 </li>
                                 <li className={`flex items-center ${/(?=.*[a-z])/.test(password) ? 'text-green-400' : ''}`}>
                                     <span className="w-2 h-2 rounded-full bg-current mr-2"></span>
-                                    Minimal 1 huruf kecil
+                                    {t('reset.req.lower')}
                                 </li>
                                 <li className={`flex items-center ${/(?=.*[A-Z])/.test(password) ? 'text-green-400' : ''}`}>
                                     <span className="w-2 h-2 rounded-full bg-current mr-2"></span>
-                                    Minimal 1 huruf besar
+                                    {t('reset.req.upper')}
                                 </li>
                                 <li className={`flex items-center ${/(?=.*\d)/.test(password) ? 'text-green-400' : ''}`}>
                                     <span className="w-2 h-2 rounded-full bg-current mr-2"></span>
-                                    Minimal 1 angka
+                                    {t('reset.req.number')}
                                 </li>
                             </ul>
                         </div>
@@ -372,26 +374,26 @@ function ResetPasswordContent() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Mereset kata sandi...
+                                    {t('reset.buttonLoading')}
                                 </span>
                             ) : success ? (
-                                'Kata Sandi Berhasil Direset!'
+                                t('reset.success')
                             ) : (
-                                'Reset Kata Sandi'
+                                t('reset.button')
                             )}
                         </button>
 
                         {!success && (
                             <div className="text-center pt-4">
                                 <p className="text-sm text-white">
-                                    Ingat kata sandi Anda?{' '}
-                                    <Link
-                                        href="/login"
-                                        className="font-semibold text-white"
-                                    >
-                                        Masuk ke akun
-                                    </Link>
-                                </p>
+                                {t('reset.remember')}{' '}
+                                <Link
+                                    href="/login"
+                                    className="font-semibold text-white"
+                                >
+                                    {t('reset.backLogin')}
+                                </Link>
+                            </p>
                             </div>
                         )}
                     </form>
@@ -402,11 +404,12 @@ function ResetPasswordContent() {
 }
 
 function ResetPasswordLoading() {
+    const { t } = useI18n();
     return (
         <div className="min-h-screen flex items-center justify-center bg-black">
             <div className="flex flex-col items-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                <p className="text-white">Memuat halaman reset password...</p>
+                <p className="text-white">{t('reset.loading')}</p>
             </div>
         </div>
     );

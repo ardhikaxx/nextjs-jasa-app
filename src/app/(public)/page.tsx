@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
   FiUser,
@@ -7,8 +9,10 @@ import Footer from '@/components/Footer';
 import HeroDecor from '@/components/landing/HeroDecor';
 import StatsCard from '@/components/landing/StatsCard';
 import RedirectIfAuthed from '@/components/landing/RedirectIfAuthed';
+import { useI18n } from '@/i18n/LanguageProvider';
 
 export default function Home() {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col bg-black text-white min-h-screen">
       <RedirectIfAuthed />
@@ -21,7 +25,7 @@ export default function Home() {
               MUMET.IN
             </h1>
             <p className="text-base sm:text-lg mb-5 text-gray-100 text-center px-2">
-              Jasa pembuatan produk digital meliputi Website, Aplikasi Mobile, IoT, Machine Learning, dan UI/UX.
+              {t('landing.subtitle')}
             </p>
 
             <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-4 mb-2 w-full max-w-xs sm:max-w-none">
@@ -30,14 +34,14 @@ export default function Home() {
                 className="bg-white text-[#c41e2e] px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-gray-100 transition flex justify-center items-center w-full sm:w-auto z-20 relative"
               >
                 <FiUser size={20} className="me-2" />
-                Masuk
+                {t('landing.login')}
               </Link>
               <Link
                 href="/register"
                 className="border border-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-[#c41e2e] transition flex justify-center items-center w-full sm:w-auto z-20 relative"
               >
                 <FiPlus size={20} className="me-2" />
-                Daftar Sekarang
+                {t('landing.register')}
               </Link>
             </div>
           </div>

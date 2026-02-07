@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import CircularText from '@/components/CircularText';
+import { useI18n } from '@/i18n/LanguageProvider';
 import {
     FiEye,
     FiEyeOff,
@@ -25,6 +26,7 @@ export default function Login() {
     const [isFocused, setIsFocused] = useState({ email: false, password: false });
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
+    const { t } = useI18n();
     const googleInFlightRef = useRef(false);
     const googleRedirectAttemptedRef = useRef(false);
 
@@ -48,7 +50,7 @@ export default function Login() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Memeriksa autentikasi...</p>
+                    <p className="text-white">{t('login.loadingAuth')}</p>
                 </div>
             </div>
         );
@@ -59,7 +61,7 @@ export default function Login() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Mengalihkan ke halaman utama...</p>
+                    <p className="text-white">{t('login.redirecting')}</p>
                 </div>
             </div>
         );
@@ -256,7 +258,7 @@ export default function Login() {
                         <FiChevronLeft className="w-6 h-6" />
                     </div>
                     <span className="ml-3 font-semibold text-lg hidden sm:block">
-                        Kembali
+                        {t('login.back')}
                     </span>
                 </button>
             </div>
@@ -264,7 +266,7 @@ export default function Login() {
             {/* Circular Text dengan pointer-events-none */}
             <div className="hidden lg:block absolute top-6 right-6 z-10 pointer-events-none">
                 <CircularText
-                    text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
+                    text={t('login.circular')}
                     onHover="speedUp"
                     spinDuration={20}
                     className="w-16 h-16"
@@ -275,7 +277,7 @@ export default function Login() {
                 {/* Circular Text untuk mobile dengan pointer-events-none */}
                 <div className="flex justify-center mb-8 lg:hidden pointer-events-none">
                     <CircularText
-                        text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
+                        text={t('login.circular')}
                         onHover="speedUp"
                         spinDuration={20}
                         className="w-16 h-16"
@@ -289,10 +291,10 @@ export default function Login() {
                     
                     <div className="text-center mb-8 relative z-10">
                         <h2 className="text-3xl font-bold text-white mb-2">
-                            Selamat Datang Kembali
+                            {t('login.title')}
                         </h2>
                         <p className="text-gray-300 text-sm">
-                            Masuk untuk melanjutkan perjalanan Anda
+                            {t('login.subtitle')}
                         </p>
                     </div>
 
@@ -308,7 +310,7 @@ export default function Login() {
                                         href="/register"
                                         className="underline hover:text-white transition-colors"
                                     >
-                                        Buat akun baru
+                                        {t('login.createNewAccount')}
                                     </Link>
                                 </div>
                             </div>
@@ -323,7 +325,7 @@ export default function Login() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Alamat email
+                                    {t('login.email')}
                                 </label>
                                 <input
                                     id="email"
@@ -332,7 +334,7 @@ export default function Login() {
                                     autoComplete="email"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Masukkan email Anda"
+                                    placeholder={t('login.emailPlaceholder')}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, email: true }))}
@@ -350,7 +352,7 @@ export default function Login() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Kata sandi
+                                    {t('login.password')}
                                 </label>
                                 <input
                                     id="password"
@@ -359,7 +361,7 @@ export default function Login() {
                                     autoComplete="current-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Masukkan kata sandi Anda"
+                                    placeholder={t('login.passwordPlaceholder')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, password: true }))}
@@ -387,7 +389,7 @@ export default function Login() {
                                 href="/forgot-password"
                                 className="text-sm text-white hover:text-gray-300 transition-colors relative z-20"
                             >
-                                Lupa kata sandi?
+                                {t('login.forgot')}
                             </Link>
                         </div>
                         
@@ -402,10 +404,10 @@ export default function Login() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Sedang masuk...
+                                    {t('login.loading')}
                                 </span>
                             ) : (
-                                'Masuk ke akun Anda'
+                                t('login.button')
                             )}
                         </button>
 
@@ -413,7 +415,7 @@ export default function Login() {
                             <div className="relative">
                                 <div className="flex justify-center text-sm">
                                     <span className="text-white font-medium">
-                                        Atau lanjutkan dengan
+                                        {t('login.or')}
                                     </span>
                                 </div>
                             </div>
@@ -428,12 +430,12 @@ export default function Login() {
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
                                             <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
-                                            Menghubungkan...
+                                            {t('login.googleLoading')}
                                         </span>
                                     ) : (
                                         <>
                                             <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
-                                            Lanjutkan dengan Google
+                                            {t('login.google')}
                                         </>
                                     )}
                                 </button>
@@ -442,12 +444,12 @@ export default function Login() {
                         
                         <div className="text-center pt-4 relative z-20">
                             <p className="text-sm text-white">
-                                Tidak punya akun?{' '}
+                                {t('login.noAccount')}{' '}
                                 <Link
                                     href="/register"
                                     className="font-semibold text-white transition-colors"
                                 >
-                                    Buat akun
+                                    {t('login.createAccount')}
                                 </Link>
                             </p>
                         </div>
@@ -457,3 +459,4 @@ export default function Login() {
         </div>
     );
 }
+

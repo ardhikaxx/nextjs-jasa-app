@@ -1,9 +1,11 @@
 'use client';
 
 import { FiInstagram, FiGithub, FiMessageCircle } from 'react-icons/fi';
+import { useI18n } from '@/i18n/LanguageProvider';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const { t } = useI18n();
 
     return (
         <footer className="bg-black text-white">
@@ -15,7 +17,7 @@ const Footer = () => {
                                 MUMET.IN
                             </h2>
                             <p className="text-gray-400 text-sm mt-2">
-                                Dari Mumet Jadi Beres!
+                                {t('footer.tagline')}
                             </p>
                         </div>
                         <div className="flex items-center justify-center space-x-6">
@@ -59,7 +61,7 @@ const Footer = () => {
 
                         <div className="text-center">
                             <p className="text-gray-500 text-sm">
-                                &copy; {currentYear} Mumet.in. All rights reserved.
+                                &copy; {currentYear} Mumet.in. {t('footer.rights')}
                             </p>
                         </div>
                     </div>
@@ -73,7 +75,7 @@ const Footer = () => {
                             </h2>
                             <span className="text-gray-500">|</span>
                             <p className="text-gray-500 text-sm">
-                                &copy; {currentYear} Mumet.in. All rights reserved.
+                                &copy; {currentYear} Mumet.in. {t('footer.rights')}
                             </p>
                         </div>
 
@@ -89,7 +91,7 @@ const Footer = () => {
                                     className="text-white group-hover:text-[#c41e2e] transition-colors"
                                 />
                                 <span className="text-sm group-hover:text-[#c41e2e] text-white transition-colors">
-                                    Instagram
+                                    {t('footer.instagram')}
                                 </span>
                             </a>
 
@@ -104,7 +106,7 @@ const Footer = () => {
                                     className="text-white group-hover:text-[#c41e2e] transition-colors"
                                 />
                                 <span className="text-sm group-hover:text-[#c41e2e] text-white transition-colors">
-                                    WhatsApp
+                                    {t('footer.whatsapp')}
                                 </span>
                             </a>
 
@@ -119,7 +121,7 @@ const Footer = () => {
                                     className="text-white group-hover:text-[#c41e2e] transition-colors"
                                 />
                                 <span className="text-sm group-hover:text-[#c41e2e] text-white transition-colors">
-                                    GitHub
+                                    {t('footer.github')}
                                 </span>
                             </a>
                         </div>

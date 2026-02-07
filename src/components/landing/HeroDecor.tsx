@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import CatLogo from '@/assets/images/cat.png';
+import { useI18n } from '@/i18n/LanguageProvider';
 
 const CurvedLoop = dynamic(() => import('@/components/CurvedLoop'), {
   ssr: false,
@@ -14,6 +15,7 @@ const StickerPeel = dynamic(() => import('@/components/StickerPeel'), {
 
 export default function HeroDecor() {
   const [enableMotion, setEnableMotion] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -43,7 +45,7 @@ export default function HeroDecor() {
     <>
       <div className="absolute inset-0 z-0 pointer-events-none">
         <CurvedLoop
-          marqueeText="Dari * Mumet * Jadi * Beres * Mumet.in *"
+          marqueeText={t('landing.marquee')}
           speed={3}
           curveAmount={500}
           direction="right"

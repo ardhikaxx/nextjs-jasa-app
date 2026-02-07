@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import CircularText from '@/components/CircularText';
+import { useI18n } from '@/i18n/LanguageProvider';
 import {
     FiEye,
     FiEyeOff,
@@ -31,6 +32,7 @@ export default function Register() {
     });
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
+    const { t } = useI18n();
 
     useEffect(() => {
         if (user && !authLoading) {
@@ -43,7 +45,7 @@ export default function Register() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Memuat...</p>
+                    <p className="text-white">{t('common.loading')}</p>
                 </div>
             </div>
         );
@@ -189,7 +191,7 @@ export default function Register() {
                         <FiChevronLeft className="w-6 h-6" />
                     </div>
                     <span className="ml-3 font-semibold text-lg hidden sm:block">
-                        Kembali
+                        {t('login.back')}
                     </span>
                 </button>
             </div>
@@ -197,7 +199,7 @@ export default function Register() {
             {/* Circular Text dengan pointer-events-none */}
             <div className="hidden lg:block absolute top-6 right-6 z-10 pointer-events-none">
                 <CircularText
-                    text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
+                    text={t('register.circular')}
                     onHover="speedUp"
                     spinDuration={20}
                     className="w-16 h-16"
@@ -208,7 +210,7 @@ export default function Register() {
                 {/* Circular Text untuk mobile dengan pointer-events-none */}
                 <div className="flex justify-center mb-8 lg:hidden pointer-events-none">
                     <CircularText
-                        text="MUMET.IN ✦ LANGSUNG ✦ BERES ✦ "
+                        text={t('register.circular')}
                         onHover="speedUp"
                         spinDuration={20}
                         className="w-16 h-16"
@@ -222,10 +224,10 @@ export default function Register() {
                     
                     <div className="text-center mb-8 relative z-10">
                         <h2 className="text-3xl font-bold text-white mb-2">
-                            Bergabunglah Hari Ini
+                            {t('register.joinTitle')}
                         </h2>
                         <p className="text-gray-300 text-sm">
-                            Buat akun Anda untuk memulai
+                            {t('register.joinSubtitle')}
                         </p>
                     </div>
 
@@ -248,7 +250,7 @@ export default function Register() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Alamat email
+                                    {t('register.email')}
                                 </label>
                                 <input
                                     id="email"
@@ -257,7 +259,7 @@ export default function Register() {
                                     autoComplete="email"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Masukkan email Anda"
+                                    placeholder={t('register.emailPlaceholder')}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, email: true }))}
@@ -275,7 +277,7 @@ export default function Register() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Kata sandi
+                                    {t('register.password')}
                                 </label>
                                 <input
                                     id="password"
@@ -284,7 +286,7 @@ export default function Register() {
                                     autoComplete="new-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Masukkan kata sandi (min. 6 karakter)"
+                                    placeholder={t('register.passwordPlaceholder')}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, password: true }))}
@@ -314,7 +316,7 @@ export default function Register() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Konfirmasi Kata Sandi
+                                    {t('register.confirmPassword')}
                                 </label>
                                 <input
                                     id="confirmPassword"
@@ -323,7 +325,7 @@ export default function Register() {
                                     autoComplete="new-password"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-[#1A1A1A] border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Konfirmasi kata sandi Anda"
+                                    placeholder={t('register.confirmPlaceholder')}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     onFocus={() => setIsFocused(prev => ({ ...prev, confirmPassword: true }))}
@@ -357,10 +359,10 @@ export default function Register() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Membuat akun...
+                                    {t('register.loading')}
                                 </span>
                             ) : (
-                                'Buat akun Anda'
+                                t('register.buttonLabel')
                             )}
                         </button>
 
@@ -368,7 +370,7 @@ export default function Register() {
                             <div className="relative">
                                 <div className="flex justify-center text-sm">
                                     <span className="text-white font-medium">
-                                        Atau lanjutkan dengan
+                                        {t('register.or')}
                                     </span>
                                 </div>
                             </div>
@@ -383,12 +385,12 @@ export default function Register() {
                                     {googleLoading ? (
                                         <span className="flex items-center justify-center">
                                             <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
-                                            Menghubungkan...
+                                            {t('register.googleLoading')}
                                         </span>
                                     ) : (
                                         <>
                                             <FcGoogle className="w-5 h-5 group-hover:scale-110 transition-transform me-2" />
-                                            Lanjutkan dengan Google
+                                            {t('register.google')}
                                         </>
                                     )}
                                 </button>
@@ -397,12 +399,12 @@ export default function Register() {
 
                         <div className="text-center pt-4 relative z-20">
                             <p className="text-sm text-purple-200">
-                                Sudah punya akun?{' '}
+                                {t('register.haveAccount')}{' '}
                                 <Link
                                     href="/login"
                                     className="font-semibold text-white hover:text-purple-300 transition-colors"
                                 >
-                                    Masuk
+                                    {t('register.login')}
                                 </Link>
                             </p>
                         </div>
@@ -412,3 +414,4 @@ export default function Register() {
         </div>
     );
 }
+

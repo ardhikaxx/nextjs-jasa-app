@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -254,7 +256,10 @@ export default function RootLayout({
           />
         )}
         
-        {children}
+        <LanguageProvider>
+          <LanguageToggle />
+          {children}
+        </LanguageProvider>
         {enableNoupeEmbed && (
           <Script
             id="noupe-embed"

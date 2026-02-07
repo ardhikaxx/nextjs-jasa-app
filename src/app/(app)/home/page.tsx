@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import { FiLogOut, FiX, FiAlertTriangle, FiGlobe, FiSmartphone, FiCpu, FiLayout, FiChevronRight, FiSettings, FiChevronLeft, FiSend, FiCalendar, FiClock } from 'react-icons/fi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useI18n } from '@/i18n/LanguageProvider';
 
 const SplitText = dynamic(() => import('@/components/SplitText'), {
     ssr: false,
@@ -51,6 +52,7 @@ export default function HomePage() {
     const [tempDeadlineDate, setTempDeadlineDate] = useState('');
     const maxChars = 500;
     const projectDetailMaxChars = 500;
+    const { t, lang } = useI18n();
 
     useEffect(() => {
         if (!loading && !user && !isRedirecting) {
@@ -86,13 +88,13 @@ export default function HomePage() {
         try {
             await signOut(auth);
             setShowLogoutConfirm(false);
-            toast.success('Logout berhasil! Sampai jumpa!', {
+            toast.success(t('toast.logoutSuccess'), {
                 theme: 'dark',
                 position: 'top-center',
             });
         } catch (error) {
             console.error('Error signing out:', error);
-            toast.error('Gagal logout. Silakan coba lagi.', {
+            toast.error(t('toast.logoutError'), {
                 theme: 'dark',
                 position: 'top-center',
             });
@@ -135,13 +137,13 @@ export default function HomePage() {
         setDeadlineInfo({
             type: 'flexible',
             date: null,
-            displayText: 'Deadline: Fleksibel'
+            displayText: t('home.deadline.flexible')
         });
         setShowDeadlineDialog(false);
-        toast.info('Deadline fleksibel dipilih', {
-            theme: 'dark',
-            position: 'top-center',
-        });
+            toast.info(t('home.deadline.flexibleSelected'), {
+                theme: 'dark',
+                position: 'top-center',
+            });
     };
 
     const handleSpecificDeadline = () => {
@@ -158,7 +160,7 @@ export default function HomePage() {
 
     const confirmSpecificDeadline = () => {
         if (!tempDeadlineDate) {
-            toast.warning('Harap pilih tanggal deadline terlebih dahulu!', {
+            toast.warning(t('toast.deadlinePick'), {
                 theme: 'dark',
                 position: 'top-center',
             });
@@ -170,14 +172,14 @@ export default function HomePage() {
         today.setHours(0, 0, 0, 0);
 
         if (selectedDate < today) {
-            toast.warning('Tanggal deadline tidak boleh kurang dari hari ini!', {
+            toast.warning(t('toast.deadlinePast'), {
                 theme: 'dark',
                 position: 'top-center',
             });
             return;
         }
 
-        const formattedDate = selectedDate.toLocaleDateString('id-ID', {
+        const formattedDate = selectedDate.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -187,18 +189,18 @@ export default function HomePage() {
         setDeadlineInfo({
             type: 'specific',
             date: tempDeadlineDate,
-            displayText: `Deadline: ${formattedDate}`
+            displayText: `${t('home.deadline.prefix')}: ${formattedDate}`
         });
         setShowDeadlineDialog(false);
-        toast.success('Deadline berhasil diatur!', {
-            theme: 'dark',
-            position: 'top-center',
-        });
+            toast.success(t('home.deadline.success'), {
+                theme: 'dark',
+                position: 'top-center',
+            });
     };
 
     const openDeadlineDialog = () => {
         if (!projectDetail.trim()) {
-            toast.warning('Harap isi detail proyek terlebih dahulu!', {
+            toast.warning(t('toast.detailRequired'), {
                 theme: 'dark',
                 position: 'top-center',
             });
@@ -217,18 +219,18 @@ export default function HomePage() {
 
         let deadlineMessage = '';
         if (deadline.type === 'flexible') {
-            deadlineMessage = 'Deadline: Fleksibel';
+            deadlineMessage = t('home.deadline.flexible');
         } else if (deadline.type === 'specific' && deadline.date) {
-            const formattedDate = new Date(deadline.date).toLocaleDateString('id-ID', {
+            const formattedDate = new Date(deadline.date).toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
-            deadlineMessage = `Deadline: ${formattedDate}`;
+            deadlineMessage = `${t('home.deadline.prefix')}: ${formattedDate}`;
         }
 
-        const message = `Halo Mumet.in! Saya ingin jasa sekarang ${serviceName}:\n\n*Detail Proyek:*\n${projectDetailText}\n\n*Informasi Deadline:*\n${deadlineMessage}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
+        const message = `${t('wa.projectGreeting')} ${serviceName}:\n\n*${t('wa.detailLabel')}:*\n${projectDetailText}\n\n*${t('wa.deadlineLabel')}:*\n${deadlineMessage}\n\n---\n*${t('wa.senderLabel')}:*\n${t('wa.nameLabel')}: ${user?.displayName || 'Tidak tersedia'}\n${t('wa.emailLabel')}: ${user?.email || 'Tidak tersedia'}\n\n*${t('wa.sentVia')}*`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -238,7 +240,7 @@ export default function HomePage() {
 
     const handleSubmitProject = () => {
         if (!selectedService || !projectDetail.trim()) {
-            toast.warning('Harap isi detail proyek terlebih dahulu!', {
+            toast.warning(t('toast.detailRequired'), {
                 theme: 'dark',
                 position: 'top-center',
             });
@@ -246,7 +248,7 @@ export default function HomePage() {
         }
 
         if (!deadlineInfo.type) {
-            toast.warning('Harap atur deadline terlebih dahulu!', {
+            toast.warning(t('toast.deadlineRequired'), {
                 theme: 'dark',
                 position: 'top-center',
             });
@@ -269,8 +271,8 @@ export default function HomePage() {
 
             toast.success(
                 <div>
-                    <div className="font-bold text-white mb-1">Detail proyek berhasil dikirim!</div>
-                    <div className="text-sm text-gray-300">Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.</div>
+                    <div className="font-bold text-white mb-1">{t('toast.projectSentTitle')}</div>
+                    <div className="text-sm text-gray-300">{t('toast.projectSentDesc')}</div>
                 </div>,
                 {
                     theme: 'dark',
@@ -287,8 +289,8 @@ export default function HomePage() {
             console.error('Error sending project:', error);
             toast.error(
                 <div>
-                    <div className="font-bold text-white mb-1">Terjadi kesalahan!</div>
-                    <div className="text-sm text-gray-300">Gagal mengirim detail proyek. Silakan coba lagi.</div>
+                    <div className="font-bold text-white mb-1">{t('common.error')}</div>
+                    <div className="text-sm text-gray-300">{t('toast.projectErrorDesc')}</div>
                 </div>,
                 {
                     theme: 'dark',
@@ -303,7 +305,7 @@ export default function HomePage() {
 
     const handleSubmitQuestion = () => {
         if (!question.trim()) {
-            toast.warning('Harap isi pertanyaan terlebih dahulu!', {
+            toast.warning(t('toast.questionRequired'), {
                 theme: 'dark',
                 position: 'top-center',
             });
@@ -320,8 +322,8 @@ export default function HomePage() {
 
             toast.success(
                 <div>
-                    <div className="font-bold text-white mb-1">Pertanyaan berhasil dikirim!</div>
-                    <div className="text-sm text-gray-300">Silakan lanjutkan pengiriman melalui aplikasi WhatsApp.</div>
+                    <div className="font-bold text-white mb-1">{t('toast.questionSentTitle')}</div>
+                    <div className="text-sm text-gray-300">{t('toast.questionSentDesc')}</div>
                 </div>,
                 {
                     theme: 'dark',
@@ -338,8 +340,8 @@ export default function HomePage() {
             console.error('Error sending question:', error);
             toast.error(
                 <div>
-                    <div className="font-bold text-white mb-1">Terjadi kesalahan!</div>
-                    <div className="text-sm text-gray-300">Gagal mengirim pertanyaan. Silakan coba lagi.</div>
+                    <div className="font-bold text-white mb-1">{t('common.error')}</div>
+                    <div className="text-sm text-gray-300">{t('toast.questionErrorDesc')}</div>
                 </div>,
                 {
                     theme: 'dark',
@@ -355,7 +357,7 @@ export default function HomePage() {
     const sendQuestionToWhatsApp = (questionText: string) => {
         const phoneNumber = '6285933648537';
 
-        const message = `Halo Mumet.in! Saya ingin bertanya:\n\n${questionText}\n\n---\n*Data Pengirim:*\nNama: ${user?.displayName || 'Tidak tersedia'}\nEmail: ${user?.email || 'Tidak tersedia'}\n\n*Pertanyaan ini dikirim melalui website Mumet.in*`;
+        const message = `${t('wa.questionGreeting')}\n\n${questionText}\n\n---\n*${t('wa.senderLabel')}:*\n${t('wa.nameLabel')}: ${user?.displayName || 'Tidak tersedia'}\n${t('wa.emailLabel')}: ${user?.email || 'Tidak tersedia'}\n\n*${t('wa.sentVia')}*`;
 
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
@@ -368,7 +370,7 @@ export default function HomePage() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Loading...</p>
+                    <p className="text-white">{t('common.loading')}</p>
                 </div>
             </div>
         );
@@ -379,7 +381,7 @@ export default function HomePage() {
             <div className="min-h-screen flex items-center justify-center bg-black">
                 <div className="flex flex-col items-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-4"></div>
-                    <p className="text-white">Loading...</p>
+                    <p className="text-white">{t('common.loading')}</p>
                 </div>
             </div>
         );
@@ -399,39 +401,39 @@ export default function HomePage() {
     const projectTypes: ProjectType[] = [
         {
             id: 'website',
-            name: 'Jasa Website',
+            name: t('service.website.name'),
             icon: FiGlobe,
-            description: 'Pembuatan website company profile, landing page, blog, atau web aplikasi custom'
+            description: t('service.website.desc')
         },
         {
             id: 'mobile',
-            name: 'Jasa Aplikasi Mobile',
+            name: t('service.mobile.name'),
             icon: FiSmartphone,
-            description: 'Pengembangan aplikasi iOS dan Android dengan teknologi terbaru'
+            description: t('service.mobile.desc')
         },
         {
             id: 'iot',
-            name: 'Jasa Sistem IoT',
+            name: t('service.iot.name'),
             icon: FiCpu,
-            description: 'Sistem Internet of Things untuk smart home, industri, dan monitoring'
+            description: t('service.iot.desc')
         },
         {
             id: 'ml',
-            name: 'Jasa Machine Learning',
+            name: t('service.ml.name'),
             icon: FiCpu,
-            description: 'Pembuatan model prediksi, klasifikasi, NLP, dan analitik berbasis data'
+            description: t('service.ml.desc')
         },
         {
             id: 'uiux',
-            name: 'Jasa Design UI/UX',
+            name: t('service.uiux.name'),
             icon: FiLayout,
-            description: 'Desain interface dan experience yang user-friendly dan modern'
+            description: t('service.uiux.desc')
         },
         {
             id: 'other',
-            name: 'Jasa Lainnya (Custom)',
+            name: t('service.other.name'),
             icon: FiSettings,
-            description: 'Jika kamu bingung atau proyekmu tidak tersedia pada pilihan diatas'
+            description: t('service.other.desc')
         }
     ];
 
@@ -538,10 +540,10 @@ export default function HomePage() {
                                 </div>
                             </div>
                             <h3 className="text-xl font-bold text-white text-center mb-2 font-daydream">
-                                Atur Deadline Proyek
+                                {t('home.deadlineDialogTitle')}
                             </h3>
                             <p className="text-gray-300 text-center mb-6 text-sm leading-relaxed">
-                                Pilih jenis deadline untuk proyek Anda. Ini membantu kami memahami timeline pengerjaan.
+                                {t('home.deadlineDialogDesc')}
                             </p>
 
                             {!tempDeadlineDate ? (
@@ -556,10 +558,10 @@ export default function HomePage() {
                                             </div>
                                             <div>
                                                 <h5 className="text-white font-bold text-sm">
-                                                    Deadline saya fleksibel
+                                                    {t('home.deadlineFlexibleTitle')}
                                                 </h5>
                                                 <p className="text-gray-300 text-xs">
-                                                    Tidak ada tekanan waktu, fokus pada kualitas terbaik
+                                                    {t('home.deadlineFlexibleDesc')}
                                                 </p>
                                             </div>
                                         </div>
@@ -575,10 +577,10 @@ export default function HomePage() {
                                             </div>
                                             <div>
                                                 <h5 className="text-white font-bold text-sm">
-                                                    Atur tanggal deadline
+                                                    {t('home.deadlineSpecificTitle')}
                                                 </h5>
                                                 <p className="text-gray-300 text-xs">
-                                                    Punya target waktu spesifik untuk penyelesaian
+                                                    {t('home.deadlineSpecificDesc')}
                                                 </p>
                                             </div>
                                         </div>
@@ -588,7 +590,7 @@ export default function HomePage() {
                                 <div className="space-y-4 mb-6">
                                     <div className="bg-white/5 border border-gray-600 rounded-xl p-4">
                                         <label className="block text-white font-bold text-sm mb-2">
-                                            Pilih Tanggal Deadline
+                                            {t('home.deadlinePickTitle')}
                                         </label>
                                         <input
                                             type="date"
@@ -598,7 +600,7 @@ export default function HomePage() {
                                             className="w-full bg-black/50 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 transition-colors duration-200"
                                         />
                                         <p className="text-gray-400 text-xs mt-2">
-                                            Pilih tanggal yang realistis untuk penyelesaian proyek
+                                            {t('home.deadlinePickHint')}
                                         </p>
                                     </div>
 
@@ -607,13 +609,13 @@ export default function HomePage() {
                                             onClick={() => setTempDeadlineDate('')}
                                             className="flex-1 px-4 py-2 border border-gray-600 text-white rounded-lg hover:bg-white/10 transition-all duration-200 font-medium text-sm"
                                         >
-                                            Kembali
+                                            {t('home.deadlineBack')}
                                         </button>
                                         <button
                                             onClick={confirmSpecificDeadline}
                                             className="flex-1 px-4 py-2 bg-linear-to-rrom-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 font-medium text-sm"
                                         >
-                                            Set Deadline
+                                            {t('home.setDeadline')}
                                         </button>
                                     </div>
                                 </div>
@@ -633,7 +635,7 @@ export default function HomePage() {
                     <div className="flex items-center gap-2 sm:gap-4">
                         <div className="hidden sm:flex flex-col items-end">
                             <span className="text-white text-sm">
-                                Selamat datang, <b>{user.displayName || user.email?.split('@')[0]}</b>
+                                {t('home.nav.welcome')}, <b>{user.displayName || user.email?.split('@')[0]}</b>
                             </span>
                             <span className="text-gray-300 text-xs">{user.email}</span>
                         </div>
@@ -660,7 +662,7 @@ export default function HomePage() {
                                 className="w-full flex items-center px-4 py-3 border-red-700 border-2 text-sm text-white hover:bg-red-700 transition-colors rounded-2xl duration-200 font-medium"
                             >
                                 <FiLogOut className="mr-3" size={16} />
-                                Keluar
+                                {t('home.nav.logout')}
                             </button>
                         </div>
                     </div>
@@ -669,10 +671,10 @@ export default function HomePage() {
 
             <main className="grow flex flex-col items-center justify-center text-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
                 <div className="w-full max-w-2xl mb-8 sm:mb-12 mx-auto">
-                    <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8">
+                    <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8 flex flex-col items-center">
                         {enableMotion ? (
                             <SplitText
-                                text="Hi Chief, mau jasa apa nih?"
+                                text={t('home.title')}
                                 className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream"
                                 delay={100}
                                 duration={0.6}
@@ -687,48 +689,48 @@ export default function HomePage() {
                             />
                         ) : (
                             <h2 className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream">
-                                Hi Chief, mau jasa apa nih?
+                                {t('home.title')}
                             </h2>
                         )}
                         <p className="text-gray-300 max-w-md mx-auto mb-6 text-sm sm:text-base">
-                            Jasa pembuatan produk digital meliputi Website, Aplikasi Mobile, IoT, Machine Learning, dan UI/UX.
+                            {t('home.desc')}
                         </p>
 
                         <div className="border-t border-gray-600 my-6"></div>
                         {activeView === 'main' && (
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-xl">
                                 <button
                                     onClick={() => setActiveView('project-type')}
                                     className="flex-1 px-6 py-4 bg-red-700 text-white rounded-2xl hover:bg-white hover:text-[#c41e2e] transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
                                 >
-                                    Mau Jasa Sekarang
+                                    {t('home.cta.service')}
                                 </button>
                                 <button
                                     onClick={() => setActiveView('ask-first')}
                                     className="flex-1 px-6 py-4 border-2 border-gray-600 text-white rounded-2xl hover:bg-white hover:text-[#c41e2e] transition-all duration-200 font-bold text-md shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-daydream"
                                 >
-                                    Mau Tanya-tanya Dulu
+                                    {t('home.cta.ask')}
                                 </button>
                             </div>
                         )}
 
                         {activeView === 'project-type' && (
-                            <div className="animate-fade-in">
+                            <div className="animate-fade-in w-full">
                                 <div className="flex items-center justify-between mb-6">
                                     <button
                                         onClick={() => setActiveView('main')}
                                         className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
                                     >
                                         <FiChevronLeft className="mr-2" size={20} />
-                                        Kembali
+                                        {t('home.back')}
                                     </button>
                                     <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
-                                        Jenis proyekmu termasuk yang mana?
+                                        {t('home.projectTypeTitle')}
                                     </h4>
                                     <div className="w-8"></div>
                                 </div>
 
-                                <div className="space-y-4">
+                                <div className="space-y-4 w-full">
                                     {projectTypes.map((project) => {
                                         const IconComponent = project.icon;
                                         return (
@@ -761,22 +763,22 @@ export default function HomePage() {
                         )}
 
                         {activeView === 'project-detail' && selectedService && (
-                            <div className="animate-fade-in">
+                            <div className="animate-fade-in w-full">
                                 <div className="flex items-center justify-between mb-6">
                                     <button
                                         onClick={() => setActiveView('project-type')}
                                         className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
                                     >
                                         <FiChevronLeft className="mr-2" size={20} />
-                                        Kembali
+                                        {t('home.back')}
                                     </button>
                                     <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
-                                        Detail Proyek {selectedService.name}
+                                        {t('home.projectDetailTitle')} {selectedService.name}
                                     </h4>
                                     <div className="w-8"></div>
                                 </div>
 
-                                <div className="space-y-6">
+                                <div className="space-y-6 w-full">
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <div className="flex items-center space-x-3">
                                             <div className="shrink-0 w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
@@ -797,18 +799,18 @@ export default function HomePage() {
 
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <h5 className="text-white font-bold text-lg mb-3 text-left">
-                                            Ceritakan proyek yang mau dibuat yaa
+                                        {t('home.projectDetailIntro')}
                                         </h5>
                                         <textarea
                                             value={projectDetail}
                                             onChange={handleProjectDetailChange}
-                                            placeholder="Masukkan detail projek seperti fitur proyek, fungsionalitas, dll..."
+                                            placeholder={t('home.projectDetailPlaceholder')}
                                             className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-50 text-sm"
                                             rows={8}
                                         />
                                         <div className="flex justify-between items-center mt-2">
                                             <span className={`text-xs ${projectDetailCharCount === projectDetailMaxChars ? 'text-red-400' : 'text-gray-400'}`}>
-                                                Sisa karakter {projectDetailMaxChars - projectDetailCharCount}/{projectDetailMaxChars}
+                                                {t('home.projectDetailRemain')} {projectDetailMaxChars - projectDetailCharCount}/{projectDetailMaxChars}
                                             </span>
                                         </div>
                                     </div>
@@ -816,14 +818,14 @@ export default function HomePage() {
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <div className="flex items-center justify-between mb-3">
                                             <h5 className="text-white font-bold text-lg">
-                                                Timeline Proyek
+                                                {t('home.timeline')}
                                             </h5>
                                             <button
                                                 onClick={openDeadlineDialog}
                                                 className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all duration-200 font-medium text-sm flex items-center"
                                             >
                                                 <FiCalendar className="mr-2" size={16} />
-                                                Atur Deadline
+                                                {t('home.setDeadline')}
                                             </button>
                                         </div>
 
@@ -849,7 +851,7 @@ export default function HomePage() {
                                                 <div className="flex items-center text-yellow-400">
                                                     <FiAlertTriangle className="mr-2" size={16} />
                                                     <span className="text-sm">
-                                                        Belum ada deadline yang diatur. Klik "Atur Deadline" untuk menambahkan.
+                                                        {t('home.deadline.none')}
                                                     </span>
                                                 </div>
                                             </div>
@@ -864,45 +866,45 @@ export default function HomePage() {
                                         {isSubmitting ? (
                                             <>
                                                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                                                Membuka WhatsApp...
+                                                {t('home.openingWhatsapp')}
                                             </>
                                         ) : (
                                             <>
                                                 <FiSend className="mr-2" size={18} />
-                                                Kirim Detail Proyek
+                                                {t('home.submitProject')}
                                             </>
                                         )}
                                     </button>
 
                                     <p className="text-gray-400 text-sm text-center px-10">
-                                        Detail proyek Anda akan dikirim melalui WhatsApp. <br /> Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
+                                        {t('home.whatsappHint')}
                                     </p>
                                 </div>
                             </div>
                         )}
 
                         {activeView === 'ask-first' && (
-                            <div className="animate-fade-in">
+                            <div className="animate-fade-in w-full">
                                 <div className="flex items-center justify-center mb-6">
                                     <button
                                         onClick={() => setActiveView('main')}
                                         className="flex items-center text-gray-400 hover:text-white transition-colors duration-200"
                                     >
                                         <FiChevronLeft className="mr-2" size={20} />
-                                        Kembali
+                                        {t('home.back')}
                                     </button>
                                     <h4 className="text-sm sm:text-md lg:text-lg font-extrabold text-white">
-                                        Mau tanya-tanya dulu?
+                                        {t('home.askTitle')}
                                     </h4>
                                     <div className="w-8"></div>
                                 </div>
 
-                                <div className="space-y-4">
+                                <div className="space-y-4 w-full">
                                     <div className="bg-white/5 border border-gray-600 rounded-2xl p-4">
                                         <textarea
                                             value={question}
                                             onChange={handleQuestionChange}
-                                            placeholder="Masukkan pertanyaan kamu disini... Contoh: Saya ingin konsultasi tentang pembuatan website untuk bisnis kuliner, berapa kisaran biayanya dan berapa lama pengerjaannya?"
+                                            placeholder={t('home.askPlaceholder')}
                                             className="w-full bg-transparent text-white placeholder-gray-400 resize-none focus:outline-none min-h-30"
                                             rows={5}
                                         />
@@ -921,18 +923,18 @@ export default function HomePage() {
                                         {isSubmitting ? (
                                             <>
                                                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                                                Membuka WhatsApp...
+                                                {t('home.openingWhatsapp')}
                                             </>
                                         ) : (
                                             <>
                                                 <FiSend className="mr-2" size={18} />
-                                                Kirim Pertanyaan
+                                                {t('home.submitQuestion')}
                                             </>
                                         )}
                                     </button>
 
                                     <p className="text-gray-400 text-sm text-center px-10">
-                                        Pertanyaan Anda akan dikirim melalui WhatsApp. <br /> Pastikan Anda telah menginstal aplikasi WhatsApp di perangkat Anda.
+                                        {t('home.whatsappHint')}
                                     </p>
                                 </div>
                             </div>
@@ -943,3 +945,4 @@ export default function HomePage() {
         </div>
     );
 }
+

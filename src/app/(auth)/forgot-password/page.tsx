@@ -6,6 +6,7 @@ import { auth } from '@/lib/firebase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FiAlertCircle, FiCheckCircle, FiChevronLeft } from 'react-icons/fi';
+import { useI18n } from '@/i18n/LanguageProvider';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ export default function ForgotPassword() {
     const [success, setSuccess] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const router = useRouter();
+    const { t } = useI18n();
 
     const validateForm = (): boolean => {
         setError('');
@@ -92,17 +94,17 @@ export default function ForgotPassword() {
                         className="flex items-center text-white text-lg font-bold"
                     >
                         <FiChevronLeft className="w-6 h-6 mr-2" />
-                        Kembali
+                        {t('forgot.back')}
                     </button>
                 </div>
 
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300">
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2">
-                            Lupa Kata Sandi
+                            {t('forgot.title')}
                         </h2>
                         <p className="text-white text-sm">
-                            Masukkan email Anda untuk menerima link reset password
+                            {t('forgot.subtitle')}
                         </p>
                     </div>
 
@@ -120,10 +122,10 @@ export default function ForgotPassword() {
                             <div className="bg-green-500/20 border border-green-500/50 text-green-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm">
                                 <div className="font-medium flex items-center">
                                     <FiCheckCircle className="w-4 h-4 mr-2" />
-                                    Email reset password telah dikirim!
+                                    {t('forgot.successTitle')}
                                 </div>
                                 <p className="mt-2 text-xs">
-                                    Silakan periksa inbox email Anda dan ikuti instruksi untuk mereset kata sandi.
+                                    {t('forgot.successDesc')}
                                 </p>
                             </div>
                         )}
@@ -137,7 +139,7 @@ export default function ForgotPassword() {
                                         : 'top-4 text-sm text-white'
                                         }`}
                                 >
-                                    Alamat email
+                                    {t('forgot.email')}
                                 </label>
                                 <input
                                     id="email"
@@ -146,7 +148,7 @@ export default function ForgotPassword() {
                                     autoComplete="email"
                                     required
                                     className="w-full px-4 pt-6 pb-2 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c41e2e] focus:border-transparent transition-all duration-200 text-white placeholder-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-                                    placeholder="Masukkan email Anda"
+                                    placeholder={t('forgot.emailPlaceholder')}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setIsFocused(true)}
@@ -168,21 +170,21 @@ export default function ForgotPassword() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Mengirim email...
+                                    {t('forgot.sending')}
                                 </span>
                             ) : (
-                                'Kirim Link Reset Password'
+                                t('forgot.button')
                             )}
                         </button>
 
                         <div className="text-center pt-4">
                             <p className="text-sm text-white">
-                                Ingat kata sandi Anda?{' '}
+                                {t('forgot.remember')}{' '}
                                 <Link
                                     href="/login"
                                     className="font-semibold text-white"
                                 >
-                                    Masuk ke akun
+                                    {t('reset.backLogin')}
                                 </Link>
                             </p>
                         </div>
@@ -191,8 +193,7 @@ export default function ForgotPassword() {
 
                 <div className="mt-6 text-center">
                     <p className="text-sm text-white">
-                        Link reset password akan berlaku selama 1 jam. <br />
-                        Jika tidak menerima email, periksa folder spam Anda.
+                        {t('forgot.linkHint')}
                     </p>
                 </div>
             </div>
