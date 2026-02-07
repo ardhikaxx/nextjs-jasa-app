@@ -25,7 +25,7 @@ export const translations: Translations = {
 
     // Stats
     'stats.title': 'Statistik Kepercayaan',
-    'stats.loading': 'Memuat...',
+    'stats.loading': '...',
     'stats.trusted': 'Orang telah mempercayakan membuat proyek digital mereka bersama kami!',
     'stats.trustedBadge': 'Telah dipercaya oleh',
     'stats.manyClients': 'banyak klien',
@@ -261,7 +261,7 @@ export const translations: Translations = {
 
     // Stats
     'stats.title': 'Trust Stats',
-    'stats.loading': 'Loading...',
+    'stats.loading': '...',
     'stats.trusted': 'People have trusted their digital projects with us!',
     'stats.trustedBadge': 'Trusted by',
     'stats.manyClients': 'many clients',
