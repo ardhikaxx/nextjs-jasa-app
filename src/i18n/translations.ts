@@ -15,7 +15,10 @@ export const translations: Translations = {
     'common.notAvailable': 'Tidak tersedia',
 
     // Landing
-    'landing.subtitle': 'Jasa pembuatan produk digital meliputi Website, Aplikasi Mobile, IoT, Machine Learning, dan UI/UX.',
+    'landing.subtitle': 'Bikin produk digital yang rapi, cepat, dan siap jual. Website, Mobile App, AI/ML, IoT, dan UI/UX dari ide sampai launch.',
+    'landing.microcopy': 'Konsultasi gratis • Estimasi cepat • Harga jelas • Tim responsif',
+    'landing.ctaStrong': 'Klik daftar sekarang, kami follow up hari ini.',
+    'landing.ctaWhatsapp': 'Chat sekarang',
     'landing.login': 'Masuk',
     'landing.register': 'Daftar Sekarang',
     'landing.marquee': 'Dari * Mumet * Jadi * Beres * Mumet.in *',
@@ -248,7 +251,10 @@ export const translations: Translations = {
     'common.notAvailable': 'Not available',
 
     // Landing
-    'landing.subtitle': 'Digital product services including Websites, Mobile Apps, IoT, Machine Learning, and UI/UX.',
+    'landing.subtitle': 'Build polished, fast, and market-ready digital products. Websites, Mobile Apps, AI/ML, IoT, and UI/UX from idea to launch.',
+    'landing.microcopy': 'Free consultation • Fast estimates • Clear pricing • Responsive team',
+    'landing.ctaStrong': 'Sign up now, we follow up today.',
+    'landing.ctaWhatsapp': 'Chat now',
     'landing.login': 'Sign In',
     'landing.register': 'Get Started',
     'landing.marquee': 'From * Messy * To * Done * Mumet.in *',

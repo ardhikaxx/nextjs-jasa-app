@@ -27,6 +27,9 @@ export default function Home() {
             <p className="text-base sm:text-lg mb-5 text-gray-100 text-center px-2">
               {t('landing.subtitle')}
             </p>
+            <p className="text-xs sm:text-sm text-gray-300 text-center mb-6">
+              {t('landing.microcopy')}
+            </p>
 
             <div className="flex flex-col items-center justify-center sm:flex-row gap-3 sm:gap-4 mb-2 w-full max-w-xs sm:max-w-none">
               <Link
@@ -44,6 +47,9 @@ export default function Home() {
                 {t('landing.register')}
               </Link>
             </div>
+            <p className="text-xs text-gray-300 text-center mt-2">
+              {t('landing.ctaStrong')}
+            </p>
           </div>
 
           <StatsCard />
