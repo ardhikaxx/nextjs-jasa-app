@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import CircularText from '@/components/CircularText';
 import { useI18n } from '@/i18n/LanguageProvider';
 import {
     FiEye,
@@ -15,6 +15,10 @@ import {
     FiChevronLeft
 } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
+
+const CircularText = dynamic(() => import('@/components/CircularText'), {
+    ssr: false,
+});
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -29,6 +33,7 @@ export default function Login() {
     const { t } = useI18n();
     const googleInFlightRef = useRef(false);
     const googleRedirectAttemptedRef = useRef(false);
+    const [showDecor, setShowDecor] = useState(false);
 
     const googleProviderRef = useRef<GoogleAuthProvider | null>(null);
     if (!googleProviderRef.current) {
@@ -44,6 +49,27 @@ export default function Login() {
             router.push('/home');
         }
     }, [user, authLoading, router]);
+
+    useEffect(() => {
+        let cancelled = false;
+        const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
+        const schedule = () => {
+            if (w.requestIdleCallback) {
+                w.requestIdleCallback(() => {
+                    if (!cancelled) setShowDecor(true);
+                });
+            } else {
+                setTimeout(() => {
+                    if (!cancelled) setShowDecor(true);
+                }, 1200);
+            }
+        };
+
+        schedule();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     if (authLoading) {
         return (
@@ -260,18 +286,8 @@ export default function Login() {
             </div>
 
             {/* Circular Text dengan pointer-events-none */}
-            <div className="hidden lg:block absolute top-6 right-6 z-10 pointer-events-none">
-                <CircularText
-                    text={t('login.circular')}
-                    onHover="speedUp"
-                    spinDuration={20}
-                    className="w-16 h-16"
-                />
-            </div>
-
-            <div className="w-full max-w-md z-10 mt-8 relative">
-                {/* Circular Text untuk mobile dengan pointer-events-none */}
-                <div className="flex justify-center mb-8 lg:hidden pointer-events-none">
+            {showDecor && (
+                <div className="hidden lg:block absolute top-6 right-6 z-10 pointer-events-none">
                     <CircularText
                         text={t('login.circular')}
                         onHover="speedUp"
@@ -279,6 +295,20 @@ export default function Login() {
                         className="w-16 h-16"
                     />
                 </div>
+            )}
+
+            <div className="w-full max-w-md z-10 mt-8 relative">
+                {/* Circular Text untuk mobile dengan pointer-events-none */}
+                {showDecor && (
+                    <div className="flex justify-center mb-8 lg:hidden pointer-events-none">
+                        <CircularText
+                            text={t('login.circular')}
+                            onHover="speedUp"
+                            spinDuration={20}
+                            className="w-16 h-16"
+                        />
+                    </div>
+                )}
 
                 {/* Form Container */}
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.01] transition-all duration-300 relative z-20">

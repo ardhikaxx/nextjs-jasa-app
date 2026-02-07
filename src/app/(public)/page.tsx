@@ -1,23 +1,53 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   FiUser,
   FiPlus,
 } from 'react-icons/fi';
+import dynamic from 'next/dynamic';
 import Footer from '@/components/Footer';
-import HeroDecor from '@/components/landing/HeroDecor';
-import StatsCard from '@/components/landing/StatsCard';
 import RedirectIfAuthed from '@/components/landing/RedirectIfAuthed';
 import { useI18n } from '@/i18n/LanguageProvider';
 
+const HeroDecor = dynamic(() => import('@/components/landing/HeroDecor'), {
+  ssr: false,
+});
+
+const StatsCard = dynamic(() => import('@/components/landing/StatsCard'), {
+  ssr: false,
+});
+
 export default function Home() {
   const { t } = useI18n();
+  const [showExtras, setShowExtras] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
+    const schedule = () => {
+      if (w.requestIdleCallback) {
+        w.requestIdleCallback(() => {
+          if (!cancelled) setShowExtras(true);
+        });
+      } else {
+        setTimeout(() => {
+          if (!cancelled) setShowExtras(true);
+        }, 1200);
+      }
+    };
+
+    schedule();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   return (
     <div className="flex flex-col bg-black text-white min-h-screen">
       <RedirectIfAuthed />
       <div className="flex-1 flex flex-col justify-center items-center px-4 sm:px-6 relative overflow-hidden py-3 z-10">
-        <HeroDecor />
+        {showExtras && <HeroDecor />}
 
         <div className="relative z-10 w-full max-w-lg mx-auto py-6">
           <div className="flex justify-center items-center flex-col w-full mx-auto px-2">
@@ -52,7 +82,19 @@ export default function Home() {
             </p>
           </div>
 
-          <StatsCard />
+          {showExtras ? (
+            <StatsCard />
+          ) : (
+            <div className="relative mt-3 sm:mt-4 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center z-20 min-h-52.5 animate-pulse">
+              <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black_70%,transparent_100%)]"></div>
+              <div className="relative z-10">
+                <div className="h-3 w-40 mx-auto rounded-full bg-white/20 mb-4"></div>
+                <div className="h-10 w-56 mx-auto rounded-full bg-white/20 mb-3"></div>
+                <div className="h-3 w-64 mx-auto rounded-full bg-white/20 mb-4"></div>
+                <div className="h-8 w-48 mx-auto rounded-xl bg-white/20"></div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />

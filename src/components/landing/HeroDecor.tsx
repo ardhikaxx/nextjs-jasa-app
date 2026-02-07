@@ -19,8 +19,12 @@ export default function HeroDecor() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const nav = window.navigator as Navigator & { deviceMemory?: number };
+    const isLowPower = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
+    const isLowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
+    const allowMotion = !isLowPower && !isLowMemory;
     const scheduleMotionUpdate = (matches: boolean) => {
-      const nextValue = !matches;
+      const nextValue = !matches && allowMotion;
       const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
       if (w.requestIdleCallback) {
         w.requestIdleCallback(() => setEnableMotion(nextValue));

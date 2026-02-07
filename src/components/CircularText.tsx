@@ -36,6 +36,12 @@ const CircularText: React.FC<CircularTextProps> = ({
     const rotation: MotionValue<number> = useMotionValue(0);
 
     useEffect(() => {
+        const nav = window.navigator as Navigator & { deviceMemory?: number };
+        const isLowPower = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
+        const isLowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
+        if (isLowPower || isLowMemory) {
+            return;
+        }
         const start = rotation.get();
         controls.start({
             rotate: start + 360,
@@ -45,6 +51,12 @@ const CircularText: React.FC<CircularTextProps> = ({
     }, [spinDuration, text, onHover, controls]);
 
     const handleHoverStart = () => {
+        const nav = window.navigator as Navigator & { deviceMemory?: number };
+        const isLowPower = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
+        const isLowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
+        if (isLowPower || isLowMemory) {
+            return;
+        }
         const start = rotation.get();
 
         if (!onHover) return;
@@ -81,6 +93,12 @@ const CircularText: React.FC<CircularTextProps> = ({
     };
 
     const handleHoverEnd = () => {
+        const nav = window.navigator as Navigator & { deviceMemory?: number };
+        const isLowPower = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
+        const isLowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
+        if (isLowPower || isLowMemory) {
+            return;
+        }
         const start = rotation.get();
         controls.start({
             rotate: start + 360,

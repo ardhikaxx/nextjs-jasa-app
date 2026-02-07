@@ -44,6 +44,7 @@ export default function HomePage() {
     const [projectDetailCharCount, setProjectDetailCharCount] = useState(0);
     const [showDeadlineDialog, setShowDeadlineDialog] = useState(false);
     const [enableMotion, setEnableMotion] = useState(false);
+    const [showDecor, setShowDecor] = useState(false);
     const [deadlineInfo, setDeadlineInfo] = useState<DeadlineInfo>({
         type: null,
         date: null,
@@ -81,6 +82,23 @@ export default function HomePage() {
 
         prefersReducedMotion.addEventListener('change', onMotionChange);
         return () => prefersReducedMotion.removeEventListener('change', onMotionChange);
+    }, []);
+
+    useEffect(() => {
+        let cancelled = false;
+        const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
+        if (w.requestIdleCallback) {
+            w.requestIdleCallback(() => {
+                if (!cancelled) setShowDecor(true);
+            });
+        } else {
+            setTimeout(() => {
+                if (!cancelled) setShowDecor(true);
+            }, 1200);
+        }
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     const handleLogout = async () => {
@@ -680,7 +698,7 @@ export default function HomePage() {
             <main className="grow flex flex-col items-center justify-center text-center py-8 sm:py-12 px-4 sm:px-6 relative z-10">
                 <div className="w-full max-w-2xl mb-8 sm:mb-12 mx-auto">
                     <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-8 flex flex-col items-center">
-                        {enableMotion ? (
+                        {enableMotion && showDecor ? (
                             <SplitText
                                 text={t('home.title')}
                                 className="text-lg text-center sm:text-lg lg:text-2xl font-extrabold text-white mb-4 font-daydream"
