@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { use } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiArrowLeft, FiExternalLink, FiCalendar, FiCode } from 'react-icons/fi';
@@ -8,17 +9,18 @@ import Footer from '@/components/Footer';
 import { projects } from '@/data/projects';
 import { useI18n } from '@/i18n/LanguageProvider';
 
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
+export default function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useI18n();
+  const resolvedParams = use(params);
   const [project, setProject] = useState<typeof projects[0] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const projectId = parseInt(params.id);
+    const projectId = parseInt(resolvedParams.id);
     const found = projects.find(p => p.id === projectId);
     setProject(found || null);
     setLoading(false);
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   if (loading) {
     return (
