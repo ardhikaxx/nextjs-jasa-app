@@ -70,9 +70,6 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 text-center font-daydream text-white">
               MUMET.IN
             </h1>
-            <p className="text-base sm:text-lg mb-5 text-gray-100 text-center px-2">
-              {t('landing.subtitle')}
-            </p>
             <p className="text-xs sm:text-sm text-gray-300 text-center mb-6">
               {t('landing.microcopy')}
             </p>
