@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mumetin.vercel.app/sitemap.xml
+
+# Block paths that don't need to be indexed
+Disallow: /api/
+Disallow: /_next/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /home
