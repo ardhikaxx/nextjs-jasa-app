@@ -2,38 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiArrowLeft, FiExternalLink, FiCalendar, FiCode, FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowLeft, FiExternalLink, FiCalendar, FiArrowUpRight } from 'react-icons/fi';
 import Footer from '@/components/Footer';
 import { projects } from '@/data/projects';
 import { useI18n } from '@/i18n/LanguageProvider';
 
-const techColors: Record<string, string> = {
-  'HTML': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-  'CSS': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  'Bootstrap': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-  'PHP': 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
-  'Laravel': 'bg-red-500/20 text-red-400 border-red-500/30',
-  'JavaScript': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-  'Tailwind': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-  'Dart': 'bg-teal-500/20 text-teal-400 border-teal-500/30',
-  'Flutter': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
-  'GSAP': 'bg-green-500/20 text-green-400 border-green-500/30',
-  'Vite': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  'Firebase': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-  'Python': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  'Naive Bayes ML': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-  'DOMPDF': 'bg-red-500/20 text-red-400 border-red-500/30',
-  'Maatwebsite Excel': 'bg-green-500/20 text-green-400 border-green-500/30',
-  'Spatie Permission': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
-  'Simple QRCode': 'bg-gray-500/20 text-gray-400 border-gray-500/30',
-};
-
 export default function ProjectsPage() {
   const { t } = useI18n();
-
-  const getTechColor = (tech: string) => {
-    return techColors[tech] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-  };
 
   const years = [...new Set(projects.map(p => p.year))].sort((a, b) => b - a);
 
@@ -120,7 +95,7 @@ export default function ProjectsPage() {
                     {project.technologies.slice(0, 4).map((tech, idx) => (
                       <span
                         key={idx}
-                        className={`text-xs px-2.5 py-1 rounded-lg border ${getTechColor(tech)}`}
+                        className="text-xs px-2.5 py-1 rounded-lg border border-white/20 bg-white/10 text-gray-300"
                       >
                         {tech}
                       </span>
