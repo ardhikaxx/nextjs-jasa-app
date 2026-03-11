@@ -55,10 +55,14 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ id: st
         <div className="max-w-4xl mx-auto">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition mb-8"
+            className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300 mb-8"
           >
-            <FiArrowLeft size={18} />
-            {t('home.back')}
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/10 text-gray-300 group-hover:bg-[#c41e2e] group-hover:text-white transition-all duration-300">
+              <FiArrowLeft size={14} />
+            </span>
+            <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
+              {t('home.back')}
+            </span>
           </Link>
 
           <div className="relative aspect-video rounded-2xl overflow-hidden mb-8">

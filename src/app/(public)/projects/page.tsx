@@ -19,10 +19,10 @@ export default function ProjectsPage() {
           <nav className="flex items-center justify-between mb-12">
             <Link
               href="/"
-              className="group flex items-center gap-3 px-5 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+              className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
             >
-              <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#c41e2e] text-white group-hover:scale-110 transition-transform">
-                <FiArrowLeft size={16} />
+              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/10 text-gray-300 group-hover:bg-[#c41e2e] group-hover:text-white transition-all duration-300">
+                <FiArrowLeft size={14} />
               </span>
               <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
                 {t('home.back')}
