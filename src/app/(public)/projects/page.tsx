@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { FiArrowLeft, FiExternalLink, FiCalendar } from 'react-icons/fi';
 import Footer from '@/components/Footer';
 import { projects } from '@/data/projects';
@@ -37,9 +38,13 @@ export default function ProjectsPage() {
                 className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-[#c41e2e]/50 transition group"
               >
                 <div className="aspect-video bg-gray-800 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-                    <span className="text-4xl">📁</span>
-                  </div>
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
                     <a
                       href={project.link}
