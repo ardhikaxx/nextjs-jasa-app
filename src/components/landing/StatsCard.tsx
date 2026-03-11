@@ -47,15 +47,7 @@ export default function StatsCard() {
     <div className="relative mt-3 sm:mt-4 bg-white/10 backdrop-blur-sm rounded-3xl border border-gray-100 px-6 sm:px-10 py-6 w-full mx-auto text-center z-20 min-h-52.5">
       <div className="absolute inset-0 rounded-3xl bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,black_70%,transparent_100%)]"></div>
 
-      <Link
-        href="/projects"
-        className="group mb-4 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#c41e2e] to-[#e62e3f] text-white font-semibold hover:from-[#a31825] hover:to-[#c41e2e] transition-all duration-300 shadow-lg shadow-[#c41e2e]/30 hover:shadow-[#c41e2e]/50 hover:scale-105 relative z-10"
-      >
-        <span>{t('stats.viewProjects')}</span>
-        <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
-          <FiArrowRight size={16} />
-        </span>
-      </Link>
+
 
       <h4 className="text-sm font-semibold text-white mb-2 font-daydream relative z-10">
         {t('stats.title')}
@@ -72,6 +64,16 @@ export default function StatsCard() {
         <FiTrendingUp className="text-[#c41e2e]" />
         {t('stats.trustedBadge')} <span className="font-semibold text-[#c41e2e]">{t('stats.manyClients')}</span>
       </div>
+
+      <Link
+        href="/projects"
+        className="group mt-4 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-linear-to-r from-[#c41e2e] to-[#e62e3f] text-white font-semibold hover:from-[#a31825] hover:to-[#c41e2e] transition-all duration-300 shadow-lg shadow-[#c41e2e]/30 hover:shadow-[#c41e2e]/50 hover:scale-105 relative z-10"
+      >
+        <span>{t('stats.viewProjects')}</span>
+        <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
+          <FiArrowRight size={16} />
+        </span>
+      </Link>
     </div>
   );
 }
