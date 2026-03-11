@@ -85,16 +85,20 @@ export default function ProjectsPage() {
                     </span>
                   </div>
 
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                  <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="bg-white text-black px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-gray-200 transition-all hover:scale-105"
+                    >
+                      {t('projects.viewDetail')}
+                    </Link>
                     <a
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#c41e2e] text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-[#a31825] transition-all hover:scale-105 shadow-lg shadow-[#c41e2e]/30"
+                      className="bg-[#c41e2e] text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[#a31825] transition-all hover:scale-105"
                     >
-                      <FiExternalLink size={18} />
-                      {t('projects.viewDetail')}
-                      <FiArrowUpRight size={16} />
+                      <FiExternalLink size={16} />
                     </a>
                   </div>
                 </div>
