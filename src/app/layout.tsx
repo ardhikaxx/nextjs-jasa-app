@@ -714,6 +714,19 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png" />
 
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5RBMK75123"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-5RBMK75123');
+            `,
+          }}
+        />
+
         {enableAnalytics && gtmId && (
           <Script
             id="gtm-script"
