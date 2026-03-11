@@ -550,7 +550,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'C2P7WSgl4HI1ZdlErCytdn1vx3TuYmdeDJjLjXlF5cc',
+    google: '3hpzB8eqYrla47uTMIKipiLEEyHstmDbVDnvGGOtupA',
   },
   category: 'technology',
 };
@@ -690,7 +690,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <head>
-        <meta name="google-site-verification" content="C2P7WSgl4HI1ZdlErCytdn1vx3TuYmdeDJjLjXlF5cc" />
+        <meta name="google-site-verification" content="3hpzB8eqYrla47uTMIKipiLEEyHstmDbVDnvGGOtupA" />
         
         {/* Structured Data untuk SEO */}
         <script
