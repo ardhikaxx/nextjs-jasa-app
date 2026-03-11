@@ -29,6 +29,14 @@ export const translations: Translations = {
     'stats.trusted': 'Orang telah mempercayakan membuat proyek digital mereka bersama kami!',
     'stats.trustedBadge': 'Telah dipercaya oleh',
     'stats.manyClients': 'banyak klien',
+    'stats.viewProjects': 'Lihat Semua Proyek',
+
+    // Projects
+    'projects.title': 'Proyek yang Pernah Dikerjakan',
+    'projects.subtitle': 'Berikut adalah beberapa proyek yang telah kami selesaikan',
+    'projects.technologies': 'Teknologi',
+    'projects.viewDetail': 'Lihat Detail',
+    'projects.year': 'Tahun',
 
     // Footer
     'footer.tagline': 'Dari Mumet Jadi Beres!',
@@ -265,6 +273,14 @@ export const translations: Translations = {
     'stats.trusted': 'People have trusted their digital projects with us!',
     'stats.trustedBadge': 'Trusted by',
     'stats.manyClients': 'many clients',
+    'stats.viewProjects': 'View All Projects',
+
+    // Projects
+    'projects.title': 'Projects We Have Worked On',
+    'projects.subtitle': 'Here are some of the projects we have completed',
+    'projects.technologies': 'Technologies',
+    'projects.viewDetail': 'View Details',
+    'projects.year': 'Year',
 
     // Footer
     'footer.tagline': 'From Confused to Done!',

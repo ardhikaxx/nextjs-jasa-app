@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FiUsers, FiTrendingUp } from 'react-icons/fi';
+import Link from 'next/link';
+import { FiUsers, FiTrendingUp, FiArrowRight } from 'react-icons/fi';
 import { useI18n } from '@/i18n/LanguageProvider';
 
 export default function StatsCard() {
@@ -60,6 +61,14 @@ export default function StatsCard() {
         <FiTrendingUp className="text-[#c41e2e]" />
         {t('stats.trustedBadge')} <span className="font-semibold text-[#c41e2e]">{t('stats.manyClients')}</span>
       </div>
+
+      <Link
+        href="/projects"
+        className="mt-4 bg-[#c41e2e] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#a31825] transition flex items-center justify-center gap-2 relative z-10"
+      >
+        {t('stats.viewProjects')}
+        <FiArrowRight size={18} />
+      </Link>
     </div>
   );
 }
