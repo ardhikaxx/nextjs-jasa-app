@@ -515,16 +515,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Mumet.in - Jasa Website, Aplikasi, AI, IoT & UI/UX',
-    description: 'Buat produk digital tanpa ribet. Website, Mobile App, AI, IoT, UI/UX. Konsultasi gratis, timeline jelas, hasil siap scale.',
+    title: 'Jasa Website | Aplikasi Mobile | IoT | ML | UI/UX - Mumet.in',
+    description: 'Jasa pembuatan website, aplikasi mobile (Android/iOS), sistem IoT, machine learning/AI, dan desain UI/UX. Tim profesional, harga transparan!',
     url: 'https://mumetin.vercel.app/',
     siteName: 'Mumet.in',
     images: [
       {
-        url: '/images/logo.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Mumet.in - Jasa Layanan Digital Profesional',
+        alt: 'Mumet.in - Jasa Website, Aplikasi Mobile, IoT, ML & UI/UX',
       },
     ],
     locale: 'id_ID',
@@ -533,9 +533,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mumet.in - Jasa Website, Aplikasi, AI, IoT & UI/UX',
-    description: 'Dari ide sampai launch. Website, Mobile App, AI, IoT, UI/UX. Konsultasi gratis, proses rapi.',
-    images: ['/images/logo.png'],
+    title: 'Mumet.in - Jasa Website, Aplikasi Mobile, IoT, ML & UI/UX',
+    description: 'Jasa Website, Aplikasi Mobile, IoT, Machine Learning & AI, Desain UI/UX. Klik daftar, kami follow up hari ini!',
+    images: ['/og-image.png'],
     creator: '@mumet.in',
   },
   robots: {
