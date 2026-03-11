@@ -1,22 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mumet.in | Jasa Website, Aplikasi, AI, IoT & UI/UX',
+  title: 'Jasa Pembuatan Website | Mumet.in - Profesional & Terpercaya',
   description:
-    'Bangun produk digital yang rapi dan cepat. Website, aplikasi mobile, AI/ML, IoT, dan UI/UX dengan proses jelas, harga transparan, siap scale.',
+    'Jasa pembuatan website profesional, aplikasi mobile, IoT, dan UI/UX. Tim berpengalaman, harga transparan, siap bantu bisnis Anda naik kelas!',
+  keywords: 'jasa pembuatan website, buat website, web development, jasa website jogja, jasa web, membuat aplikasi mobile, jasa aplikasi android ios, ui ux design, jasa iot, jasa ai machine learning',
   openGraph: {
-    title: 'Mumet.in | Jasa Website, Aplikasi, AI, IoT & UI/UX',
+    title: 'Jasa Pembuatan Website | Mumet.in - Profesional & Terpercaya',
     description:
-      'Bangun produk digital yang rapi dan cepat. Website, aplikasi mobile, AI/ML, IoT, dan UI/UX dengan proses jelas, harga transparan, siap scale.',
+      'Jasa pembuatan website profesional, aplikasi mobile, IoT, dan UI/UX. Tim berpengalaman, harga transparan, siap bantu bisnis Anda naik kelas!',
     locale: 'id_ID',
     alternateLocale: ['en_US'],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mumet.in | Jasa Website, Aplikasi, AI, IoT & UI/UX',
+    title: 'Jasa Pembuatan Website | Mumet.in',
     description:
-      'Bangun produk digital yang rapi dan cepat. Website, aplikasi mobile, AI/ML, IoT, dan UI/UX dengan proses jelas, harga transparan, siap scale.',
+      'Jasa pembuatan website profesional, aplikasi mobile, IoT, dan UI/UX.',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

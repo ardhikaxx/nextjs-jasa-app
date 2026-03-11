@@ -45,8 +45,9 @@ export default function ProjectsPage() {
             </div>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 font-daydream">
-              {t('projects.title')}
+              Proyek Website & Aplikasi
             </h1>
+            <h2 className="sr-only">{t('projects.title')}</h2>
             
             <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
               {t('projects.subtitle')}
