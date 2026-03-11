@@ -64,10 +64,12 @@ export default function StatsCard() {
 
       <Link
         href="/projects"
-        className="mt-4 bg-[#c41e2e] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#a31825] transition flex items-center justify-center gap-2 relative z-10"
+        className="group mt-5 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#c41e2e] to-[#e62e3f] text-white font-semibold hover:from-[#a31825] hover:to-[#c41e2e] transition-all duration-300 shadow-lg shadow-[#c41e2e]/30 hover:shadow-[#c41e2e]/50 hover:scale-105"
       >
-        {t('stats.viewProjects')}
-        <FiArrowRight size={18} />
+        <span>{t('stats.viewProjects')}</span>
+        <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
+          <FiArrowRight size={16} />
+        </span>
       </Link>
     </div>
   );
