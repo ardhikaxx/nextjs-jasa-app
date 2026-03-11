@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { projects } from './src/data/projects';
+import { projects } from '../data/projects';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://mumetin.vercel.app';
