@@ -44,7 +44,7 @@ export default function ProjectsPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#c41e2e]"></span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 font-daydream">
               {t('projects.title')}
             </h1>
             
