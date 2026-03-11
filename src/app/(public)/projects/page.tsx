@@ -44,10 +44,8 @@ export default function ProjectsPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#c41e2e]"></span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 font-daydream relative">
-              <span className="bg-gradient-to-r from-white via-white to-gray-400 bg-clip-text text-transparent">
-                {t('projects.title')}
-              </span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              {t('projects.title')}
             </h1>
             
             <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
