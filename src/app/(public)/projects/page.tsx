@@ -16,29 +16,48 @@ export default function ProjectsPage() {
     <div className="flex flex-col bg-black text-white min-h-screen">
       <div className="flex-1 py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-all duration-300 group"
-          >
-            <FiArrowLeft className="me-2 group-hover:-translate-x-1 transition-transform" />
-            {t('home.back')}
-          </Link>
+          <nav className="flex items-center justify-between mb-12">
+            <Link
+              href="/"
+              className="group flex items-center gap-3 px-5 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+            >
+              <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#c41e2e] text-white group-hover:scale-110 transition-transform">
+                <FiArrowLeft size={16} />
+              </span>
+              <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
+                {t('home.back')}
+              </span>
+            </Link>
 
-          <div className="text-center mb-16 relative">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#c41e2e]/20 rounded-full blur-3xl -z-10"></div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 font-daydream relative">
+            <div className="hidden sm:flex items-center gap-2 text-sm text-gray-500">
+              <span className="w-2 h-2 rounded-full bg-[#c41e2e] animate-pulse"></span>
+              <span>{projects.length} Proyek</span>
+            </div>
+          </nav>
+
+          <div className="text-center mb-20 relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#c41e2e]/10 rounded-full blur-3xl -z-10"></div>
+            
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c41e2e]"></span>
+              <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Portfolio</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c41e2e]"></span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 font-daydream relative">
               <span className="bg-gradient-to-r from-white via-white to-gray-400 bg-clip-text text-transparent">
                 {t('projects.title')}
               </span>
             </h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
               {t('projects.subtitle')}
             </p>
             
-            <div className="flex items-center justify-center gap-2 mt-6">
-              <div className="h-1 w-12 bg-[#c41e2e] rounded-full"></div>
-              <div className="h-1 w-3 bg-[#c41e2e]/50 rounded-full"></div>
-              <div className="h-1 w-1 bg-[#c41e2e]/30 rounded-full"></div>
+            <div className="flex items-center justify-center gap-3 mt-8">
+              <div className="h-px w-16 bg-gradient-to-r from-transparent to-white/20"></div>
+              <div className="w-2 h-2 rotate-45 border border-[#c41e2e]"></div>
+              <div className="h-px w-16 bg-gradient-to-l from-transparent to-white/20"></div>
             </div>
           </div>
 
